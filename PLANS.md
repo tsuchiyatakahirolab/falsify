@@ -24,7 +24,7 @@ Exit test:
 
 ## Milestone 1 — Typed domain model
 
-Status: NOT STARTED
+Status: COMPLETE (2026-07-17)
 
 Implement typed schemas for:
 - document/input;

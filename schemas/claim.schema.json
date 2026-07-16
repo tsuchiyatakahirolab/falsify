@@ -10,7 +10,9 @@
     "testability",
     "evidence_requirements",
     "falsification_questions",
-    "time_sensitive"
+    "time_sensitive",
+    "entities",
+    "source_span"
   ],
   "properties": {
     "id": {

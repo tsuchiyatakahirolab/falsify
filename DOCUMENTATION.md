@@ -6,11 +6,12 @@ Keep this file current throughout the build.
 
 - Project: Falsify
 - Phase: Implementation
-- Current milestone: Milestone 1
+- Current milestone: Milestone 2
 - Public demo: Not deployed
 - Repository: Milestone 0 application baseline complete
 - Primary Codex `/feedback` Session ID: Not captured
 - Submission status: Devpost draft
+- Git baseline: `main` at `2ae8b55f9298dddb60941a0d57d7b77cd16779d8`
 
 ## Current product decision
 
@@ -46,6 +47,10 @@ Reason: One typed application can deliver the public UI and server-only analysis
 Decision: Pin Next.js 16.2.10, React 19.2.7, TypeScript 6.0.3, and ESLint 9.39.5; override PostCSS to patched version 8.5.10.
 Reason: TypeScript 7 and ESLint 10 are newer than the current Next.js lint stack supports. The compatible pins pass all checks, and the PostCSS override removes the reported production vulnerability.
 
+### D-008 — Zod runtime model with JSON Schema parity
+Decision: Use strict Zod schemas as the application runtime boundary while retaining and testing the public JSON Schemas. Model-produced nullable metadata fields are required so Structured Outputs cannot silently omit them.
+Reason: The UI and engine need inferred TypeScript types, runtime rejection, and an open format that non-TypeScript consumers can inspect.
+
 ## Build log
 
 Add dated entries below.
@@ -64,3 +69,13 @@ Add dated entries below.
   - In-app browser smoke — PASS; semantic content rendered, the primary evidence-map link worked, the target was visible, and no console errors were reported.
 - Result: Milestone 0 exit test passed. Fresh install works, the local app starts, and all baseline checks pass.
 - Next: Begin Milestone 1 by reconciling the repository JSON Schemas into a runtime-validated TypeScript domain model with valid and invalid fixtures.
+
+### 2026-07-17 — Milestone 1
+- Work completed: Initialized Git on `main` and created the audited Milestone 0 baseline commit `2ae8b55f9298dddb60941a0d57d7b77cd16779d8`. Added strict runtime schemas and types for inputs, claims, falsification questions, evidence, provenance, findings, analysis results, and challenge results. Reconciled nullable required fields in the public JSON Schemas and added shared fixtures plus dual Zod/Ajv validation.
+- Decisions: Adopted D-008. Added OpenAI and Zod as direct dependencies, and Ajv/ajv-formats for public schema parity tests. Recorded the independent validation matrix in `docs/research/runtime-validation-test-matrix.md`.
+- Commands/tests:
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 2 files and 5 tests passed.
+  - `npm run lint` — PASS.
+- Result: Milestone 1 exit test passed; valid fixtures validate through both runtime and public schemas, and invalid enum/data cases fail.
+- Next: Implement GPT-5.6 claim decomposition with Structured Outputs, prompt-injection boundaries, sample fallback, and golden decomposition tests.

@@ -10,7 +10,11 @@
     "url",
     "source_type",
     "relevance",
-    "directness"
+    "directness",
+    "publisher",
+    "published_at",
+    "excerpt",
+    "notes"
   ],
   "properties": {
     "id": {

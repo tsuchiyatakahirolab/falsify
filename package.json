@@ -17,18 +17,22 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "format": "prettier --check \"app/**/*.{ts,tsx,css}\" \"*.{js,mjs,ts}\"",
-    "format:write": "prettier --write \"app/**/*.{ts,tsx,css}\" \"*.{js,mjs,ts}\""
+    "format": "prettier --check \"{app,components,lib,scripts}/**/*.{ts,tsx,css}\" \"*.{js,mjs,ts}\"",
+    "format:write": "prettier --write \"{app,components,lib,scripts}/**/*.{ts,tsx,css}\" \"*.{js,mjs,ts}\""
   },
   "dependencies": {
     "next": "16.2.10",
+    "openai": "^6.47.0",
     "react": "19.2.7",
-    "react-dom": "19.2.7"
+    "react-dom": "19.2.7",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "eslint": "9.39.5",
     "eslint-config-next": "16.2.10",
     "prettier": "3.9.5",

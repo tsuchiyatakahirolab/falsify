@@ -10,7 +10,8 @@
     "analysis",
     "unresolved",
     "supporting_evidence_ids",
-    "challenging_evidence_ids"
+    "challenging_evidence_ids",
+    "human_judgment_required"
   ],
   "properties": {
     "claim_id": {
