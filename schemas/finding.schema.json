@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FalsifyFinding",
+  "type": "object",
+  "required": [
+    "claim_id",
+    "verdict",
+    "issue_labels",
+    "factual_core",
+    "analysis",
+    "unresolved",
+    "supporting_evidence_ids",
+    "challenging_evidence_ids"
+  ],
+  "properties": {
+    "claim_id": {
+      "type": "string"
+    },
+    "verdict": {
+      "enum": [
+        "SUPPORTED",
+        "PARTIALLY_SUPPORTED",
+        "CONTRADICTED",
+        "INSUFFICIENT_EVIDENCE",
+        "SOURCE_MISMATCH",
+        "NOT_VERIFIABLE",
+        "CONTESTED_INTERPRETATION",
+        "LEGITIMATE_CRITICISM"
+      ]
+    },
+    "issue_labels": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "FALSE_FACTUAL_CLAIM",
+          "MISLEADING",
+          "UNSUPPORTED",
+          "SELECTIVE_CONTEXT",
+          "OUTDATED",
+          "NUMERICAL_MISMATCH",
+          "CAUSAL_OVERREACH",
+          "ATTRIBUTION_NOT_ESTABLISHED",
+          "HISTORICAL_ANALOGY_NOT_ESTABLISHED",
+          "CATEGORY_SHIFT",
+          "INFERENCE_EXCEEDS_EVIDENCE"
+        ]
+      }
+    },
+    "factual_core": {
+      "type": "string"
+    },
+    "analysis": {
+      "type": "string"
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "supporting_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "challenging_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "human_judgment_required": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

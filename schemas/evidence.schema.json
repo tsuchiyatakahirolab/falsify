@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FalsifyEvidence",
+  "type": "object",
+  "required": [
+    "id",
+    "claim_id",
+    "stance",
+    "title",
+    "url",
+    "source_type",
+    "relevance",
+    "directness"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "claim_id": {
+      "type": "string"
+    },
+    "stance": {
+      "enum": [
+        "supporting",
+        "contradicting",
+        "qualifying",
+        "contextual"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "publisher": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "published_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_type": {
+      "enum": [
+        "primary_official",
+        "primary_data",
+        "primary_research",
+        "secondary_scholarly",
+        "secondary_journalistic",
+        "other"
+      ]
+    },
+    "excerpt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "relevance": {
+      "enum": [
+        "direct",
+        "indirect",
+        "context_only"
+      ]
+    },
+    "directness": {
+      "enum": [
+        "directly_supports",
+        "partially_supports",
+        "does_not_directly_support",
+        "unclear"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}
