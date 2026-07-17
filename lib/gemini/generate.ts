@@ -168,9 +168,12 @@ async function searchGeminiLiveGrounded(
           },
           onclose(event) {
             if (!settled) {
+              const reason = event.reason
+                .replace(/AIza[0-9A-Za-z_-]+/g, "[redacted-api-key]")
+                .slice(0, 300);
               finish(
                 new Error(
-                  `Gemini Live connection closed before completion (${event.code}).`,
+                  `Gemini Live connection closed before completion (${event.code}${reason ? `: ${reason}` : ""}).`,
                 ),
               );
             }
