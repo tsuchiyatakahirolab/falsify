@@ -310,3 +310,12 @@ Add dated entries below.
 - Repository checks: `node --check scripts/record-demo.mjs`, Prettier, `npm run lint`, `npm run typecheck`, all 15 test files / 61 tests, and `git diff --check` — PASS. A first combined validation command exceeded the shell time limit before returning output; the same checks passed when rerun individually and sequentially.
 - Result: The submission video exists locally and is under the three-minute limit. Milestone 10 remains `IN PROGRESS` until owner review, public YouTube publication, the primary Codex `/feedback` Session ID, and Devpost submission are complete.
 - Next: Review the final MP4 once end to end, then publish it to YouTube and record the public URL in the submission package.
+
+### 2026-07-17 — Milestone 10 submission-video disclosure correction
+
+- Requirement correction: The public Build Week video must explain in audio how both Codex and GPT-5.6 were used. The first export named Codex but did not explicitly describe the GPT-5.6 product path.
+- Work completed: Added a 14.39-second English closing narration sourced from `docs/demo-codex-gpt56-tag.ssml`. It states that Codex drove the architecture, implementation, testing, and deployment, while the typed GPT-5.6 Responses API path performs claim decomposition, separate evidence searches, and finding synthesis.
+- Clipchamp verification: Placed the closing narration at 1:34 without extending the 1:49 video. Exported at 1080p with cloud saving disabled.
+- Corrected local deliverable: `C:\Users\Windows\Downloads\Falsify-OpenAI-Build-Week-Demo-v2.mp4`; 1:49, 116.54 MB, audio bit rate reported as 192 kbps. The v2 SHA-256 differs from the first export, confirming a new rendered artifact.
+- Result: The corrected video now covers Codex and GPT-5.6 in its audio and remains under the three-minute limit. Milestone 10 remains `IN PROGRESS` until owner review, public YouTube publication, the primary Codex `/feedback` Session ID, and Devpost submission are complete.
+- Next: Review the v2 MP4, upload it to YouTube as `Public`, then record the public URL in the submission package.

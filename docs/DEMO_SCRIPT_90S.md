@@ -19,6 +19,7 @@ in local submission storage rather than Git because the 1080p export is large.
 | 1:14–1:27 | Challenge button and result        | Falsify's own finding is challengeable. An adversarial re-check introduces parliamentary evidence and qualifies the reasoning while preserving the original result.                    |
 | 1:27–1:38 | New National Diet evidence         | The new counter-evidence is inspectable and attributed to the National Diet of Japan. If evidence is unavailable, Falsify reports the gap instead of inventing a citation.             |
 | 1:38–1:45 | Final result                       | Falsify was built with Codex and is available as a public MIT-licensed repository and a judge-ready web demo.                                                                          |
+| 1:34–1:49 | Codex and GPT-5.6 disclosure       | Codex drove Falsify's architecture, implementation, testing, and deployment. Its typed GPT-5.6 Responses API path performs claim decomposition, separate evidence searches, and finding synthesis. |
 
 ## Recording note
 
