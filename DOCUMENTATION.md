@@ -5,13 +5,13 @@ Keep this file current throughout the build.
 ## Current status
 
 - Project: Falsify
-- Phase: Release candidate
-- Current milestone: Milestone 10
+- Phase: Submitted
+- Current milestone: Milestone 10 complete
 - Public demo: <https://falsify-mu.vercel.app/> (curated demo deployed; Gemini Production integration configured; free Search-grounding quota confirmed as zero)
 - Repository: <https://github.com/tsuchiyatakahirolab/falsify> (public, MIT)
 - Public video: <https://youtu.be/hht1DsS66n0> (1:50, public, English narration and captions)
 - Primary Codex `/feedback` Session ID: Captured privately for the Devpost submission form; intentionally omitted from the public repository
-- Submission status: Public demo, repository, YouTube video, and `/feedback` Session ID complete; final link sweep and Devpost submission pending
+- Submission status: Submitted to OpenAI Build Week in `Work & Productivity` on 2026-07-18
 - Git baseline: `main` (Gemini quota-boundary release; see repository history for exact HEAD)
 
 ## Current product decision
@@ -347,3 +347,17 @@ Add dated entries below.
 - Privacy boundary: Both the current conversation log and browser-tab/browser-log attachments were excluded from the feedback submission. The Session ID is retained privately for direct entry into Devpost and is intentionally not committed to the public repository.
 - Result: The primary-session requirement is ready for submission. Milestone 10 remains `IN PROGRESS` for the final signed-out public-link sweep, owner/team fields, and Devpost submission.
 - Next: Open the Devpost submission form, paste the prepared fields and privately retained Session ID, confirm `Work & Productivity`, and submit after the final review.
+
+### 2026-07-18 — Milestone 10 Build Week submission
+
+- Submission: Devpost displayed `SUBMITTED TO OpenAI Build Week` for Falsify. The entry was submitted as an individual project in `Work & Productivity` before the deadline.
+- Public entry: The project page embeds the 1:50 public YouTube demo, displays the product story and technology tags, links the public deployment and GitHub repository, and records the solo entrant's contribution.
+- Private judging fields: The public repository URL, no-login judge instructions, curated-demo test sequence, and privately retained `/feedback` Session ID were entered in the organizer-only section.
+- Final public-link sweep:
+  - <https://falsify-mu.vercel.app/> — HTTP 200 with the expected Falsify title.
+  - <https://falsify-mu.vercel.app/api/demo> — HTTP 200 with `Cache-Control: no-store, max-age=0`.
+  - <https://github.com/tsuchiyatakahirolab/falsify> — publicly readable repository with README and MIT license.
+  - <https://youtu.be/hht1DsS66n0> — publicly resolves to the expected titled YouTube watch page.
+- Validation boundary: No application code changed during submission. The final verification therefore used the previously passing release suite plus public-link and metadata checks; the Gemini Search-grounding zero-quota limitation remains explicitly disclosed and the curated judge path remains fully testable.
+- Result: `PASS`. Milestone 10 and the Build Week submission package are complete.
+- Next: Preserve the public deployment and repository through judging; make only necessary factual or availability corrections before the submission deadline.

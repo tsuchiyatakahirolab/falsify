@@ -2,6 +2,8 @@
 
 Official requirements rechecked: 2026-07-17.
 
+Submission status: **Submitted to OpenAI Build Week in Work & Productivity on 2026-07-18.**
+
 ## Project name
 
 Falsify

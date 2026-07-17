@@ -167,7 +167,7 @@ Exit test:
 
 ## Milestone 10 — Deployment and submission package
 
-Status: IN PROGRESS
+Status: COMPLETE (2026-07-18)
 
 - deploy public demo;
 - verify public repo and license;

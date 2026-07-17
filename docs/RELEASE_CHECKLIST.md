@@ -24,14 +24,18 @@ Status date: 2026-07-18.
 - [x] Add the server-side `GEMINI_API_KEY`, `AI_PROVIDER=gemini`, and `GEMINI_MODEL=gemini-3.1-flash-lite` to Vercel Production.
 - [x] Run and record the deployed Gemini support/challenge quota-boundary smoke in `DOCUMENTATION.md`.
 - [ ] If OpenAI credits or billing become available, run and record the optional deployed GPT-5.6 path; do not block the zero-cost public demo on it.
-- [ ] Configure platform-level rate/spend protection appropriate to expected traffic.
+- [ ] Configure platform-level rate/spend protection before enabling paid live-search traffic; the submitted zero-quota curated path is not blocked on this.
 - [x] Record the under-three-minute demo and publish it on YouTube: <https://youtu.be/hht1DsS66n0>.
 - [x] Run `/feedback` in this primary Codex build task and retain the Session ID privately for the Devpost form.
-- [ ] Verify owner/team eligibility and add all accepted teammates in Devpost.
-- [ ] Paste the prepared Devpost fields and confirm **Work & Productivity**.
-- [ ] Recheck official rules immediately before submission.
-- [ ] Test every public link in a signed-out browser.
-- [ ] Submit before **July 21, 2026 5:00 PM PDT / July 22 9:00 AM JST**.
+- [x] Verify individual eligibility and submit as the sole entrant.
+- [x] Paste the prepared Devpost fields and confirm **Work & Productivity**.
+- [x] Recheck official rules immediately before submission.
+- [x] Test the public demo, repository, and YouTube links without relying on owner authentication.
+- [x] Submit before **July 21, 2026 5:00 PM PDT / July 22 9:00 AM JST**.
+
+## Final release decision
+
+`PASS` — the public curated judge path, repository, video, feedback ID, submission fields, and Devpost submission are complete. Optional paid-provider and platform-spend controls remain deferred until paid live-search traffic is enabled.
 
 ## Release decision codes
 
