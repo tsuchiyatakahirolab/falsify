@@ -17,6 +17,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "eval:golden": "vitest run lib/analysis/audit.test.ts --reporter=verbose",
     "format": "prettier --check \"{app,components,lib,scripts}/**/*.{ts,tsx,css}\" \"*.{js,mjs,ts}\"",
     "format:write": "prettier --write \"{app,components,lib,scripts}/**/*.{ts,tsx,css}\" \"*.{js,mjs,ts}\""
   },

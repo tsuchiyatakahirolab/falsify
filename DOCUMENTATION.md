@@ -6,7 +6,7 @@ Keep this file current throughout the build.
 
 - Project: Falsify
 - Phase: Implementation
-- Current milestone: Milestone 9
+- Current milestone: Milestone 10
 - Public demo: Not deployed
 - Repository: Milestone 0 application baseline complete
 - Primary Codex `/feedback` Session ID: Not captured
@@ -174,3 +174,20 @@ Add dated entries below.
 - Result: Milestone 8 exit test passed. Malformed and untrusted input fails safely, server keys remain private, and public deployment has bounded request/retrieval/cost surfaces appropriate to the MVP.
 - Residual limitation: The in-memory quota is per application instance. Public deployment should pair it with Vercel Firewall/rate limiting or a shared limiter before sustained high traffic.
 - Next: Run the clean-install golden eval and regression suite, validate responsive layouts, improve release polish, and repeat the full core flow.
+
+### 2026-07-17 — Milestone 9
+- Work completed: Added a dedicated `npm run eval:golden` command and durable results record at `evals/RESULTS.md`. Re-ran the entire repository from `npm ci`, confirmed the curated demo badge and hierarchy, and captured desktop and mobile Evidence Map screenshots under `docs/assets/`.
+- Commands/tests:
+  - `npm ci` — PASS; 393 packages installed and 0 vulnerabilities.
+  - `npm ls --depth=0` — exit 0; npm labels five optional WASM runtime support packages as extraneous even after `npm prune`, with no audit or runtime failure.
+  - `npm run eval:golden` — PASS; 8/8 golden cases matched their intended primary issue/verdict mechanics, plus the causal negative control.
+  - `npm run format` — PASS.
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 12 files and 54 tests passed.
+  - `npm run lint` — PASS.
+  - `npm run build` — PASS.
+  - In-app browser desktop audit at 1280 px — PASS; four Claim Cards, no horizontal overflow, and no console errors.
+  - In-app browser mobile audit at 390 px — PASS; four Claim Cards, one-column evidence grid, visible challenge control, no horizontal overflow, and no console errors.
+- Result: Milestone 9 exit test passed. The clean-install core flow is repeatable, responsive, and backed by an explicit golden evaluation record.
+- Evaluation boundary: The environment has no `OPENAI_API_KEY`; live GPT-5.6/web-search quality remains an owner-run deployed smoke test and is not represented as locally passed.
+- Next: Finalize the public README, judge/deployment guidance, Devpost copy, sub-three-minute demo script, release checklist, and final adversarial release decision.

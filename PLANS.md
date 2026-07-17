@@ -153,7 +153,7 @@ Exit test:
 
 ## Milestone 9 — Evals and polish
 
-Status: IN PROGRESS
+Status: COMPLETE (2026-07-17)
 
 - run golden eval set;
 - add regression tests;
@@ -167,7 +167,7 @@ Exit test:
 
 ## Milestone 10 — Deployment and submission package
 
-Status: NOT STARTED
+Status: IN PROGRESS
 
 - deploy public demo;
 - verify public repo and license;
