@@ -43,7 +43,7 @@ Exit test:
 
 ## Milestone 2 — Claim decomposition
 
-Status: NOT STARTED
+Status: COMPLETE (2026-07-17)
 
 Build GPT-5.6 workflow to:
 - extract atomic testable claims;

@@ -6,7 +6,7 @@ Keep this file current throughout the build.
 
 - Project: Falsify
 - Phase: Implementation
-- Current milestone: Milestone 2
+- Current milestone: Milestone 3
 - Public demo: Not deployed
 - Repository: Milestone 0 application baseline complete
 - Primary Codex `/feedback` Session ID: Not captured
@@ -51,6 +51,10 @@ Reason: TypeScript 7 and ESLint 10 are newer than the current Next.js lint stack
 Decision: Use strict Zod schemas as the application runtime boundary while retaining and testing the public JSON Schemas. Model-produced nullable metadata fields are required so Structured Outputs cannot silently omit them.
 Reason: The UI and engine need inferred TypeScript types, runtime rejection, and an open format that non-TypeScript consumers can inspect.
 
+### D-009 — GPT-5.6 Structured Outputs with a bounded fallback
+Decision: Use `gpt-5.6` through `responses.parse` and `zodTextFormat` for live decomposition. When no server API key exists, use an explicitly labeled deterministic fallback that does not claim to have searched for evidence.
+Reason: GPT-5.6 remains substantial in the deployed live path, while local setup and judge fallback remain safe and inspectable instead of fabricating model or search output.
+
 ## Build log
 
 Add dated entries below.
@@ -79,3 +83,13 @@ Add dated entries below.
   - `npm run lint` — PASS.
 - Result: Milestone 1 exit test passed; valid fixtures validate through both runtime and public schemas, and invalid enum/data cases fail.
 - Next: Implement GPT-5.6 claim decomposition with Structured Outputs, prompt-injection boundaries, sample fallback, and golden decomposition tests.
+
+### 2026-07-17 — Milestone 2
+- Work completed: Added the server-only OpenAI client, pinned the default live model to `gpt-5.6`, implemented Responses API Structured Outputs claim decomposition, normalized/validated every model claim, added an explicit untrusted-content boundary, and provided a deterministic no-key fallback. Added golden-case, normative, and premise/inference decomposition tests.
+- Decisions: Adopted D-009. Verified the current OpenAI contract against official model, Structured Outputs, and web-search documentation. Installed the official OpenAI developer-docs MCP for future Codex sessions.
+- Commands/tests:
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 3 files and 8 tests passed, including all eight golden inputs.
+  - `npm run lint` — PASS.
+- Result: Milestone 2 exit test passed. Golden inputs produce valid atomic claims with falsification questions, and normative statements are not labeled empirically testable. The external live call is not executable locally until an owner supplies `OPENAI_API_KEY`; the integration is compiled and runtime validated.
+- Next: Build separate support and contradiction web-search paths, enforce citation-provenance allowlisting, and add safe insufficient-evidence behavior.
