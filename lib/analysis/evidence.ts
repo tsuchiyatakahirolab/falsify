@@ -81,6 +81,35 @@ async function settle<T>(
   }
 }
 
+export function safeProviderFailureReason(reason: unknown): string {
+  const status =
+    reason && typeof reason === "object" && "status" in reason
+      ? Number((reason as { status?: unknown }).status)
+      : null;
+  const message = reason instanceof Error ? reason.message : "";
+
+  if (
+    status === 401 ||
+    status === 403 ||
+    /API_KEY_INVALID|API key not valid|PERMISSION_DENIED/i.test(message)
+  ) {
+    return "Gemini rejected the API key or project permission";
+  }
+  if (status === 429 || /RESOURCE_EXHAUSTED|quota|rate.?limit/i.test(message)) {
+    return "Gemini free-tier quota or rate limit was reached";
+  }
+  if (status === 404 || /model.+not found/i.test(message)) {
+    return "the configured Gemini model was unavailable";
+  }
+  if (status === 400) {
+    return "Gemini rejected the grounded-search request configuration";
+  }
+  if (status !== null && status >= 500) {
+    return "the Gemini service was temporarily unavailable";
+  }
+  return "the Gemini request could not be completed";
+}
+
 function normalizeUrl(value: string): string | null {
   try {
     const url = new URL(value);
@@ -363,12 +392,12 @@ export async function retrieveEvidence(
   const limitations: string[] = [];
   if (supportResult.status === "rejected") {
     limitations.push(
-      "The live support path was unavailable or rate-limited; no support source was invented.",
+      `The live support path was unavailable (${safeProviderFailureReason(supportResult.reason)}); no support source was invented.`,
     );
   }
   if (challengeResult.status === "rejected") {
     limitations.push(
-      "The live challenge path was unavailable or rate-limited; no counter-source was invented.",
+      `The live challenge path was unavailable (${safeProviderFailureReason(challengeResult.reason)}); no counter-source was invented.`,
     );
   }
   if (support.unresolved.length) {

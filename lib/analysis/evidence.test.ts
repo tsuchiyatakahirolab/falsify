@@ -6,6 +6,7 @@ import {
   evidenceFromGeminiGrounding,
   extractCitationAllowlist,
   filterEvidenceByCitations,
+  safeProviderFailureReason,
 } from "./evidence";
 
 const responseOutput = [
@@ -137,5 +138,16 @@ describe("evidence provenance", () => {
       stance: "supporting",
     });
     expect(evidence[0].notes).toContain("grounding metadata");
+  });
+});
+
+describe("safe provider failure classification", () => {
+  it("distinguishes common failures without echoing raw error details", () => {
+    expect(safeProviderFailureReason({ status: 403 })).toContain("API key");
+    expect(safeProviderFailureReason({ status: 429 })).toContain("quota");
+    expect(safeProviderFailureReason({ status: 404 })).toContain("model");
+    expect(safeProviderFailureReason(new Error("secret raw detail"))).toBe(
+      "the Gemini request could not be completed",
+    );
   });
 });
