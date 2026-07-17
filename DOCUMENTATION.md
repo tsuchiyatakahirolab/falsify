@@ -10,8 +10,8 @@ Keep this file current throughout the build.
 - Public demo: <https://falsify-mu.vercel.app/> (curated demo deployed; Gemini Production integration configured; free Search-grounding quota confirmed as zero)
 - Repository: <https://github.com/tsuchiyatakahirolab/falsify> (public, MIT)
 - Public video: <https://youtu.be/hht1DsS66n0> (1:50, public, English narration and captions)
-- Primary Codex `/feedback` Session ID: Not captured
-- Submission status: Public demo, repository, and YouTube video complete; `/feedback` Session ID and Devpost submission pending
+- Primary Codex `/feedback` Session ID: Captured privately for the Devpost submission form; intentionally omitted from the public repository
+- Submission status: Public demo, repository, YouTube video, and `/feedback` Session ID complete; final link sweep and Devpost submission pending
 - Git baseline: `main` (Gemini quota-boundary release; see repository history for exact HEAD)
 
 ## Current product decision
@@ -340,3 +340,10 @@ Add dated entries below.
 - External verification: A direct unauthenticated request resolved the public short URL to the YouTube watch page with the expected title.
 - Result: The public under-three-minute video requirement is complete. Milestone 10 remains `IN PROGRESS` only for the primary Codex `/feedback` Session ID, final signed-out link sweep, Devpost owner/team fields, and submission.
 - Next: Run `/feedback` in this primary build task, record the Session ID, then complete and submit the prepared Devpost entry.
+
+### 2026-07-18 — Milestone 10 primary Codex Session ID
+
+- Work completed: Ran `/feedback` in the primary Codex build task and captured the Session ID required by the Build Week submission form.
+- Privacy boundary: Both the current conversation log and browser-tab/browser-log attachments were excluded from the feedback submission. The Session ID is retained privately for direct entry into Devpost and is intentionally not committed to the public repository.
+- Result: The primary-session requirement is ready for submission. Milestone 10 remains `IN PROGRESS` for the final signed-out public-link sweep, owner/team fields, and Devpost submission.
+- Next: Open the Devpost submission form, paste the prepared fields and privately retained Session ID, confirm `Work & Productivity`, and submit after the final review.

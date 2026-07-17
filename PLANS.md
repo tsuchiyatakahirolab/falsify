@@ -173,7 +173,7 @@ Status: IN PROGRESS
 - verify public repo and license;
 - finalize README;
 - document Codex use and GPT-5.6 use;
-- capture primary `/feedback` Session ID;
+- capture primary `/feedback` Session ID (complete; retained privately for the Devpost form);
 - prepare <3 minute demo script and public YouTube video (complete: <https://youtu.be/hht1DsS66n0>);
 - add screenshots;
 - confirm Work & Productivity category unless product scope materially changes;

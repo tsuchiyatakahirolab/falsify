@@ -26,7 +26,7 @@ Status date: 2026-07-18.
 - [ ] If OpenAI credits or billing become available, run and record the optional deployed GPT-5.6 path; do not block the zero-cost public demo on it.
 - [ ] Configure platform-level rate/spend protection appropriate to expected traffic.
 - [x] Record the under-three-minute demo and publish it on YouTube: <https://youtu.be/hht1DsS66n0>.
-- [ ] Run `/feedback` in this primary Codex build task and fill `<PRIMARY_CODEX_FEEDBACK_SESSION_ID>`.
+- [x] Run `/feedback` in this primary Codex build task and retain the Session ID privately for the Devpost form.
 - [ ] Verify owner/team eligibility and add all accepted teammates in Devpost.
 - [ ] Paste the prepared Devpost fields and confirm **Work & Productivity**.
 - [ ] Recheck official rules immediately before submission.

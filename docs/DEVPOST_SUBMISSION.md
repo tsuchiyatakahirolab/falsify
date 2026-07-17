@@ -77,7 +77,7 @@ Future work could add exact-passage extraction for richer document types, shared
 - Public demo: <https://falsify-mu.vercel.app/>
 - Code repository: <https://github.com/tsuchiyatakahirolab/falsify>
 - Public YouTube video: <https://youtu.be/hht1DsS66n0>
-- Codex `/feedback` Session ID: `<PRIMARY_CODEX_FEEDBACK_SESSION_ID>`
+- Codex `/feedback` Session ID: Captured privately; paste the saved ID directly into the Devpost form.
 - License: MIT
 - Testing instructions: `docs/JUDGE_GUIDE.md`
 
