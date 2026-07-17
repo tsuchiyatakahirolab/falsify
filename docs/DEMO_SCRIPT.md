@@ -42,7 +42,7 @@ The final video must be public on YouTube, under three minutes, and include audi
 
 **Screen:** Show a brief architecture graphic or README section.
 
-**Voiceover:** “Codex was the primary build environment for the TypeScript architecture, UI, tests, security hardening, evals, and release package. The repository includes a GPT-5.6 Responses API path with Structured Outputs, citation allowlisting, synthesis, and re-check. Because Build Week credits ran out, this public zero-cost runtime transparently uses Gemini grounding for its two live searches and never labels that output GPT-5.6.”
+**Voiceover:** “Codex was the primary build environment for the TypeScript architecture, UI, tests, security hardening, evals, and release package. The repository includes a GPT-5.6 Responses API path and a transparent Gemini grounding integration. The new project's free grounding quota is zero, so this reliable zero-cost judge path uses the curated public sources and never invents live evidence or mislabels the runtime.”
 
 ## 2:35–2:40 — Close
 

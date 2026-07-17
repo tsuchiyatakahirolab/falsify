@@ -25,7 +25,7 @@ Time required: about 60 seconds. No login or API key is required for this path.
 
 ## Live path
 
-The deployed public app uses Gemini 2.5 Flash-Lite for two independent Google Search-grounded evidence paths. Paste a short evidence-dependent passage and select **Falsify this claim**. A successful result is labeled **Live analysis · gemini-2.5-flash-lite**. Claim decomposition and finding audits are deterministic in this quota-conserving public mode. If a free-tier path is rate-limited, Falsify returns a visibly partial result and does not invent web evidence.
+The deployed public app is configured for Gemini 3.1 Flash-Lite and two independent Google Search-grounded evidence paths. The current new Google project receives zero free-tier Search-grounding quota, so this path presently returns a visibly limited result and invents no web evidence. If quota becomes available, a successful result is labeled **Live analysis · gemini-3.1-flash-lite**. Claim decomposition and finding audits remain deterministic in this quota-conserving mode.
 
 Suggested live input:
 
@@ -42,4 +42,4 @@ Expected behavior: separate the quantitative premise from the analogy, show fals
 
 ## Known boundary
 
-The public curated path is the most reliable judge path and is release-validated. The repository retains the GPT-5.6 Responses API implementation, but the Build Week promotional credits were exhausted and production has no `OPENAI_API_KEY`. The live public runtime is explicitly labeled Gemini rather than being represented as GPT-5.6. Free-tier Gemini processing is not suitable for confidential material. Source: <https://github.com/tsuchiyatakahirolab/falsify>.
+The public curated path is the most reliable judge path and is release-validated. The repository retains the GPT-5.6 Responses API implementation, but the Build Week promotional credits were exhausted and production has no `OPENAI_API_KEY`. Production is configured for Gemini 3.1 Flash-Lite, but the new project's free Search-grounding quota is zero; limited results are not represented as successful live analysis. Any Gemini processing is unsuitable for confidential material. Source: <https://github.com/tsuchiyatakahirolab/falsify>.

@@ -7,11 +7,11 @@ Keep this file current throughout the build.
 - Project: Falsify
 - Phase: Release candidate
 - Current milestone: Milestone 10
-- Public demo: <https://falsify-mu.vercel.app/> (curated demo deployed; Gemini Production variables configured; new live build pending push)
+- Public demo: <https://falsify-mu.vercel.app/> (curated demo deployed; Gemini Production integration configured; free Search-grounding quota confirmed as zero)
 - Repository: <https://github.com/tsuchiyatakahirolab/falsify> (public, MIT)
 - Primary Codex `/feedback` Session ID: Not captured
 - Submission status: Devpost copy prepared; owner publication fields pending
-- Git baseline: `main` at `754cf53` before the validated Gemini release commit
+- Git baseline: `main` (Gemini quota-boundary release; see repository history for exact HEAD)
 
 ## Current product decision
 
@@ -75,13 +75,17 @@ Reason: A stable judge path must remain demonstrable without an API key, but pol
 Decision: Resolve and validate every public URL hop, reject any private/local/reserved address, pin the approved address into the outbound socket lookup, cap redirects/time/bytes, and accept only standard scheme ports. Bound API bodies and GPT output, return sanitized errors, send no-store/security headers, and apply per-instance quotas keyed only by Vercel's trusted client-IP header.
 Reason: Public URL analysis otherwise creates an SSRF and resource-exhaustion surface. The in-memory limiter is intentionally a Build Week best-effort control; a multi-instance production service should add platform-level rate limiting or a shared store.
 
-### D-015 — Transparent zero-cost Gemini public runtime
-Decision: Preserve the complete GPT-5.6 Responses API implementation, but use Gemini 2.5 Flash-Lite for the public deployment's live support and challenge searches after the Build Week promotional OpenAI credits were exhausted. Always display the actual runtime model and never describe Gemini output as GPT-5.6.
-Reason: A judge-testable fresh-search path must remain publicly accessible without creating an unfunded OpenAI API liability. Provider substitution must not obscure provenance or weaken the existing curated fallback.
+### D-015 — Transparent Gemini public provider
+Decision: Preserve the complete GPT-5.6 Responses API implementation and add a transparent Gemini provider for public support and challenge searches after the Build Week promotional OpenAI credits were exhausted. Always display the actual runtime model and never describe Gemini output as GPT-5.6.
+Reason: Provider substitution must not obscure provenance or weaken the existing curated fallback. A fresh-search path may run only when provider quota is actually available.
 
 ### D-016 — Two-call grounded-search mode for free-tier reliability
 Decision: In Gemini mode, use deterministic claim decomposition and finding audits, and reserve Gemini for sequential support and challenge Google Search-grounded requests. Build evidence only from grounding support-to-source metadata, cap four sources per claim per path, render the Search Suggestions attribution returned by Google, and return explicit partial states on quota failure.
 Reason: The free tier has project/model request limits. Two sequential calls preserve the separate adversarial paths while remaining materially more reliable than a six-call pipeline. Grounding metadata keeps URLs allowlisted without a second model-formatting request.
+
+### D-017 — Zero-quota boundary is explicit
+Decision: Use `gemini-3.1-flash-lite` as the compatible configured model for new projects, but do not claim that the current public project has free Search-grounding capacity. Keep the curated public-source fixture as the reliable zero-cost judge path, retain graceful no-invention fallback for fresh submissions, and do not enable billing without explicit owner approval.
+Reason: Production verification showed that Gemini 2.5 Flash-Lite returns HTTP 404 as unavailable to new users, Gemini 3.1 Flash-Lite grounded requests return HTTP 429 `RESOURCE_EXHAUSTED`, and Gemini 3.1 Flash Live Preview also closes with a quota-exhausted error. The implementation cannot manufacture a free quota that Google has set to zero.
 
 ## Build log
 
@@ -247,3 +251,18 @@ Add dated entries below.
   - `npm audit` and `npm audit --omit=dev` — PASS; 0 vulnerabilities.
 - Result: Local release gates pass. Milestone 10 remains `IN PROGRESS` pending the GitHub push, production deployment, signed-out live smoke, public video, `/feedback` Session ID, and Devpost submission.
 - Next: Commit and push the Gemini release, wait for Vercel Production, then run the live judge input, Search Suggestions, challenge, curated demo, SSRF, and security-header smoke tests.
+
+### 2026-07-17 — Milestone 10 Gemini production quota verification
+- Production deployments: Pushed the Gemini provider and safe diagnostics to public `main`; Vercel repeatedly built the commits successfully and kept <https://falsify-mu.vercel.app/> aliased to Ready production deployments.
+- Verified provider boundary:
+  - `gemini-2.5-flash-lite` — HTTP 404: no longer available to new users.
+  - `gemini-3.1-flash-lite` with Google Search — HTTP 429 `RESOURCE_EXHAUSTED` on both support and challenge paths.
+  - `gemini-3.1-flash-live-preview` with Google Search — WebSocket 1011 with the same quota-exhausted reason.
+- Safety behavior: Every failed provider path returned HTTP 200 with `mode: sample`, zero invented evidence, `INSUFFICIENT_EVIDENCE`, and explicit limitations. API keys remained encrypted and server-side; sanitized authenticated logs exposed status/reason but redacted key patterns. Billing was not enabled.
+- Final product posture: The public curated demo remains fully judge-testable without a model key or quota. The Gemini provider is implemented and deployment-configured, but fresh grounded search is not represented as live until Google supplies quota or the owner explicitly selects another funded/search provider.
+- Commands/tests after the provider diagnostics and compatibility changes:
+  - `npm run format`, `npm run lint`, and `npm run typecheck` — PASS.
+  - `npm test` — PASS; 15 files and 61 tests passed.
+  - `npm run build` — PASS.
+- Result: `PARTIAL_PASS_OWNER_ACTION_REQUIRED`. Repository, curated public deployment, Gemini integration, fallback behavior, and disclosure pass. Milestone 10 remains `IN PROGRESS` for the public video, `/feedback` Session ID, Devpost submission, and any owner-selected live search funding/provider.
+- Next: Re-deploy the simplified Gemini 3.1 Flash-Lite configuration, re-run the curated demo/security smoke, and then complete the owner-only submission steps.

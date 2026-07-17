@@ -518,10 +518,11 @@ export function Analyzer() {
 
         <div className="input-actions">
           <p>
-            External processing: the public live demo uses Google Gemini and
-            Google Search. Free-tier data may be used to improve Google
-            products, and grounded requests may be retained for up to 30 days.
-            Do not submit confidential material.
+            External processing: fresh-search mode sends submitted content to
+            Google Gemini and Google Search when provider quota is available.
+            Free-tier data may be used to improve Google products, and grounded
+            requests may be retained for up to 30 days. The curated demo makes
+            no live model call. Do not submit confidential material.
           </p>
           <button
             className="analyze-button"

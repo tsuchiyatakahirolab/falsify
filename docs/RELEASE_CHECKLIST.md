@@ -21,8 +21,8 @@ Status date: 2026-07-17.
 
 - [x] Create and push the public GitHub repository: <https://github.com/tsuchiyatakahirolab/falsify>.
 - [x] Deploy the public curated demo: <https://falsify-mu.vercel.app/>.
-- [x] Add the server-side `GEMINI_API_KEY`, `AI_PROVIDER=gemini`, and `GEMINI_MODEL=gemini-2.5-flash-lite` to Vercel Production.
-- [ ] Run and record the deployed Gemini support/challenge grounding smoke in `DOCUMENTATION.md`.
+- [x] Add the server-side `GEMINI_API_KEY`, `AI_PROVIDER=gemini`, and `GEMINI_MODEL=gemini-3.1-flash-lite` to Vercel Production.
+- [x] Run and record the deployed Gemini support/challenge quota-boundary smoke in `DOCUMENTATION.md`.
 - [ ] If OpenAI credits or billing become available, run and record the optional deployed GPT-5.6 path; do not block the zero-cost public demo on it.
 - [ ] Configure platform-level rate/spend protection appropriate to expected traffic.
 - [ ] Record the under-three-minute demo, upload it publicly to YouTube, and fill `<PUBLIC_YOUTUBE_URL>`.

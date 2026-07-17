@@ -39,7 +39,9 @@ claim decomposition
 
 ## Live providers, OpenAI, and Codex use
 
-The public zero-cost live demo uses **Gemini 2.5 Flash-Lite** for two separate Google Search-grounded evidence paths. Claim decomposition and final audits remain deterministic in this quota-conserving mode. URLs and titles enter the evidence map only through Gemini grounding metadata; grounded summaries are labeled as summaries, not verified quotations. The UI also renders the Search Suggestions attribution supplied by Google's grounding metadata, as required by the [Google Search grounding documentation](https://ai.google.dev/gemini-api/docs/generate-content/google-search).
+The deployed fresh-search integration uses **Gemini 3.1 Flash-Lite** for two separate Google Search-grounded evidence paths when project quota is available. Claim decomposition and final audits remain deterministic in this quota-conserving mode. URLs and titles enter the evidence map only through Gemini grounding metadata; grounded summaries are labeled as summaries, not verified quotations. The UI also renders the Search Suggestions attribution supplied by Google's grounding metadata, as required by the [Google Search grounding documentation](https://ai.google.dev/gemini-api/docs/generate-content/google-search).
+
+The current new Google project has a zero free-tier quota for Search grounding: Gemini 2.5 Flash-Lite returns `404` for new users, while Gemini 3.1 Flash-Lite returns `429 RESOURCE_EXHAUSTED` for grounded requests without billing. Falsify therefore keeps the curated public-source demo as the reliable zero-cost judge path and falls back without inventing evidence. Billing was not enabled.
 
 The repository also retains the complete GPT-5.6 product path built for Build Week:
 
@@ -86,12 +88,12 @@ npm run dev
 
 On PowerShell, use `Copy-Item .env.example .env.local`. Open [http://localhost:3000](http://localhost:3000).
 
-The one-click flagship sample works without an API key. For the zero-cost Gemini live path, create a Google AI Studio key and set:
+The one-click flagship sample works without an API key. For the Gemini fresh-search path when project Search-grounding quota is available, create a Google AI Studio key and set:
 
 ```dotenv
 AI_PROVIDER=gemini
 GEMINI_API_KEY=your_server_side_key
-GEMINI_MODEL=gemini-2.5-flash-lite
+GEMINI_MODEL=gemini-3.1-flash-lite
 ```
 
 For the optional GPT-5.6 path, set:
@@ -149,7 +151,7 @@ Responses are runtime-validated with strict Zod schemas. Public URL retrieval re
 - The curated demo is not a fresh search and includes English paraphrases of multilingual official material.
 - Deterministic checks cover useful patterns, not every citation or statistical failure mode.
 - The in-memory rate limiter is per application instance; sustained public traffic needs platform or shared-store enforcement.
-- The public deployment uses Gemini for live grounded search and has no `OPENAI_API_KEY`; the optional GPT-5.6 path therefore remains without a deployed live smoke.
+- The public deployment is configured for Gemini 3.1 Flash-Lite and has no `OPENAI_API_KEY`; the new Google project's free Search-grounding quota is currently zero, so fresh text submissions fall back transparently while the curated evidence demo remains fully testable.
 - Falsify does not establish deceptive intent unless evidence separately supports that attribution.
 
 ## Deploy and submit

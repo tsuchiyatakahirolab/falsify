@@ -1,4 +1,4 @@
-import { Modality, type GenerateContentResponse } from "@google/genai";
+import type { GenerateContentResponse } from "@google/genai";
 
 import { GEMINI_MODEL, getGeminiClient } from "./client";
 
@@ -82,10 +82,6 @@ export async function searchGeminiGrounded(
   prompt: string,
   systemInstruction: string,
 ): Promise<GroundedSearchResult> {
-  if (GEMINI_MODEL.includes("-live-")) {
-    return searchGeminiLiveGrounded(prompt, systemInstruction);
-  }
-
   const response = await getGeminiClient().models.generateContent({
     model: GEMINI_MODEL,
     contents: prompt,
@@ -100,96 +96,4 @@ export async function searchGeminiGrounded(
     text: response.text?.trim() || "",
     ...extractGeminiGrounding(response),
   };
-}
-
-async function searchGeminiLiveGrounded(
-  prompt: string,
-  systemInstruction: string,
-): Promise<GroundedSearchResult> {
-  const client = getGeminiClient();
-
-  return new Promise((resolve, reject) => {
-    let session: { close: () => void } | null = null;
-    let settled = false;
-    const transcript: string[] = [];
-    const groundedResponses: GenerateContentResponse["candidates"] = [];
-
-    const finish = (error?: Error) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
-      session?.close();
-      if (error) {
-        reject(error);
-        return;
-      }
-      const response = {
-        candidates: groundedResponses,
-      } as GenerateContentResponse;
-      resolve({
-        text: transcript.join(" ").trim(),
-        ...extractGeminiGrounding(response),
-      });
-    };
-
-    const timer = setTimeout(
-      () => finish(new Error("Gemini Live grounded search timed out.")),
-      45_000,
-    );
-
-    void client.live
-      .connect({
-        model: GEMINI_MODEL,
-        config: {
-          responseModalities: [Modality.AUDIO],
-          outputAudioTranscription: {},
-          systemInstruction,
-          temperature: 0.1,
-          tools: [{ googleSearch: {} }],
-        },
-        callbacks: {
-          onmessage(message) {
-            const content = message.serverContent;
-            const transcription = content?.outputTranscription?.text?.trim();
-            if (transcription) transcript.push(transcription);
-            if (content?.groundingMetadata) {
-              groundedResponses.push({
-                groundingMetadata: content.groundingMetadata,
-              });
-            }
-            if (content?.turnComplete) finish();
-          },
-          onerror(event) {
-            finish(
-              event.error instanceof Error
-                ? event.error
-                : new Error(event.message || "Gemini Live connection failed."),
-            );
-          },
-          onclose(event) {
-            if (!settled) {
-              const reason = event.reason
-                .replace(/AIza[0-9A-Za-z_-]+/g, "[redacted-api-key]")
-                .slice(0, 300);
-              finish(
-                new Error(
-                  `Gemini Live connection closed before completion (${event.code}${reason ? `: ${reason}` : ""}).`,
-                ),
-              );
-            }
-          },
-        },
-      })
-      .then((connectedSession) => {
-        session = connectedSession;
-        connectedSession.sendRealtimeInput({ text: prompt });
-      })
-      .catch((error: unknown) => {
-        finish(
-          error instanceof Error
-            ? error
-            : new Error("Gemini Live connection failed."),
-        );
-      });
-  });
 }

@@ -32,7 +32,7 @@ Default policy:
 - make external processing clear to users;
 - do not promise "zero retention" unless the deployed configuration actually guarantees it.
 
-The zero-cost public live mode uses the Gemini Developer API free tier and Google Search grounding. Google states that free-tier content may be used to improve its products, and [documents a 30-day retention rule](https://ai.google.dev/gemini-api/docs/zdr) for grounded prompts, context, and output. The UI therefore warns users not to submit confidential material. Falsify itself still has no database and does not intentionally persist submitted documents. The UI renders the required Google Search Suggestions returned in grounding metadata; the HTML is accepted only from the server-side Gemini response and remains constrained by the application's CSP.
+The configured fresh-search mode uses the Gemini Developer API and Google Search grounding when project quota is available. Google states that free-tier content may be used to improve its products, and [documents a 30-day retention rule](https://ai.google.dev/gemini-api/docs/zdr) for grounded prompts, context, and output. The UI therefore warns users not to submit confidential material. Falsify itself still has no database and does not intentionally persist submitted documents. The UI renders the required Google Search Suggestions returned in grounding metadata; the HTML is accepted only from the server-side Gemini response and remains constrained by the application's CSP. The current public project's free Search-grounding quota is zero, and billing has not been enabled.
 
 ### Public demo
 - API bodies, source downloads, input text, and GPT output are bounded.

@@ -35,7 +35,7 @@ Evidence Map UI
 Preferred:
 - Responses API;
 - optional GPT-5.6 Responses API path;
-- public Gemini 2.5 Flash-Lite grounded-search path with deterministic decomposition and audits;
+- optional Gemini 3.1 Flash-Lite grounded-search path with deterministic decomposition and audits;
 - Structured Outputs for typed claim/evidence/finding objects;
 - web search for current public evidence where appropriate.
 

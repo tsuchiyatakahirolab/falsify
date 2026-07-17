@@ -6,7 +6,7 @@ The minimal release target is Vercel because Falsify is a standard Next.js appli
 
 - A public GitHub repository containing this commit history.
 - A Vercel account connected to that repository.
-- A server-side Gemini API key for the zero-cost public live path, or an OpenAI API key for the optional GPT-5.6 path.
+- A server-side Gemini API key and Search-grounding quota for the optional fresh-search path, or an OpenAI API key for the optional GPT-5.6 path. The curated public demo requires neither.
 
 ## Vercel deployment
 
@@ -16,7 +16,7 @@ The minimal release target is Vercel because Falsify is a standard Next.js appli
 4. Add encrypted production environment variables:
    - `AI_PROVIDER=gemini`
    - `GEMINI_API_KEY`
-   - `GEMINI_MODEL=gemini-2.5-flash-lite`
+   - `GEMINI_MODEL=gemini-3.1-flash-lite`
 5. Deploy the production branch.
 6. Record the resulting URL in `README.md`, `docs/JUDGE_GUIDE.md`, `docs/DEVPOST_SUBMISSION.md`, and `docs/RELEASE_CHECKLIST.md`.
 
@@ -29,7 +29,7 @@ Optional GPT-5.6 deployment variables are `AI_PROVIDER=openai`, `OPENAI_API_KEY`
 1. Open the production URL in a signed-out browser.
 2. Load the flagship sample and challenge Claim 2.
 3. Submit the suggested live input from `docs/JUDGE_GUIDE.md`.
-4. Confirm the result badge says **Live analysis · gemini-2.5-flash-lite**, both evidence paths are visible, sources are clickable, and no raw error is exposed.
+4. If Search-grounding quota is available, confirm the badge says **Live analysis · gemini-3.1-flash-lite**, both evidence paths are visible, sources are clickable, and no raw error is exposed. If quota is zero, confirm a limited result exposes the quota boundary and invents no evidence.
 5. Confirm `/api/demo` returns HTTP 200 with `Cache-Control: no-store`.
 6. Confirm the home page includes CSP, HSTS, `nosniff`, and frame-denial headers.
 7. Submit a loopback URL such as `http://127.0.0.1/` and confirm the API returns safe HTTP 422 `PRIVATE_NETWORK_BLOCKED`.
