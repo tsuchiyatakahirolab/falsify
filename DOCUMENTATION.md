@@ -319,3 +319,14 @@ Add dated entries below.
 - Corrected local deliverable: `C:\Users\Windows\Downloads\Falsify-OpenAI-Build-Week-Demo-v2.mp4`; 1:49, 116.54 MB, audio bit rate reported as 192 kbps. The v2 SHA-256 differs from the first export, confirming a new rendered artifact.
 - Result: The corrected video now covers Codex and GPT-5.6 in its audio and remains under the three-minute limit. Milestone 10 remains `IN PROGRESS` until owner review, public YouTube publication, the primary Codex `/feedback` Session ID, and Devpost submission are complete.
 - Next: Review the v2 MP4, upload it to YouTube as `Public`, then record the public URL in the submission package.
+
+### 2026-07-18 — Milestone 10 general-public narration revision
+
+- Editorial review: The prior narration was factually defensible and submission-compliant, but it read like a technical requirements walkthrough. It used defensive phrasing and introduced the product through labels rather than the public value of an inspectable evidence map.
+- Work completed: Rewrote the complete English narration in affirmative, plain-language terms; opened with the product's support/challenge/uncertainty value; explained the Japanese-language case through the observable workflow; retained the falsification question, separate evidence columns, provenance, uncertainty, and self-challenge; and integrated the Codex/GPT-5.6 disclosure into the closing. Political neutrality is demonstrated by the method rather than asserted in a spoken disclaimer.
+- Runtime accuracy: The narration says the demonstration uses curated public sources and that a typed GPT-5.6 Responses API path was implemented. The repository and YouTube description retain the fuller disclosure that production has no OpenAI key.
+- Audio verification: Generated a 219-word Microsoft Mark TTS track from `docs/demo-90s-narration.ssml`; 105.905 seconds, mono, 22.05 kHz, 16-bit. Long-silence analysis placed all nine narration sections within approximately two seconds of the previous synchronized section starts. Updated `docs/demo-90s.srt` to match the spoken text and measured section timings.
+- Clipchamp composition: Created a new project rather than deleting or overwriting the earlier project. Added only `Falsify-Build-Week-clean.webm` and `Falsify-Build-Week-narration-public-v2.wav`. Exported at 1080p with cloud saving disabled; Clipchamp reported 1:49 and 116.54 MB.
+- Corrected local deliverable: `C:\Users\Windows\Downloads\Falsify-OpenAI-Build-Week-Demo-public-v3.mp4`. The file exists locally at 116,540,505 bytes, reports 192 kbps audio, and has a SHA-256 distinct from v2.
+- Result: The general-public video candidate is rendered and under three minutes. Milestone 10 remains `IN PROGRESS` until owner playback review, public YouTube publication, the primary Codex `/feedback` Session ID, and Devpost submission are complete.
+- Next: Review the public-v3 MP4 end to end, then publish it publicly on YouTube and record the URL.
