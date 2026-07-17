@@ -57,7 +57,7 @@ Exit test:
 
 ## Milestone 3 — Evidence retrieval and adversarial search
 
-Status: NOT STARTED
+Status: COMPLETE (2026-07-17)
 
 Build two deliberately separate evidence paths:
 - support search;

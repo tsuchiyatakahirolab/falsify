@@ -6,7 +6,7 @@ Keep this file current throughout the build.
 
 - Project: Falsify
 - Phase: Implementation
-- Current milestone: Milestone 3
+- Current milestone: Milestone 4
 - Public demo: Not deployed
 - Repository: Milestone 0 application baseline complete
 - Primary Codex `/feedback` Session ID: Not captured
@@ -55,6 +55,10 @@ Reason: The UI and engine need inferred TypeScript types, runtime rejection, and
 Decision: Use `gpt-5.6` through `responses.parse` and `zodTextFormat` for live decomposition. When no server API key exists, use an explicitly labeled deterministic fallback that does not claim to have searched for evidence.
 Reason: GPT-5.6 remains substantial in the deployed live path, while local setup and judge fallback remain safe and inspectable instead of fabricating model or search output.
 
+### D-010 — Citation-allowlisted dual evidence paths
+Decision: Run support and challenge as separate GPT-5.6 web-search requests. Accept a model-proposed evidence URL only when the same response contains an official `url_citation` annotation for its normalized URL, and replace the proposed title with the cited title.
+Reason: Separate tasks reduce confirmation bias; citation allowlisting prevents a structurally valid model response from introducing a source the hosted search did not actually return.
+
 ## Build log
 
 Add dated entries below.
@@ -93,3 +97,13 @@ Add dated entries below.
   - `npm run lint` — PASS.
 - Result: Milestone 2 exit test passed. Golden inputs produce valid atomic claims with falsification questions, and normative statements are not labeled empirically testable. The external live call is not executable locally until an owner supplies `OPENAI_API_KEY`; the integration is compiled and runtime validated.
 - Next: Build separate support and contradiction web-search paths, enforce citation-provenance allowlisting, and add safe insufficient-evidence behavior.
+
+### 2026-07-17 — Milestone 3
+- Work completed: Implemented independent support and adversarial evidence prompts/calls with GPT-5.6 hosted web search. Added recursive extraction of official URL citation annotations, HTTP(S) normalization, claim/stance validation, path separation, deduplication, and strict rejection of uncited model-proposed URLs. Added explicit unresolved and no-key states.
+- Decisions: Adopted D-010. Source titles are taken from citation annotations rather than trusted from model JSON.
+- Commands/tests:
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 4 files and 12 tests passed.
+  - `npm run lint` — PASS.
+- Result: Milestone 3 exit test passed. Fixtures produce distinct support and challenge sets, and missing or unallowlisted evidence remains empty instead of becoming invented evidence.
+- Next: Implement deterministic number/date audits, inference/attribution/analogy checks, model synthesis, and golden issue evaluation.
