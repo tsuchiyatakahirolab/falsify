@@ -6,7 +6,7 @@ Keep this file current throughout the build.
 
 - Project: Falsify
 - Phase: Implementation
-- Current milestone: Milestone 4
+- Current milestone: Milestone 5
 - Public demo: Not deployed
 - Repository: Milestone 0 application baseline complete
 - Primary Codex `/feedback` Session ID: Not captured
@@ -59,6 +59,10 @@ Reason: GPT-5.6 remains substantial in the deployed live path, while local setup
 Decision: Run support and challenge as separate GPT-5.6 web-search requests. Accept a model-proposed evidence URL only when the same response contains an official `url_citation` annotation for its normalized URL, and replace the proposed title with the cited title.
 Reason: Separate tasks reduce confirmation bias; citation allowlisting prevents a structurally valid model response from introducing a source the hosted search did not actually return.
 
+### D-011 — Deterministic checks are binding inputs to synthesis
+Decision: Run date, number, causal, attribution, historical-analogy, selective-context, and source-fit rules before synthesis, then merge their issue labels into any GPT-5.6 finding.
+Reason: Deterministic observations should remain visible even if model wording varies, while GPT-5.6 handles contextual synthesis and qualified explanation.
+
 ## Build log
 
 Add dated entries below.
@@ -107,3 +111,13 @@ Add dated entries below.
   - `npm run lint` — PASS.
 - Result: Milestone 3 exit test passed. Fixtures produce distinct support and challenge sets, and missing or unallowlisted evidence remains empty instead of becoming invented evidence.
 - Next: Implement deterministic number/date audits, inference/attribution/analogy checks, model synthesis, and golden issue evaluation.
+
+### 2026-07-17 — Milestone 4
+- Work completed: Added typed audit observations and deterministic rules for dates, tenfold/ratio mismatches, causal overreach, unsupported source fit, attribution of intent, historical analogy, selective context, and inference strength. Added GPT-5.6 structured finding synthesis with binding deterministic-label merging and a safe local synthesizer. Corrected G007 so `LEGITIMATE_CRITICISM` is evaluated as a verdict rather than an issue label.
+- Decisions: Adopted D-011. Model evidence IDs are allowlisted against the actual evidence bundle during synthesis.
+- Commands/tests:
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 5 files and 14 tests passed.
+  - `npm run lint` — PASS.
+- Result: Milestone 4 exit test passed. All eight golden cases match their intended issue/verdict mechanics across seven issue classes, with an explicit negative control against calling a supported association false.
+- Next: Assemble the analysis orchestrator and API, then replace the static shell with the interactive Evidence Map and Claim Card interface.

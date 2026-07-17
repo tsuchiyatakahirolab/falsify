@@ -75,7 +75,7 @@ Exit test:
 
 ## Milestone 4 — Audit engine
 
-Status: NOT STARTED
+Status: COMPLETE (2026-07-17)
 
 Implement MVP audits:
 - citation/source-fit where input supplies citations or linked sources;

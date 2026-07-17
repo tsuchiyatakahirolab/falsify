@@ -194,6 +194,32 @@ export const ChallengeResultSchema = z
   })
   .strict();
 
+export const AuditObservationSchema = z
+  .object({
+    claim_id: z.string().min(1),
+    issue_labels: z.array(z.enum(ISSUE_LABELS)),
+    checks: z.array(
+      z
+        .object({
+          type: z.enum([
+            "number",
+            "date",
+            "metadata",
+            "inference",
+            "attribution",
+            "analogy",
+            "context",
+          ]),
+          status: z.enum(["pass", "flag", "not_applicable"]),
+          explanation: z.string().min(1),
+          observed: z.string().nullable(),
+          expected: z.string().nullable(),
+        })
+        .strict(),
+    ),
+  })
+  .strict();
+
 export type Claim = z.infer<typeof ClaimSchema>;
 export type Evidence = z.infer<typeof EvidenceSchema>;
 export type Finding = z.infer<typeof FindingSchema>;
@@ -201,3 +227,4 @@ export type FalsifyInput = z.infer<typeof InputSchema>;
 export type AnalysisResult = z.infer<typeof AnalysisResultSchema>;
 export type ChallengeResult = z.infer<typeof ChallengeResultSchema>;
 export type SourceProvenance = z.infer<typeof SourceProvenanceSchema>;
+export type AuditObservation = z.infer<typeof AuditObservationSchema>;
