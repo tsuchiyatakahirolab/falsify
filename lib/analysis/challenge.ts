@@ -4,6 +4,10 @@ import {
   type AnalysisResult,
   type ChallengeResult,
 } from "@/lib/domain/schemas";
+import {
+  challengeFlagshipFinding,
+  FLAGSHIP_DEMO_ID,
+} from "@/lib/demo/flagship";
 
 import { synthesizeFindings } from "./audit";
 import { retrieveAdversarialRecheck } from "./evidence";
@@ -12,6 +16,10 @@ export async function challengeFinding(
   analysis: AnalysisResult,
   claimId: string,
 ): Promise<ChallengeResult> {
+  if (analysis.id === FLAGSHIP_DEMO_ID) {
+    const demoChallenge = challengeFlagshipFinding(claimId);
+    if (demoChallenge) return demoChallenge;
+  }
   const claim = analysis.claims.find((item) => item.id === claimId);
   const original = analysis.findings.find((item) => item.claim_id === claimId);
   if (!claim || !original) {

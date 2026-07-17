@@ -108,7 +108,7 @@ Exit test:
 
 ## Milestone 6 — Challenge this finding
 
-Status: IN PROGRESS
+Status: COMPLETE (2026-07-17)
 
 Add adversarial re-check:
 - user can challenge a finding;
@@ -120,7 +120,7 @@ Exit test:
 
 ## Milestone 7 — Flagship narrative demo
 
-Status: NOT STARTED
+Status: COMPLETE (2026-07-17)
 
 Create one public-source demonstration involving a China-to-Japan strategic narrative.
 
@@ -136,7 +136,7 @@ Exit test:
 
 ## Milestone 8 — Privacy, security, public hardening
 
-Status: NOT STARTED
+Status: IN PROGRESS
 
 - prompt-injection boundaries;
 - server-side API key only;

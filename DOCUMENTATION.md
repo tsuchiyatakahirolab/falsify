@@ -6,7 +6,7 @@ Keep this file current throughout the build.
 
 - Project: Falsify
 - Phase: Implementation
-- Current milestone: Milestone 6
+- Current milestone: Milestone 8
 - Public demo: Not deployed
 - Repository: Milestone 0 application baseline complete
 - Primary Codex `/feedback` Session ID: Not captured
@@ -66,6 +66,10 @@ Reason: Deterministic observations should remain visible even if model wording v
 ### D-012 — Stateless typed analysis and challenge APIs
 Decision: Keep analysis state in the browser and send the validated analysis bundle back only when challenging a finding. Process text documents client-side and retain no server-side session or manuscript store.
 Reason: This delivers the complete interaction without a database, preserves inspectability, and honors the MVP's no-default-retention policy.
+
+### D-013 — Curated flagship fixture with symmetric intent standards
+Decision: Ship the flagship China-to-Japan narrative as a versioned, public-source sample fixture while keeping live analysis generic. Apply the same evidence threshold to both the original PRC attribution of Japanese intent and Japan's reciprocal attribution of Chinese intent.
+Reason: A stable judge path must remain demonstrable without an API key, but political conclusions must not be hard-coded into the analysis engine. The fixture exposes its curation date, sources, translations, and limitations.
 
 ## Build log
 
@@ -137,3 +141,17 @@ Add dated entries below.
   - In-app browser E2E — PASS; submitted a two-claim passage, rendered two Claim Cards, displayed both evidence paths, falsification questions, historical-analogy audit, and honest no-key limitations.
 - Result: Milestone 5 exit test passed. The complete local input-to-Evidence-Map path is understandable without developer explanation and contains no global credibility score.
 - Next: Complete and validate the adversarial re-check, including a flagship sample whose finding visibly qualifies or changes.
+
+### 2026-07-17 — Milestones 6 and 7
+- Work completed: Added a typed `/api/challenge` flow that preserves the original finding, runs an independent adversarial re-check in live mode, and reports whether the finding changes, qualifies, holds, or remains unresolved. Added a public-source flagship fixture that separates the Japanese budget/capability premise from historical analogy and reciprocal intent attributions. Added a one-click demo route and UI entry point. The sample challenge introduces a National Diet research report and qualifies the finding by acknowledging legitimate domestic concern without treating the strongest historical analogy as established.
+- Decisions: Adopted D-013. The fixture is isolated from generic analysis logic, explicitly labeled as curated, and based only on public PRC MFA, Japan MOD/Cabinet Secretariat/National Diet, and SIPRI sources recorded in `docs/research/flagship-china-japan-narrative-source-set.md`.
+- Commands/tests:
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 8 files and 18 tests passed, including schema validity, source provenance, symmetric intent flags, and the qualifying re-check.
+  - `npm run lint` — PASS.
+  - `npm run build` — PASS; `/`, `/api/analyze`, `/api/challenge`, and `/api/demo` built successfully.
+  - Production-server HTTP smoke — PASS; `/` and `/api/demo` returned HTTP 200.
+  - In-app browser flagship E2E — PASS; rendered four atomic claims, six allowlisted sources, reciprocal `ATTRIBUTION_NOT_ESTABLISHED` findings, and no console errors.
+  - In-app browser adversarial re-check — PASS; Claim 2 changed to `QUALIFIED`, preserved the original and revised verdicts, and exposed the new National Diet counter-evidence.
+- Result: Milestones 6 and 7 exit tests passed. Falsify's own finding is challengeable, and the flagship demo communicates the product's non-scoring, symmetric evidence method in under 60 seconds.
+- Next: Harden public URL ingestion, quotas, API errors, response headers, and dependency posture before release evals.

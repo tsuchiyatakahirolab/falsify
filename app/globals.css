@@ -657,11 +657,31 @@ h2 {
   max-width: 680px;
 }
 
-.analyzer-heading > p {
+.analyzer-intro-actions > p {
   margin-bottom: 2px;
   color: var(--ink-soft);
   font-size: 0.85rem;
   line-height: 1.65;
+}
+
+.analyzer-intro-actions {
+  display: grid;
+  gap: 15px;
+}
+
+.analyzer-intro-actions button {
+  min-height: 43px;
+  padding: 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--forest);
+  background: transparent;
+  color: var(--forest);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.69rem;
+  font-weight: 700;
 }
 
 .input-workbench {

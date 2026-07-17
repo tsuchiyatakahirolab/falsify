@@ -250,6 +250,28 @@ export function Analyzer() {
     }
   }
 
+  async function loadFlagshipDemo() {
+    setLoading(true);
+    setError(null);
+    setChallenges({});
+    try {
+      const response = await fetch("/api/demo");
+      const parsed = AnalysisResultSchema.parse(await response.json());
+      setResult(parsed);
+      setContent(parsed.input.content);
+      setMode("text");
+      requestAnimationFrame(() => {
+        document
+          .querySelector("#evidence-map")
+          ?.scrollIntoView({ behavior: "smooth" });
+      });
+    } catch {
+      setError("The curated flagship demo could not be loaded.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!canSubmit) return;
@@ -342,10 +364,16 @@ export function Analyzer() {
           <p className="eyebrow">Start with a claim</p>
           <h2 id="analyze-title">What should survive scrutiny?</h2>
         </div>
-        <p>
-          Submit public or non-sensitive material. Inputs are processed
-          ephemerally and are not stored by Falsify.
-        </p>
+        <div className="analyzer-intro-actions">
+          <p>
+            Submit public or non-sensitive material. Inputs are processed
+            ephemerally and are not stored by Falsify.
+          </p>
+          <button type="button" onClick={() => void loadFlagshipDemo()}>
+            Load flagship public-source demo
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
       </div>
 
       <form className="input-workbench" onSubmit={submit}>
@@ -467,9 +495,11 @@ export function Analyzer() {
             </div>
             <div className="analysis-meta">
               <span>
-                {result.mode === "live"
-                  ? "Live GPT-5.6 analysis"
-                  : "Limited local analysis"}
+                {result.id === "demo-japan-defense-narrative-v1"
+                  ? "Curated public-source demo"
+                  : result.mode === "live"
+                    ? "Live GPT-5.6 analysis"
+                    : "Limited local analysis"}
               </span>
               <span>{result.evidence.length} allowlisted sources</span>
             </div>
