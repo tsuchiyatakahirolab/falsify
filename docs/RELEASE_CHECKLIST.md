@@ -1,6 +1,6 @@
 # Release Checklist
 
-Status date: 2026-07-17.
+Status date: 2026-07-18.
 
 ## Completed in repository
 
@@ -25,7 +25,7 @@ Status date: 2026-07-17.
 - [x] Run and record the deployed Gemini support/challenge quota-boundary smoke in `DOCUMENTATION.md`.
 - [ ] If OpenAI credits or billing become available, run and record the optional deployed GPT-5.6 path; do not block the zero-cost public demo on it.
 - [ ] Configure platform-level rate/spend protection appropriate to expected traffic.
-- [ ] Record the under-three-minute demo, upload it publicly to YouTube, and fill `<PUBLIC_YOUTUBE_URL>`.
+- [x] Record the under-three-minute demo and publish it on YouTube: <https://youtu.be/hht1DsS66n0>.
 - [ ] Run `/feedback` in this primary Codex build task and fill `<PRIMARY_CODEX_FEEDBACK_SESSION_ID>`.
 - [ ] Verify owner/team eligibility and add all accepted teammates in Devpost.
 - [ ] Paste the prepared Devpost fields and confirm **Work & Productivity**.

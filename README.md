@@ -6,7 +6,7 @@ Falsify decomposes an argument into atomic claims, asks what would make each cla
 
 It is not a chatbot, a paper-level credibility score, or a political truth oracle. Findings stay claim-level, source-linked, qualified, and inspectable.
 
-**Public demo:** [falsify-mu.vercel.app](https://falsify-mu.vercel.app/) · **Source:** [github.com/tsuchiyatakahirolab/falsify](https://github.com/tsuchiyatakahirolab/falsify)
+**Public demo:** [falsify-mu.vercel.app](https://falsify-mu.vercel.app/) · **Demo video:** [YouTube](https://youtu.be/hht1DsS66n0) · **Source:** [github.com/tsuchiyatakahirolab/falsify](https://github.com/tsuchiyatakahirolab/falsify)
 
 ![Falsify Evidence Map](docs/assets/falsify-evidence-map-desktop.png)
 

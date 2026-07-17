@@ -2,6 +2,8 @@
 
 The recording-ready script is in `docs/DEMO_SCRIPT.md`; prepared Devpost copy is in `docs/DEVPOST_SUBMISSION.md`; release status is in `docs/RELEASE_CHECKLIST.md`.
 
+**Published video:** <https://youtu.be/hht1DsS66n0>
+
 ## Three-minute narrative
 
 ### 0:00–0:20 — Problem

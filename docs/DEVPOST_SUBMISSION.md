@@ -58,7 +58,7 @@ The hardest problem was maintaining epistemic symmetry while keeping the product
 
 - Complete claim-to-evidence-to-challenge user flow.
 - Four-claim symmetric public-source flagship demo.
-- 55 passing tests across 12 files.
+- 61 passing tests across 15 files.
 - 8/8 golden audit cases plus causal and cross-claim-label leakage controls.
 - Strict structured-output validation and citation provenance.
 - Public-input hardening, quotas, sanitized errors, and security headers.
@@ -76,7 +76,7 @@ Future work could add exact-passage extraction for richer document types, shared
 
 - Public demo: <https://falsify-mu.vercel.app/>
 - Code repository: <https://github.com/tsuchiyatakahirolab/falsify>
-- Public YouTube video: `<PUBLIC_YOUTUBE_URL>`
+- Public YouTube video: <https://youtu.be/hht1DsS66n0>
 - Codex `/feedback` Session ID: `<PRIMARY_CODEX_FEEDBACK_SESSION_ID>`
 - License: MIT
 - Testing instructions: `docs/JUDGE_GUIDE.md`

@@ -174,7 +174,7 @@ Status: IN PROGRESS
 - finalize README;
 - document Codex use and GPT-5.6 use;
 - capture primary `/feedback` Session ID;
-- prepare <3 minute demo script and public YouTube video;
+- prepare <3 minute demo script and public YouTube video (complete: <https://youtu.be/hht1DsS66n0>);
 - add screenshots;
 - confirm Work & Productivity category unless product scope materially changes;
 - complete Devpost fields.

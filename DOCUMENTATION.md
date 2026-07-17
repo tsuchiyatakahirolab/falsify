@@ -9,8 +9,9 @@ Keep this file current throughout the build.
 - Current milestone: Milestone 10
 - Public demo: <https://falsify-mu.vercel.app/> (curated demo deployed; Gemini Production integration configured; free Search-grounding quota confirmed as zero)
 - Repository: <https://github.com/tsuchiyatakahirolab/falsify> (public, MIT)
+- Public video: <https://youtu.be/hht1DsS66n0> (1:50, public, English narration and captions)
 - Primary Codex `/feedback` Session ID: Not captured
-- Submission status: Devpost copy prepared; owner publication fields pending
+- Submission status: Public demo, repository, and YouTube video complete; `/feedback` Session ID and Devpost submission pending
 - Git baseline: `main` (Gemini quota-boundary release; see repository history for exact HEAD)
 
 ## Current product decision
@@ -330,3 +331,12 @@ Add dated entries below.
 - Corrected local deliverable: `C:\Users\Windows\Downloads\Falsify-OpenAI-Build-Week-Demo-public-v3.mp4`. The file exists locally at 116,540,505 bytes, reports 192 kbps audio, and has a SHA-256 distinct from v2.
 - Result: The general-public video candidate is rendered and under three minutes. Milestone 10 remains `IN PROGRESS` until owner playback review, public YouTube publication, the primary Codex `/feedback` Session ID, and Devpost submission are complete.
 - Next: Review the public-v3 MP4 end to end, then publish it publicly on YouTube and record the URL.
+
+### 2026-07-18 — Milestone 10 public YouTube release
+
+- Publication: Published `Falsify — Inspect the Evidence Behind Every Claim` publicly at <https://youtu.be/hht1DsS66n0> on the `Takahiro Tsuchiya | TSUCHIYA LAB` channel.
+- Upload verification: YouTube reports a 1:50 duration, `Public` visibility, no instant Premiere or schedule, and `No issues found` in the copyright check. The opening Falsify frame is the thumbnail, the audience is set to not made for kids, the AI-use disclosure is enabled for TTS narration, and English timed captions were uploaded from `docs/demo-90s.srt`.
+- Metadata: The evergreen title and description link the live demo and public repository, disclose the curated public-source demonstration, and describe the implemented typed GPT-5.6 Responses API path without presenting the quota-bound Gemini deployment as GPT-5.6.
+- External verification: A direct unauthenticated request resolved the public short URL to the YouTube watch page with the expected title.
+- Result: The public under-three-minute video requirement is complete. Milestone 10 remains `IN PROGRESS` only for the primary Codex `/feedback` Session ID, final signed-out link sweep, Devpost owner/team fields, and submission.
+- Next: Run `/feedback` in this primary build task, record the Session ID, then complete and submit the prepared Devpost entry.
