@@ -6,6 +6,8 @@ Falsify decomposes an argument into atomic claims, asks what would make each cla
 
 It is not a chatbot, a paper-level credibility score, or a political truth oracle. Findings stay claim-level, source-linked, qualified, and inspectable.
 
+**Public demo:** [falsify-mu.vercel.app](https://falsify-mu.vercel.app/) · **Source:** [github.com/tsuchiyatakahirolab/falsify](https://github.com/tsuchiyatakahirolab/falsify)
+
 ![Falsify Evidence Map](docs/assets/falsify-evidence-map-desktop.png)
 
 ## Judge path — 60 seconds, no API key required
@@ -132,7 +134,7 @@ Responses are runtime-validated with strict Zod schemas. Public URL retrieval re
 - The curated demo is not a fresh search and includes English paraphrases of multilingual official material.
 - Deterministic checks cover useful patterns, not every citation or statistical failure mode.
 - The in-memory rate limiter is per application instance; sustained public traffic needs platform or shared-store enforcement.
-- The local release environment had no `OPENAI_API_KEY`, so a deployed live GPT-5.6 smoke test remains required before submission.
+- The current public deployment has no `OPENAI_API_KEY`; the curated demo works, while a deployed live GPT-5.6 smoke test remains required after the key is configured.
 - Falsify does not establish deceptive intent unless evidence separately supports that attribution.
 
 ## Deploy and submit

@@ -19,8 +19,9 @@ Status date: 2026-07-17.
 
 ## Owner actions required
 
-- [ ] Create and push the public GitHub repository; fill `<PUBLIC_REPOSITORY_URL>`.
-- [ ] Deploy production with server-side `OPENAI_API_KEY` and `OPENAI_MODEL=gpt-5.6`; fill `<PUBLIC_DEMO_URL>`.
+- [x] Create and push the public GitHub repository: <https://github.com/tsuchiyatakahirolab/falsify>.
+- [x] Deploy the public curated demo: <https://falsify-mu.vercel.app/>.
+- [ ] Add the server-side `OPENAI_API_KEY` to Vercel Production; `OPENAI_MODEL` defaults to `gpt-5.6` and may be set explicitly.
 - [ ] Run and record the deployed live GPT-5.6/web-search smoke in `DOCUMENTATION.md`.
 - [ ] Configure platform-level rate/spend protection appropriate to expected traffic.
 - [ ] Record the under-three-minute demo, upload it publicly to YouTube, and fill `<PUBLIC_YOUTUBE_URL>`.

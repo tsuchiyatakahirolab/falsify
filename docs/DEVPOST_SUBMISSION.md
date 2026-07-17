@@ -74,8 +74,8 @@ Future work could add exact-passage extraction for richer document types, shared
 
 ## Submission fields
 
-- Public demo: `<PUBLIC_DEMO_URL>`
-- Code repository: `<PUBLIC_REPOSITORY_URL>`
+- Public demo: <https://falsify-mu.vercel.app/>
+- Code repository: <https://github.com/tsuchiyatakahirolab/falsify>
 - Public YouTube video: `<PUBLIC_YOUTUBE_URL>`
 - Codex `/feedback` Session ID: `<PRIMARY_CODEX_FEEDBACK_SESSION_ID>`
 - License: MIT

@@ -7,8 +7,8 @@ Keep this file current throughout the build.
 - Project: Falsify
 - Phase: Release candidate
 - Current milestone: Milestone 10
-- Public demo: Not deployed
-- Repository: Local release candidate validated; public remote not yet created
+- Public demo: <https://falsify-mu.vercel.app/> (curated demo ready; live GPT-5.6 key pending)
+- Repository: <https://github.com/tsuchiyatakahirolab/falsify> (public, MIT)
 - Primary Codex `/feedback` Session ID: Not captured
 - Submission status: Devpost copy prepared; owner publication fields pending
 - Git baseline: `main` at `2ae8b55f9298dddb60941a0d57d7b77cd16779d8`
@@ -210,3 +210,17 @@ Add dated entries below.
 - Result: `PARTIAL_PASS_OWNER_ACTION_REQUIRED`. The repository is a locally validated release candidate. Milestone 10 remains in progress until the public repository, deployment, live GPT-5.6 smoke, video, `/feedback` Session ID, and final Devpost submission are complete.
 - Validation note: Running `npm test` and `npm run eval:golden` concurrently on Windows caused one transient `EPERM` while both accessed the golden fixture. The required sequential release run passed; keep these checks sequential in the release procedure.
 - Next: Confirm the intended public GitHub owner/repository and production OpenAI key, then create the remote, deploy, and run the signed-out live smoke.
+
+### 2026-07-17 — Milestone 10 public deployment
+- Work completed: Created the public GitHub repository `tsuchiyatakahirolab/falsify`, pushed `main`, verified the remote commit and MIT license, connected the repository to the Vercel project `tsuchiya-labs-projects/falsify`, and deployed the production alias <https://falsify-mu.vercel.app/>.
+- Public deployment: Vercel deployment `dpl_95WcxRMbNRu1p7za93sBqu8zSA62` reached `READY`; the canonical alias and two Vercel-generated aliases resolve to the production build.
+- Public smoke:
+  - `/` — HTTP 200.
+  - `/api/demo` — HTTP 200 with `Cache-Control: no-store, max-age=0`.
+  - Security headers — PASS; CSP, HSTS, `nosniff`, and `X-Frame-Options: DENY` present.
+  - Private URL submission — PASS; HTTP 422 `PRIVATE_NETWORK_BLOCKED`.
+  - In-app browser — PASS; four Claim Cards, six source links, no horizontal overflow, and no console warnings/errors.
+  - Claim 2 adversarial re-check — PASS; outcome `qualified`, original/revised findings preserved, and the National Diet counter-evidence displayed.
+- Live-path boundary: Vercel currently has no environment variables for this project. A normal text submission returned `mode: sample`, `model: deterministic-fallback`, two claims, zero evidence items, and explicit limitations. This is the intended no-key behavior and is not counted as a live GPT-5.6/web-search pass.
+- Result: Public repository and judge-testable curated deployment are complete. Milestone 10 remains `IN PROGRESS` until the production OpenAI key, live GPT-5.6 smoke, platform-level limits, public YouTube demo, `/feedback` Session ID, and Devpost submission are complete.
+- Next: Add `OPENAI_API_KEY` to Vercel Production, redeploy, and run the live input from `docs/JUDGE_GUIDE.md`.

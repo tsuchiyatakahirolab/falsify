@@ -4,7 +4,7 @@
 
 Time required: about 60 seconds. No login or API key is required for this path.
 
-1. Open `<PUBLIC_DEMO_URL>`.
+1. Open <https://falsify-mu.vercel.app/>.
 2. Select **Load flagship public-source demo**.
 3. Read the four-item Claim Map:
    - Claim 1 preserves the supported official FY2026 draft budget proposal and planned-capability fact while distinguishing it from final Diet enactment.
@@ -42,4 +42,4 @@ Expected behavior: separate the quantitative premise from the analogy, show fals
 
 ## Known boundary
 
-The repository is release-validated locally, but `<PUBLIC_DEMO_URL>`, `<PUBLIC_REPOSITORY_URL>`, and the live GPT-5.6 smoke result must be filled by the owner after deployment.
+The public curated path is deployed and release-validated. The production deployment currently has no `OPENAI_API_KEY`, so fresh inputs use the visibly limited deterministic fallback until the key is configured and the live GPT-5.6/web-search smoke passes. Source: <https://github.com/tsuchiyatakahirolab/falsify>.
