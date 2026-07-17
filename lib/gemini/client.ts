@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 export const GEMINI_MODEL =
-  process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash-lite";
+  process.env.GEMINI_MODEL?.trim() || "gemini-3.1-flash-live-preview";
 
 let client: GoogleGenAI | null = null;
 
