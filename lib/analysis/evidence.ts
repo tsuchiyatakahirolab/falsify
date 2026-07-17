@@ -153,6 +153,7 @@ async function runEvidencePath(
   const client = getOpenAIClient();
   const response = await client.responses.parse({
     model: OPENAI_MODEL,
+    max_output_tokens: 8_000,
     reasoning: { effort: "medium" },
     tools: [{ type: "web_search" }],
     input: [

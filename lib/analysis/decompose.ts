@@ -217,6 +217,7 @@ export async function decomposeClaims(
   const client = getOpenAIClient();
   const response = await client.responses.parse({
     model: OPENAI_MODEL,
+    max_output_tokens: 6_000,
     reasoning: { effort: "medium" },
     input: [
       {

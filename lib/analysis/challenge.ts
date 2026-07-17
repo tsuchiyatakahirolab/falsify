@@ -7,23 +7,36 @@ import {
 import {
   challengeFlagshipFinding,
   FLAGSHIP_DEMO_ID,
+  flagshipAnalysis,
 } from "@/lib/demo/flagship";
 
 import { synthesizeFindings } from "./audit";
 import { retrieveAdversarialRecheck } from "./evidence";
+
+export class ChallengeInputError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ChallengeInputError";
+  }
+}
 
 export async function challengeFinding(
   analysis: AnalysisResult,
   claimId: string,
 ): Promise<ChallengeResult> {
   if (analysis.id === FLAGSHIP_DEMO_ID) {
+    if (JSON.stringify(analysis) !== JSON.stringify(flagshipAnalysis)) {
+      throw new ChallengeInputError(
+        "The submitted demo analysis does not match the canonical public fixture.",
+      );
+    }
     const demoChallenge = challengeFlagshipFinding(claimId);
     if (demoChallenge) return demoChallenge;
   }
   const claim = analysis.claims.find((item) => item.id === claimId);
   const original = analysis.findings.find((item) => item.claim_id === claimId);
   if (!claim || !original) {
-    throw new Error(
+    throw new ChallengeInputError(
       "The requested claim or finding does not exist in this analysis.",
     );
   }

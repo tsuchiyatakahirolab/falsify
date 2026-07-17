@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { flagshipAnalysis } from "../demo/flagship";
 import { challengeFinding } from "./challenge";
 import { analyzeInput } from "./orchestrate";
 
@@ -25,5 +26,13 @@ describe("challenge this finding", () => {
     } finally {
       if (previous) process.env.OPENAI_API_KEY = previous;
     }
+  });
+
+  it("does not trust a mutated client bundle with the flagship ID", async () => {
+    const mutated = structuredClone(flagshipAnalysis);
+    mutated.findings[1].analysis = "Client-controlled replacement.";
+    await expect(challengeFinding(mutated, "claim-2")).rejects.toMatchObject({
+      name: "ChallengeInputError",
+    });
   });
 });

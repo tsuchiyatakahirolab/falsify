@@ -1,4 +1,5 @@
 import { InputSchema, type FalsifyInput } from "@/lib/domain/schemas";
+import { fetchPublicText, PublicUrlError } from "@/lib/security/public-url";
 
 const MAX_INPUT_CHARS = 30_000;
 
@@ -28,31 +29,28 @@ async function normalizeUrlInput(input: FalsifyInput): Promise<FalsifyInput> {
   const url = input.source_url;
   if (!url) throw new Error("URL input is missing a source URL.");
 
-  const response = await fetch(url, {
-    headers: {
-      "User-Agent": "FalsifyBot/0.1 (+public evidence verification)",
-      Accept: "text/html, text/plain, application/json",
-    },
-    redirect: "follow",
-    signal: AbortSignal.timeout(10_000),
-  });
-  if (!response.ok) {
-    throw new Error(`The source returned HTTP ${response.status}.`);
-  }
-
-  const contentType = response.headers.get("content-type") ?? "";
+  const response = await fetchPublicText(url);
+  const contentType = response.contentType;
   if (
     !contentType.includes("text/html") &&
     !contentType.includes("text/plain") &&
     !contentType.includes("application/json")
   ) {
-    throw new Error("This URL does not expose a supported text response.");
+    throw new PublicUrlError(
+      "UNSUPPORTED_CONTENT_TYPE",
+      "This URL does not expose a supported text response.",
+    );
   }
-  const raw = await response.text();
+  const raw = response.body;
   const content = contentType.includes("text/html")
     ? extractReadableText(raw)
     : raw.trim();
-  if (!content) throw new Error("No readable text was found at this URL.");
+  if (!content) {
+    throw new PublicUrlError(
+      "NO_READABLE_TEXT",
+      "No readable text was found at this URL.",
+    );
+  }
 
   return InputSchema.parse({
     ...input,

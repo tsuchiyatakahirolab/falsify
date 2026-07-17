@@ -6,7 +6,7 @@ Keep this file current throughout the build.
 
 - Project: Falsify
 - Phase: Implementation
-- Current milestone: Milestone 8
+- Current milestone: Milestone 9
 - Public demo: Not deployed
 - Repository: Milestone 0 application baseline complete
 - Primary Codex `/feedback` Session ID: Not captured
@@ -70,6 +70,10 @@ Reason: This delivers the complete interaction without a database, preserves ins
 ### D-013 — Curated flagship fixture with symmetric intent standards
 Decision: Ship the flagship China-to-Japan narrative as a versioned, public-source sample fixture while keeping live analysis generic. Apply the same evidence threshold to both the original PRC attribution of Japanese intent and Japan's reciprocal attribution of Chinese intent.
 Reason: A stable judge path must remain demonstrable without an API key, but political conclusions must not be hard-coded into the analysis engine. The fixture exposes its curation date, sources, translations, and limitations.
+
+### D-014 — Pinned public-network retrieval and best-effort demo quotas
+Decision: Resolve and validate every public URL hop, reject any private/local/reserved address, pin the approved address into the outbound socket lookup, cap redirects/time/bytes, and accept only standard scheme ports. Bound API bodies and GPT output, return sanitized errors, send no-store/security headers, and apply per-instance quotas keyed only by Vercel's trusted client-IP header.
+Reason: Public URL analysis otherwise creates an SSRF and resource-exhaustion surface. The in-memory limiter is intentionally a Build Week best-effort control; a multi-instance production service should add platform-level rate limiting or a shared store.
 
 ## Build log
 
@@ -155,3 +159,18 @@ Add dated entries below.
   - In-app browser adversarial re-check — PASS; Claim 2 changed to `QUALIFIED`, preserved the original and revised verdicts, and exposed the new National Diet counter-evidence.
 - Result: Milestones 6 and 7 exit tests passed. Falsify's own finding is challengeable, and the flagship demo communicates the product's non-scoring, symmetric evidence method in under 60 seconds.
 - Next: Harden public URL ingestion, quotas, API errors, response headers, and dependency posture before release evals.
+
+### 2026-07-17 — Milestone 8
+- Work completed: Replaced direct URL fetches with public-network-only retrieval that rejects credentials, non-default ports, localhost/private/link-local/reserved/mapped addresses, validates every redirect, rejects mixed public/private DNS answers, and pins the approved address into the HTTP(S) socket lookup. Added a ten-second total deadline, one-megabyte streamed response cap, identity encoding, redirect-body discard, 64 KiB analysis and 512 KiB challenge request caps, bounded GPT output, safe error codes, no-store API responses, security headers, and best-effort per-instance quotas. Added canonical-fixture integrity validation before the curated challenge shortcut.
+- Independent review: A bounded read-only security review identified SSRF, response/body exhaustion, raw error, quota/header, and demo-integrity risks. Its follow-up reviewed the new implementation and prompted expanded IPv4-mapped IPv6 detection, total rather than inactivity-only timeouts, trusted-proxy tightening, bucket growth bounds, redirect-body discard, and scheme-specific ports. All were integrated by the primary thread.
+- Commands/tests:
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 12 files and 54 tests passed, including private/mapped/numeric-address rejection, mixed DNS rejection, body limits, quota/reset/bucket bounds, SSRF API response, safe demo mutation rejection, and exact canonical challenge acceptance.
+  - `npm run lint` — PASS.
+  - `npm run build` — PASS.
+  - `npm audit` and `npm audit --omit=dev` — PASS; 0 vulnerabilities.
+  - Production HTTP hardening smoke — PASS; CSP, HSTS, nosniff, frame denial, and no-store headers present; loopback analysis returned safe HTTP 422 `PRIVATE_NETWORK_BLOCKED`.
+  - In-app browser production smoke — PASS; CSP did not break the page, the curated badge rendered, four claims and two symmetric attribution flags appeared, and no console errors were reported.
+- Result: Milestone 8 exit test passed. Malformed and untrusted input fails safely, server keys remain private, and public deployment has bounded request/retrieval/cost surfaces appropriate to the MVP.
+- Residual limitation: The in-memory quota is per application instance. Public deployment should pair it with Vercel Firewall/rate limiting or a shared limiter before sustained high traffic.
+- Next: Run the clean-install golden eval and regression suite, validate responsive layouts, improve release polish, and repeat the full core flow.

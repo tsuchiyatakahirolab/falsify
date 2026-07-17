@@ -136,7 +136,7 @@ Exit test:
 
 ## Milestone 8 — Privacy, security, public hardening
 
-Status: IN PROGRESS
+Status: COMPLETE (2026-07-17)
 
 - prompt-injection boundaries;
 - server-side API key only;
@@ -153,7 +153,7 @@ Exit test:
 
 ## Milestone 9 — Evals and polish
 
-Status: NOT STARTED
+Status: IN PROGRESS
 
 - run golden eval set;
 - add regression tests;

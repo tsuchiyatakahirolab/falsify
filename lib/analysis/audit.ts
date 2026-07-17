@@ -270,6 +270,7 @@ export async function synthesizeFindings(
 
   const response = await getOpenAIClient().responses.parse({
     model: OPENAI_MODEL,
+    max_output_tokens: 6_000,
     reasoning: { effort: "medium" },
     input: [
       {
