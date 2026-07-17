@@ -95,6 +95,9 @@ export function safeProviderFailureReason(reason: unknown): string {
   ) {
     return "Gemini rejected the API key or project permission";
   }
+  if (/grounding attribution was not returned/i.test(message)) {
+    return "Gemini did not return the required Search Suggestions attribution";
+  }
   if (status === 429 || /RESOURCE_EXHAUSTED|quota|rate.?limit/i.test(message)) {
     return "Gemini free-tier quota or rate limit was reached";
   }
@@ -310,11 +313,10 @@ async function runGeminiEvidencePath(
     `<untrusted_claims>\n${JSON.stringify(claims)}\n</untrusted_claims>\n\nPrepare a concise evidence memo. Search independently for every claim and distinguish direct evidence from context. Every evidence-bearing sentence must begin with its exact claim ID in square brackets, for example [claim-1].`,
     `${UNTRUSTED_CONTENT_POLICY}\n${investigatorPrompt}\nEvery evidence-bearing sentence must begin with the exact supplied claim ID in square brackets. Keep each sentence focused on one claim so grounding metadata can be mapped conservatively.`,
   );
-  if (!search.searchSuggestionHtml) {
+  const evidence = evidenceFromGeminiGrounding(search, claims, path);
+  if (evidence.length && !search.searchSuggestionHtml) {
     throw new Error("Gemini grounding attribution was not returned.");
   }
-
-  const evidence = evidenceFromGeminiGrounding(search, claims, path);
   if (!evidence.length) {
     return {
       evidence: [],

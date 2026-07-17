@@ -146,6 +146,11 @@ describe("safe provider failure classification", () => {
     expect(safeProviderFailureReason({ status: 403 })).toContain("API key");
     expect(safeProviderFailureReason({ status: 429 })).toContain("quota");
     expect(safeProviderFailureReason({ status: 404 })).toContain("model");
+    expect(
+      safeProviderFailureReason(
+        new Error("Gemini grounding attribution was not returned."),
+      ),
+    ).toContain("Search Suggestions");
     expect(safeProviderFailureReason(new Error("secret raw detail"))).toBe(
       "the Gemini request could not be completed",
     );
