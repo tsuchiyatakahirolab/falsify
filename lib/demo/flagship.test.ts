@@ -19,6 +19,38 @@ describe("flagship China-to-Japan narrative demo", () => {
       "ATTRIBUTION_NOT_ESTABLISHED",
     );
     expect(flagshipAnalysis).not.toHaveProperty("credibility_score");
+    expect(flagshipAnalysis.claims[0].normalized_claim).toContain(
+      "draft defense budget proposal",
+    );
+    expect(flagshipAnalysis.findings[0].analysis).toContain(
+      "do not show final Diet enactment",
+    );
+    for (const claim of flagshipAnalysis.claims) {
+      expect(
+        flagshipAnalysis.input.content.slice(
+          claim.source_span!.start,
+          claim.source_span!.end,
+        ),
+      ).toBe(claim.original_text);
+    }
+    for (const finding of flagshipAnalysis.findings) {
+      const supportStances = flagshipAnalysis.evidence
+        .filter((item) => finding.supporting_evidence_ids.includes(item.id))
+        .map((item) => item.stance);
+      const challengeStances = flagshipAnalysis.evidence
+        .filter((item) => finding.challenging_evidence_ids.includes(item.id))
+        .map((item) => item.stance);
+      expect(
+        supportStances.every(
+          (stance) => stance === "supporting" || stance === "contextual",
+        ),
+      ).toBe(true);
+      expect(
+        challengeStances.every(
+          (stance) => stance === "contradicting" || stance === "qualifying",
+        ),
+      ).toBe(true);
+    }
   });
 
   it("qualifies Falsify's own finding with new domestic counter-evidence", () => {

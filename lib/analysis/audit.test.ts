@@ -29,10 +29,7 @@ describe("deterministic audit engine", () => {
   it("matches the intended issue or verdict for every golden case", async () => {
     for (const golden of goldenCases()) {
       const decomposition = decomposeClaimsLocally(golden.input);
-      const audits = auditClaimsDeterministically(
-        decomposition.claims,
-        golden.input,
-      );
+      const audits = auditClaimsDeterministically(decomposition.claims);
       const issues = new Set(audits.flatMap((audit) => audit.issue_labels));
       if (golden.expected_primary_issue) {
         expect(issues.has(golden.expected_primary_issue), golden.id).toBe(true);
@@ -72,6 +69,19 @@ describe("deterministic audit engine", () => {
     expect(result.findings[0].issue_labels).toContain("CAUSAL_OVERREACH");
     expect(result.findings[0].issue_labels).not.toContain(
       "FALSE_FACTUAL_CLAIM",
+    );
+  });
+
+  it("does not leak an analogy label into an adjacent factual claim", () => {
+    const input =
+      "Japan's FY2026 draft defense budget proposal reached a record high. This alone proves a revival of pre-war militarism.";
+    const claims = decomposeClaimsLocally(input).claims;
+    const audits = auditClaimsDeterministically(claims);
+    expect(audits[0].issue_labels).not.toContain(
+      "HISTORICAL_ANALOGY_NOT_ESTABLISHED",
+    );
+    expect(audits[1].issue_labels).toContain(
+      "HISTORICAL_ANALOGY_NOT_ESTABLISHED",
     );
   });
 });

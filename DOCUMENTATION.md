@@ -5,12 +5,12 @@ Keep this file current throughout the build.
 ## Current status
 
 - Project: Falsify
-- Phase: Implementation
+- Phase: Release candidate
 - Current milestone: Milestone 10
 - Public demo: Not deployed
-- Repository: Milestone 0 application baseline complete
+- Repository: Local release candidate validated; public remote not yet created
 - Primary Codex `/feedback` Session ID: Not captured
-- Submission status: Devpost draft
+- Submission status: Devpost copy prepared; owner publication fields pending
 - Git baseline: `main` at `2ae8b55f9298dddb60941a0d57d7b77cd16779d8`
 
 ## Current product decision
@@ -191,3 +191,22 @@ Add dated entries below.
 - Result: Milestone 9 exit test passed. The clean-install core flow is repeatable, responsive, and backed by an explicit golden evaluation record.
 - Evaluation boundary: The environment has no `OPENAI_API_KEY`; live GPT-5.6/web-search quality remains an owner-run deployed smoke test and is not represented as locally passed.
 - Next: Finalize the public README, judge/deployment guidance, Devpost copy, sub-three-minute demo script, release checklist, and final adversarial release decision.
+
+### 2026-07-17 — Milestone 10 release-candidate validation
+- Work completed: Rewrote the README around the judge path and differentiating method; prepared the deployment guide, judge guide, Devpost copy, 2:40 demo script, and release checklist; corrected the flagship sample to distinguish the official FY2026 draft budget proposal from final Diet enactment; changed contextual sources used to challenge an inference into the challenging evidence column; prevented deterministic issue labels from leaking across adjacent claims; and clarified that evidence excerpts are source summaries or paraphrases unless exact quoted text was inspected.
+- Commands/tests:
+  - `npm run format` — PASS.
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 12 files and 55 tests passed.
+  - `npm run lint` — PASS.
+  - `npm run eval:golden` — PASS; 8/8 cases plus the causal and cross-claim-label leakage controls passed.
+  - `npm audit` and `npm audit --omit=dev` — PASS; 0 vulnerabilities.
+  - `npm run build` — PASS; the page and all three API routes built successfully.
+  - `git diff --check` — PASS; only expected Git line-ending notices were emitted.
+  - In-app browser production smoke — PASS; loaded four curated claims and six allowlisted sources, challenged Claim 2, received `qualified`, preserved original/revised findings, and exposed the National Diet counter-evidence.
+  - Desktop browser audit — PASS; four Claim Cards, no horizontal overflow, and no console warnings/errors.
+  - 390 px browser audit — PASS after viewport reflow; one-column Claim Card content, four challenge controls, no horizontal overflow, and no console warnings/errors.
+- Environment readiness: GitHub CLI and Vercel CLI are authenticated. No Git remote, public `falsify` repository, Vercel project, `.env.local`, or process-level `OPENAI_API_KEY` exists yet.
+- Result: `PARTIAL_PASS_OWNER_ACTION_REQUIRED`. The repository is a locally validated release candidate. Milestone 10 remains in progress until the public repository, deployment, live GPT-5.6 smoke, video, `/feedback` Session ID, and final Devpost submission are complete.
+- Validation note: Running `npm test` and `npm run eval:golden` concurrently on Windows caused one transient `EPERM` while both accessed the golden fixture. The required sequential release run passed; keep these checks sequential in the release procedure.
+- Next: Confirm the intended public GitHub owner/repository and production OpenAI key, then create the remote, deploy, and run the signed-out live smoke.

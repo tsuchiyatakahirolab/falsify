@@ -17,7 +17,10 @@ Result: **PASS — 8/8 golden cases matched their intended primary issue or verd
 | G007 | Preserve supported criticism despite loaded framing | PASS — `LEGITIMATE_CRITICISM` |
 | G008 | Flag an unevidenced asymmetric comparison carefully | PASS — `SELECTIVE_CONTEXT` |
 
-The negative-control assertion also passed: G001 does not relabel the supported observational association as a false factual claim merely because the causal conclusion overreaches.
+Two regression controls also passed:
+
+- G001 does not relabel the supported observational association as a false factual claim merely because the causal conclusion overreaches.
+- An adjacent historical-analogy claim does not leak its issue label into a separate draft-budget factual claim.
 
 ## Interpretation boundary
 

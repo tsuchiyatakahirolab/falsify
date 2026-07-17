@@ -151,10 +151,9 @@ function checkForLabel(
 
 export function auditClaimsDeterministically(
   claims: Claim[],
-  inputText: string,
 ): AuditObservation[] {
   return claims.map((claim) => {
-    const text = `${claim.original_text} ${inputText}`;
+    const text = `${claim.original_text} ${claim.normalized_claim}`;
     const issue_labels = issueLabelsFor(text, claim);
     return AuditObservationSchema.parse({
       claim_id: claim.id,
@@ -179,7 +178,6 @@ function localFinding(
   claim: Claim,
   evidence: Evidence[],
   audit: AuditObservation,
-  inputText: string,
 ): Finding {
   const support = evidence.filter(
     (item) => item.claim_id === claim.id && item.stance === "supporting",
@@ -191,7 +189,7 @@ function localFinding(
   );
   const legitimateCriticism =
     /\b(criticism accurately|factual criticism remains valid|documented policy change)\b/i.test(
-      inputText,
+      `${claim.original_text} ${claim.normalized_claim}`,
     );
 
   let verdict: Finding["verdict"];
@@ -234,17 +232,32 @@ function mergeDeterministicAudits(
   audit: AuditObservation,
   evidence: Evidence[],
 ): Finding {
-  const evidenceIds = new Set(evidence.map((item) => item.id));
+  const evidenceById = new Map(evidence.map((item) => [item.id, item]));
   return FindingSchema.parse({
     ...modelFinding,
     issue_labels: [
       ...new Set([...modelFinding.issue_labels, ...audit.issue_labels]),
     ],
-    supporting_evidence_ids: modelFinding.supporting_evidence_ids.filter((id) =>
-      evidenceIds.has(id),
+    supporting_evidence_ids: modelFinding.supporting_evidence_ids.filter(
+      (id) => {
+        const item = evidenceById.get(id);
+        return (
+          item?.stance === "supporting" ||
+          (item?.stance === "contextual" &&
+            !item.id.startsWith("challenge-evidence-"))
+        );
+      },
     ),
     challenging_evidence_ids: modelFinding.challenging_evidence_ids.filter(
-      (id) => evidenceIds.has(id),
+      (id) => {
+        const item = evidenceById.get(id);
+        return (
+          item?.stance === "contradicting" ||
+          item?.stance === "qualifying" ||
+          (item?.stance === "contextual" &&
+            item.id.startsWith("challenge-evidence-"))
+        );
+      },
     ),
   });
 }
@@ -254,13 +267,12 @@ export async function synthesizeFindings(
   claims: Claim[],
   evidence: Evidence[],
 ): Promise<AuditResult> {
-  const audits = auditClaimsDeterministically(claims, input.content);
+  const audits = auditClaimsDeterministically(claims);
   const local = claims.map((claim) =>
     localFinding(
       claim,
       evidence,
       audits.find((audit) => audit.claim_id === claim.id)!,
-      input.content,
     ),
   );
 

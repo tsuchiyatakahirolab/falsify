@@ -1156,7 +1156,8 @@ h2 {
 .source-card-meta {
   margin-bottom: 7px;
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
   color: var(--ink-soft);
   font-size: 0.55rem;
   text-transform: capitalize;
@@ -1183,6 +1184,25 @@ h2 {
   color: var(--ink-soft);
   font-size: 0.67rem;
   line-height: 1.5;
+}
+
+.source-summary,
+.source-note {
+  display: grid;
+  gap: 3px;
+}
+
+.source-summary strong,
+.source-note strong {
+  color: var(--ink);
+  font-size: 0.54rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.source-note {
+  padding-left: 8px;
+  border-left: 2px solid var(--line);
 }
 
 .source-card footer {
@@ -1321,24 +1341,45 @@ h2 {
   background: var(--paper);
 }
 
-.finding-comparison div {
+.finding-snapshot {
   display: grid;
-  gap: 4px;
+  gap: 6px;
 }
 
-.finding-comparison div:last-child {
-  text-align: right;
+.finding-snapshot h5 {
+  margin: 5px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
-.finding-comparison span {
+.finding-snapshot > span,
+.snapshot-unresolved > span {
   color: var(--ink-soft);
   font-size: 0.57rem;
   text-transform: uppercase;
 }
 
-.finding-comparison strong {
+.finding-snapshot > strong {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 0.77rem;
+}
+
+.finding-snapshot > p,
+.snapshot-unresolved {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+.issue-list.compact {
+  margin-top: 3px;
+}
+
+.snapshot-unresolved ul {
+  margin: 4px 0 0;
+  padding-left: 16px;
 }
 
 .recheck-sources {
@@ -1450,6 +1491,15 @@ h2 {
 
   .result-evidence-grid {
     grid-template-columns: 1fr;
+  }
+
+  .finding-comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .finding-comparison > span {
+    text-align: center;
+    transform: rotate(90deg);
   }
 
   .result-evidence-column + .result-evidence-column {

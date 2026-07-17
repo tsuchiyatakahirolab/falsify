@@ -7,6 +7,26 @@ import {
 
 const generatedAt = "2026-07-17T00:00:00.000Z";
 
+const claim1Original =
+  "Japan's official FY2026 draft defense budget proposal reached a record high and includes planned long-range strike capabilities.";
+const claim2Original =
+  "The draft budget proposal and planned capability expansion establish a revival of pre-1945 Japanese militarism.";
+const claim3Original =
+  "Japan invokes a China threat with the intention of deceiving international society.";
+const claim4Original =
+  "Japan's defense minister replied that China's criticism was intentionally false information.";
+const flagshipInputContent = [
+  claim1Original,
+  claim2Original,
+  claim3Original,
+  claim4Original,
+].join(" ");
+
+function sourceSpanFor(text: string): { start: number; end: number } {
+  const start = flagshipInputContent.indexOf(text);
+  return { start, end: start + text.length };
+}
+
 export const FLAGSHIP_DEMO_ID = "demo-japan-defense-narrative-v1";
 
 export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
@@ -14,9 +34,9 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
   generated_at: generatedAt,
   input: {
     type: "text",
-    content:
-      "Japan's approved FY2026 defense budget reached a record high and includes long-range strike capabilities. These changes establish a revival of pre-1945 militarism and show that Japan is deceiving international society by invoking a China threat. Japan's defense minister replied that China's criticism was intentionally false information.",
-    title: "Reciprocal official narratives on Japan's FY2026 defense budget",
+    content: flagshipInputContent,
+    title:
+      "Reciprocal official narratives on Japan's FY2026 draft defense budget proposal",
     source_url: null,
     file_name: null,
     mime_type: null,
@@ -24,28 +44,30 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
   claims: [
     {
       id: "claim-1",
-      original_text:
-        "Japan's approved FY2026 defense budget reached a record high and includes long-range strike capabilities.",
+      original_text: claim1Original,
       normalized_claim:
-        "Japan's FY2026 defense budget is a record high and funds expanded long-range strike capabilities.",
+        "Japan's official FY2026 draft defense budget proposal is record-scale and includes planned investment in long-range strike capabilities.",
       claim_type: "quantitative",
       testability: "empirically_testable",
       evidence_requirements: [
-        "Japan's official FY2026 defense budget and capability allocations",
+        "Japan's official FY2026 draft budget proposal and planned capability allocations",
       ],
       falsification_questions: [
-        "Do Japan's enacted budget documents show a lower total or no funding for the stated long-range capabilities?",
+        "Do Japan's draft budget documents show a lower proposed total or no planned funding for the stated long-range capabilities?",
       ],
       time_sensitive: true,
-      entities: ["Japan", "Ministry of Defense", "FY2026 defense budget"],
-      source_span: { start: 0, end: 110 },
+      entities: [
+        "Japan",
+        "Ministry of Defense",
+        "FY2026 draft defense budget proposal",
+      ],
+      source_span: sourceSpanFor(claim1Original),
     },
     {
       id: "claim-2",
-      original_text:
-        "These changes establish a revival of pre-1945 militarism.",
+      original_text: claim2Original,
       normalized_claim:
-        "The budget and capability expansion establish a revival of pre-1945 Japanese militarism.",
+        "The draft budget proposal and planned capability expansion establish a revival of pre-1945 Japanese militarism.",
       claim_type: "historical_analogy",
       testability: "partially_testable",
       evidence_requirements: [
@@ -59,12 +81,11 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
       ],
       time_sensitive: false,
       entities: ["Japan", "pre-1945 militarism"],
-      source_span: { start: 111, end: 169 },
+      source_span: sourceSpanFor(claim2Original),
     },
     {
       id: "claim-3",
-      original_text:
-        "Japan is deceiving international society by invoking a China threat.",
+      original_text: claim3Original,
       normalized_claim:
         "Japan invokes a China threat with the intention of deceiving international society.",
       claim_type: "attribution_intent",
@@ -77,12 +98,11 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
       ],
       time_sensitive: false,
       entities: ["Japan", "China", "international society"],
-      source_span: { start: 174, end: 247 },
+      source_span: sourceSpanFor(claim3Original),
     },
     {
       id: "claim-4",
-      original_text:
-        "Japan's defense minister replied that China's criticism was intentionally false information.",
+      original_text: claim4Original,
       normalized_claim:
         "China's criticism was intentionally false information.",
       claim_type: "attribution_intent",
@@ -96,7 +116,7 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
       ],
       time_sensitive: false,
       entities: ["Japan Ministry of Defense", "China"],
-      source_span: { start: 248, end: 337 },
+      source_span: sourceSpanFor(claim4Original),
     },
   ],
   evidence: [
@@ -110,7 +130,7 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
       published_at: "2025-12-26",
       source_type: "primary_official",
       excerpt:
-        "The ministry's budget overview documents the record-scale allocation and planned stand-off defense capabilities.",
+        "The ministry's overview documents a record-scale draft budget proposal and planned stand-off defense capabilities.",
       relevance: "direct",
       directness: "directly_supports",
       notes: "Primary budget source; manually reviewed for this curated demo.",
@@ -125,7 +145,7 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
       published_at: "2025-12-26",
       source_type: "primary_official",
       excerpt:
-        "The budget supports a material capability expansion, including stand-off defense systems.",
+        "The draft budget proposal supports planned capability expansion, including stand-off defense systems.",
       relevance: "direct",
       directness: "partially_supports",
       notes:
@@ -134,7 +154,7 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
     {
       id: "evidence-3",
       claim_id: "claim-2",
-      stance: "contextual",
+      stance: "qualifying",
       title: "National Security Strategy of Japan",
       url: "https://www.cas.go.jp/jp/siryou/221216anzenhoshou/national_security_strategy_2022_pamphlet-e.pdf",
       publisher: "Cabinet Secretariat of Japan",
@@ -204,10 +224,11 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
       verdict: "SUPPORTED",
       issue_labels: [],
       factual_core:
-        "Japan approved a record-scale FY2026 defense budget with material stand-off capability investment.",
+        "Japan's Ministry of Defense published a record-scale FY2026 draft defense budget proposal with material planned stand-off capability investment.",
       analysis:
-        "The official budget directly supports the amount and capability premise. This finding does not decide what broader political meaning should be assigned to the buildup.",
+        "The official draft budget materials directly support the proposed amount and capability plan. They do not show final Diet enactment or subsequent execution, and they do not decide what broader political meaning should be assigned to the buildup.",
       unresolved: [
+        "Final Diet enactment and subsequent execution can differ from the published draft proposal.",
         "Cross-country comparisons depend on exchange rates, accounting scope, and denominator.",
       ],
       supporting_evidence_ids: ["evidence-1"],
@@ -222,15 +243,15 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
         "INFERENCE_EXCEEDS_EVIDENCE",
       ],
       factual_core:
-        "The budget and capability expansion are real and can support legitimate concern about Japan's changing defense posture.",
+        "The draft budget proposal and capability plan are real and can support legitimate concern about Japan's changing defense posture.",
       analysis:
-        "Those facts do not independently establish a revival of pre-1945 militarism. That analogy requires explicit institutional and political criteria beyond expenditure growth. Japan's own strategy offers a narrower deterrence rationale, while comparative data shows that regional context matters.",
+        "Those proposal facts do not independently establish a revival of pre-1945 militarism. That analogy requires explicit institutional and political criteria beyond planned expenditure growth. Japan's own strategy offers a narrower deterrence rationale, while comparative data shows that regional context matters.",
       unresolved: [
         "The proper threshold for militarization is contested.",
         "Constitutional and doctrinal implications require expert interpretation.",
       ],
-      supporting_evidence_ids: ["evidence-2", "evidence-3"],
-      challenging_evidence_ids: ["evidence-4"],
+      supporting_evidence_ids: ["evidence-2"],
+      challenging_evidence_ids: ["evidence-3", "evidence-4"],
       human_judgment_required: true,
     },
     {
@@ -369,7 +390,7 @@ export function challengeFlagshipFinding(
     revised_finding: {
       ...original,
       analysis:
-        "The budget and capability expansion still do not independently establish a revival of pre-1945 militarism. However, Japanese parliamentary material documents genuine domestic concern about the scale, constitutional implications, and direction of defense transformation. A rebuttal claiming there is no legitimate basis for concern would therefore be too broad.",
+        "The draft budget proposal and planned capability expansion still do not independently establish a revival of pre-1945 militarism. However, Japanese parliamentary material documents genuine domestic concern about the scale, constitutional implications, and direction of defense transformation. A rebuttal claiming there is no legitimate basis for concern would therefore be too broad.",
       unresolved: [
         "The historical analogy remains unestablished under explicit institutional criteria.",
         "How much current policy erodes post-war restraint remains a legitimate contested interpretation.",

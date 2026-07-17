@@ -1,6 +1,6 @@
 # OpenAI Build Week Requirements Snapshot
 
-Verified against official OpenAI Build Week / Devpost pages on 2026-07-16.
+Verified against official OpenAI Build Week / Devpost pages on 2026-07-17.
 
 ## Core requirement
 

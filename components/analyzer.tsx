@@ -31,16 +31,63 @@ function EvidenceItem({ evidence }: { evidence: Evidence }) {
       <div className="source-card-meta">
         <span>{evidence.source_type.replaceAll("_", " ")}</span>
         <span>{evidence.relevance}</span>
+        <span>{evidence.directness.replaceAll("_", " ")}</span>
       </div>
       <a href={evidence.url} target="_blank" rel="noreferrer">
         {evidence.title}
         <span aria-hidden="true">↗</span>
       </a>
-      <p>{evidence.excerpt ?? "No verified excerpt was returned."}</p>
+      <p className="source-summary">
+        <strong>Source summary</strong>
+        {evidence.excerpt ?? "No source summary was returned."}
+      </p>
+      {evidence.notes ? (
+        <p className="source-note">
+          <strong>Provenance note</strong>
+          {evidence.notes}
+        </p>
+      ) : null}
       <footer>
         <span>{evidence.publisher ?? new URL(evidence.url).hostname}</span>
         {evidence.published_at ? <span>{evidence.published_at}</span> : null}
       </footer>
+    </article>
+  );
+}
+
+function FindingSnapshot({
+  label,
+  finding,
+}: {
+  label: string;
+  finding: Finding;
+}) {
+  return (
+    <article className="finding-snapshot">
+      <span>{label}</span>
+      <strong>{VERDICT_LABELS[finding.verdict]}</strong>
+      {finding.factual_core ? <h5>{finding.factual_core}</h5> : null}
+      <p>{finding.analysis}</p>
+      {finding.issue_labels.length ? (
+        <div
+          className="issue-list compact"
+          aria-label={`${label} audit issues`}
+        >
+          {finding.issue_labels.map((issue) => (
+            <span key={issue}>{issue.replaceAll("_", " ")}</span>
+          ))}
+        </div>
+      ) : null}
+      {finding.unresolved.length ? (
+        <div className="snapshot-unresolved">
+          <span>Unresolved</span>
+          <ul>
+            {finding.unresolved.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </article>
   );
 }
@@ -90,10 +137,17 @@ function ClaimCard({
   const audit = result.audits.find((item) => item.claim_id === claim.id);
   const evidence = result.evidence.filter((item) => item.claim_id === claim.id);
   const support = evidence.filter(
-    (item) => item.stance === "supporting" || item.stance === "contextual",
+    (item) =>
+      item.stance === "supporting" ||
+      (item.stance === "contextual" &&
+        !item.id.startsWith("challenge-evidence-")),
   );
   const challengingEvidence = evidence.filter(
-    (item) => item.stance === "contradicting" || item.stance === "qualifying",
+    (item) =>
+      item.stance === "contradicting" ||
+      item.stance === "qualifying" ||
+      (item.stance === "contextual" &&
+        item.id.startsWith("challenge-evidence-")),
   );
   if (!finding) return null;
 
@@ -182,19 +236,15 @@ function ClaimCard({
             </div>
             <p>{challenge.explanation}</p>
             <div className="finding-comparison">
-              <div>
-                <span>Original</span>
-                <strong>
-                  {VERDICT_LABELS[challenge.original_finding.verdict]}
-                </strong>
-              </div>
+              <FindingSnapshot
+                label="Original finding"
+                finding={challenge.original_finding}
+              />
               <span aria-hidden="true">→</span>
-              <div>
-                <span>Revised</span>
-                <strong>
-                  {VERDICT_LABELS[challenge.revised_finding.verdict]}
-                </strong>
-              </div>
+              <FindingSnapshot
+                label="Revised finding"
+                finding={challenge.revised_finding}
+              />
             </div>
             {challenge.new_evidence.length ? (
               <div className="recheck-sources">

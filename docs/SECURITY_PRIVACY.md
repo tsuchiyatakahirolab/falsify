@@ -11,7 +11,7 @@ Falsify processes untrusted:
 
 These inputs may contain prompt injection, malicious links, misleading instructions, or sensitive unpublished content.
 
-## Required controls
+## Implemented controls
 
 ### Prompt injection
 - Treat retrieved content as evidence data, not as instructions.
@@ -33,12 +33,15 @@ Default policy:
 - do not promise "zero retention" unless the deployed configuration actually guarantees it.
 
 ### Public demo
-- rate limit requests;
-- cap document/input size;
-- limit expensive deep analysis;
-- prevent arbitrary server-side URL fetching from becoming SSRF;
-- use safe URL validation;
-- set timeouts.
+- API bodies, source downloads, input text, and GPT output are bounded.
+- Analysis and challenge routes have best-effort per-instance quotas with `Retry-After` responses.
+- Public URL retrieval rejects credentials, non-default ports, local/private/reserved addresses, and mixed public/private DNS results.
+- Every redirect is revalidated and the approved DNS address is pinned into the outbound socket lookup to prevent rebinding between validation and connection.
+- Redirects, total wall time, and streamed bytes are capped; compressed transfer is not requested.
+- API errors use stable public codes and do not expose raw upstream/internal messages.
+- API responses are `no-store`; the application sends CSP, HSTS in production, frame denial, `nosniff`, a restrictive referrer policy, and a permissions policy.
+
+Residual limitation: the limiter is in-memory and per application instance. A sustained public service should add platform-level or shared-store enforcement.
 
 ## Epistemic safety
 

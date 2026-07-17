@@ -31,6 +31,8 @@ Prefer primary official records, original datasets, and original research where
 appropriate. Do not treat a search snippet as evidence when the underlying page can
 be inspected. Return only URLs you actually opened or received through web search.
 Do not exaggerate directness and do not fill evidence gaps with plausible citations.
+Treat each excerpt field as a concise source summary or paraphrase. Do not present it
+as a verified quotation unless exact quoted text was actually inspected.
 `;
 
 export const CHALLENGE_SEARCH_PROMPT = `
@@ -39,6 +41,8 @@ that contradicts, narrows, qualifies, or provides material omitted context for e
 supplied claim. Prefer primary sources and credible counter-evidence. Do not merely
 rephrase the support case. Return only URLs you actually opened or received through
 web search. Missing counter-evidence must remain an explicit gap, never an invention.
+Treat each excerpt field as a concise source summary or paraphrase. Do not present it
+as a verified quotation unless exact quoted text was actually inspected.
 `;
 
 export const FINDING_SYNTHESIS_PROMPT = `

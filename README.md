@@ -1,85 +1,76 @@
 # Falsify
 
-**Open-source adversarial evidence verification for research, public claims, and strategic narratives.**
+**Adversarial evidence verification for claims that should survive scrutiny.**
 
-> Don't trust Falsify. Inspect its evidence.
+Falsify decomposes an argument into atomic claims, asks what would make each claim fail, searches separately for support and contradiction, audits the evidence-to-inference chain, and lets the user challenge Falsify's own finding.
 
-Falsify is a new OpenAI Build Week project. It is designed to decompose evidence-dependent statements into testable claims, identify what would make those claims fail, search for supporting and contradictory evidence, inspect citation fit, and expose where an inference goes beyond the available evidence.
+It is not a chatbot, a paper-level credibility score, or a political truth oracle. Findings stay claim-level, source-linked, qualified, and inspectable.
 
-Falsify is **not** an AI peer reviewer, a truth oracle, or a political scoring system. It should not decide whether an entire paper, institution, country, or person is "credible." Its job is narrower: make the evidentiary chain inspectable claim by claim.
+![Falsify Evidence Map](docs/assets/falsify-evidence-map-desktop.png)
 
-## Why this exists
+## Judge path — 60 seconds, no API key required
 
-Most AI research tools help users find support, summarize sources, or strengthen an argument. Falsify deliberately adds an adversarial step:
+1. Open the app and select **Load flagship public-source demo**.
+2. See one narrative decomposed into four claims: a draft-budget proposal fact, a historical analogy, and two reciprocal intent attributions.
+3. Inspect the separate supporting and contradictory/qualifying source paths.
+4. Notice that the same `ATTRIBUTION_NOT_ESTABLISHED` standard is applied to both Chinese and Japanese intent claims.
+5. On Claim 2, select **Challenge this finding**. The new National Diet evidence qualifies the analysis while preserving the unresolved historical threshold.
 
-1. What exactly is the claim?
-2. What evidence would be required for it to hold?
-3. What would make it wrong or require qualification?
-4. Does the cited evidence directly support the claim?
-5. Is there credible contradictory evidence?
-6. Does the conclusion go beyond what the evidence establishes?
+The curated sample is public-source, dated, and visibly labeled. It does not pretend to be a fresh live search. See [JUDGE_GUIDE.md](docs/JUDGE_GUIDE.md).
 
-The output should preserve uncertainty and distinguish factual disagreement from interpretive disagreement.
+## What makes Falsify different
 
-## Build Week scope
+```text
+claim decomposition
+  → falsification questions
+  → independent support search + challenge search
+  → citation, date, number, source-fit, and inference audits
+  → inspectable claim-level finding
+  → adversarial re-check of Falsify itself
+```
 
-The hackathon MVP is intentionally narrow:
+- No overall credibility score for a person, paper, institution, or country.
+- No deceptive-intent label without separate evidence of intent.
+- A real citation is not assumed to support the sentence that cites it.
+- Missing evidence becomes an evidence gap, not an invented source or confident verdict.
+- Public URLs and uploaded text are processed ephemerally; there is no database in the MVP.
 
-- ingest a pasted statement, URL, or supported document;
-- extract atomic, testable claims;
-- generate explicit falsification questions;
-- retrieve and separate supporting and contradictory evidence;
-- prefer primary and authoritative sources where available;
-- audit citation fit, dates, numbers, and inferential leaps where feasible;
-- render an inspectable Evidence Map and Claim Cards;
-- support an adversarial re-check of Falsify's own conclusion;
-- provide one strong strategic-narrative demo involving public claims about Japan without hard-coding a politically predetermined verdict.
+## OpenAI and Codex use
 
-See `docs/SCOPE_LOCK.md`.
+GPT-5.6 is substantial in the live product path:
 
-## First flagship use case
+- `responses.parse` plus Structured Outputs decomposes the input into typed atomic claims and falsification questions;
+- two separate GPT-5.6 web-search calls investigate supporting and challenging evidence;
+- only URLs present in official `url_citation` annotations are admitted into the evidence set;
+- GPT-5.6 synthesizes findings from the validated evidence bundle and deterministic audit observations;
+- **Challenge this finding** runs a new counter-evidence search and records whether the original finding holds, qualifies, changes, or remains unresolved.
 
-The first deep demonstration is a **China-to-Japan narrative audit**. Public claims concerning Japan may combine verifiable facts, selective context, historical analogy, attribution of intent, normative criticism, and causal claims. Falsify should separate those layers and test each with the same evidentiary standard.
+Codex was the primary implementation environment for the majority of the core product. The main build task owned architecture, TypeScript schemas, Responses API integration, evidence provenance, UI, tests, security hardening, release validation, and documentation. Bounded helper agents were used only for source-set research, an evaluation matrix, and independent security review; their findings were integrated and verified in the primary task. Key decisions and exact test history are in [DOCUMENTATION.md](DOCUMENTATION.md).
 
-The public engine remains general-purpose. It must also work for research papers, policy reports, journalism, corporate claims, and other evidence-dependent arguments.
+## Architecture
 
-## Core principles
+Falsify is one TypeScript application:
 
-- **Symmetric standards.** The same method applies to the original claim and to the rebuttal.
-- **No forced TRUE/FALSE binary.** Use qualified verdicts tied to evidence.
-- **No intent inference by default.** "Disinformation" requires evidence of deceptive intent; otherwise describe the observable information problem.
-- **Primary-source preference.** Prefer official, original, or first-party evidence when appropriate, while allowing credible secondary evidence.
-- **Traceability.** Every meaningful finding should link claim → evidence → source → exact supporting passage or structured source record.
-- **Falsifiability.** Users must be able to challenge Falsify's own finding.
-- **Human judgment remains visible.** Domain expertise and unresolved ambiguity are first-class outcomes.
-- **Privacy by design.** Do not permanently retain user manuscripts by default.
-- **Open core.** Public repository, open-source license, reproducible evals, and self-hosting path.
+```text
+Next.js browser UI
+  ├─ pasted text / public URL / client-read text document
+  ├─ Evidence Map + Claim Cards
+  └─ stateless challenge bundle
+          │
+Next.js server routes
+  ├─ bounded input and public-URL normalization
+  ├─ GPT-5.6 claim decomposition
+  ├─ independent support and challenge web search
+  ├─ citation allowlisting + deterministic audits
+  ├─ GPT-5.6 finding synthesis
+  └─ adversarial re-check
+```
 
-## Project status
+There is no authentication, database, background queue, or proprietary evidence service in the MVP. The public engine uses only public or user-provided material.
 
-**Milestone 0 complete.** The Next.js application baseline and evidence-first landing page are runnable. Live claim analysis is not connected yet; implementation is proceeding milestone by milestone from `PLANS.md`.
+## Run locally
 
-Read the project guidance in this order:
-
-1. `AGENTS.md`
-2. `docs/PROJECT_CHARTER.md`
-3. `docs/SCOPE_LOCK.md`
-4. `docs/PRODUCT_SPEC.md`
-5. `docs/ARCHITECTURE.md`
-6. `docs/SECURITY_PRIVACY.md`
-7. `docs/EVALUATION_PLAN.md`
-8. `PLANS.md`
-9. `IMPLEMENT.md`
-
-## Local development
-
-Prerequisites:
-
-- Node.js 20.9 or newer;
-- npm 10 or newer;
-- an OpenAI API key once the live analysis milestones are enabled.
-
-Install and start the application:
+Requirements: Node.js 20.9+ and npm 10+.
 
 ```bash
 npm ci
@@ -87,45 +78,77 @@ cp .env.example .env.local
 npm run dev
 ```
 
-On Windows PowerShell, use `Copy-Item .env.example .env.local` instead of `cp`.
-Open [http://localhost:3000](http://localhost:3000). The Milestone 0 landing page does not require an API key.
+On PowerShell, use `Copy-Item .env.example .env.local`. Open [http://localhost:3000](http://localhost:3000).
 
-Quality checks:
+The one-click flagship sample works without an API key. For fresh GPT-5.6 analysis and public-web evidence search, set the server-only key:
+
+```dotenv
+OPENAI_API_KEY=your_server_side_key
+OPENAI_MODEL=gpt-5.6
+```
+
+Never expose the key with a `NEXT_PUBLIC_` prefix.
+
+Supported MVP input:
+
+- pasted text up to 30,000 characters;
+- a public HTTP(S) text/HTML/JSON URL;
+- a client-read text document up to 200 KiB.
+
+Documents are not uploaded to a permanent store. PDF/DOCX parsing is intentionally deferred.
+
+## Validate
 
 ```bash
+npm run format
 npm run lint
 npm run typecheck
 npm test
-npm run format
+npm run eval:golden
 npm run build
 ```
 
-Environment variables are documented in `.env.example`. `OPENAI_API_KEY` is server-only and must never use a `NEXT_PUBLIC_` prefix.
+Current release evidence:
 
-## Relationship to Tsuchiya Lab products
+- 12 test files and 55 tests pass;
+- 8/8 golden audit cases pass, plus causal and cross-claim-label leakage controls;
+- production build passes;
+- dependency audit reports 0 vulnerabilities;
+- browser smoke passes at 1280 px and 390 px with no console errors or horizontal overflow.
 
-Falsify is the **open-source public verification layer**, not a replacement for other independent products.
+See [evals/RESULTS.md](evals/RESULTS.md) for the golden-case boundary and [DOCUMENTATION.md](DOCUMENTATION.md) for all milestone commands.
 
-- **XINAPI**: evidence/source intelligence and China-analysis SaaS/API.
-- **NARRAPI**: narrative structure and transformation analysis.
-- **QUNAPI**: affect and resonance analysis.
-- **TL Veilfin**: scenario and risk exploration.
-- **TL Archer**: evidence-bound drafting.
-- **TL Discus**: review, deliberation, rebuttal, and peer-review simulation.
-- **TL Pilotfish**: internal Growth Operator and distribution support.
-- **CMCF, CDPAT, GQSO, CONPD/JNOM, PMAA, CLFEA**: specialized research/data assets with separate governance.
+## API surface
 
-See `docs/RELATIONSHIPS.md`.
+- `POST /api/analyze` — normalize input and run the analysis pipeline.
+- `POST /api/challenge` — re-check one finding using the validated prior analysis.
+- `GET /api/demo` — return the versioned curated flagship fixture.
 
-## OpenAI Build Week
+Responses are runtime-validated with strict Zod schemas. Public URL retrieval rejects private/local/reserved networks, validates and pins DNS for every redirect, and caps ports, redirects, time, and bytes. API bodies, model output, and best-effort per-instance quotas are bounded. See [SECURITY_PRIVACY.md](docs/SECURITY_PRIVACY.md).
 
-This project is being built for OpenAI Build Week 2026 using Codex and GPT-5.6. The submission repository must document how Codex accelerated development, where key decisions were made, and how GPT-5.6 is used in the working product.
+## Limitations
 
-Official submission guidance:
-- https://openai.devpost.com/updates/45282-openai-build-week-submissions-are-open-plugin-launch
-- https://openai.devpost.com/rules
-- https://openai.devpost.com/details/faqs
+- Model and web-search results can be incomplete or wrong; inspect linked sources.
+- The curated demo is not a fresh search and includes English paraphrases of multilingual official material.
+- Deterministic checks cover useful patterns, not every citation or statistical failure mode.
+- The in-memory rate limiter is per application instance; sustained public traffic needs platform or shared-store enforcement.
+- The local release environment had no `OPENAI_API_KEY`, so a deployed live GPT-5.6 smoke test remains required before submission.
+- Falsify does not establish deceptive intent unless evidence separately supports that attribution.
+
+## Deploy and submit
+
+- [Deployment guide](docs/DEPLOYMENT.md)
+- [Independent judge guide](docs/JUDGE_GUIDE.md)
+- [Sub-three-minute demo script](docs/DEMO_SCRIPT.md)
+- [Devpost submission draft](docs/DEVPOST_SUBMISSION.md)
+- [Release checklist](docs/RELEASE_CHECKLIST.md)
+
+The intended Build Week track is **Work & Productivity**. Official requirements were rechecked on 2026-07-17; submission closes July 21, 2026 at 5:00 PM PDT (July 22 at 9:00 AM JST).
+
+## Open-source and data boundaries
+
+Falsify is MIT licensed. No proprietary Tsuchiya Lab database, private research asset, grant-funded code, confidential data, or closed API is required or included. See [RELATIONSHIPS.md](docs/RELATIONSHIPS.md) and [OPEN_SOURCE_GOVERNANCE.md](docs/OPEN_SOURCE_GOVERNANCE.md).
 
 ## License
 
-MIT. See `LICENSE`.
+[MIT](LICENSE)
