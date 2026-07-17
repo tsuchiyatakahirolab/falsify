@@ -113,6 +113,43 @@ export function safeProviderFailureReason(reason: unknown): string {
   return "the Gemini request could not be completed";
 }
 
+function safeProviderFailureDiagnostics(
+  reason: unknown,
+): Record<string, unknown> {
+  if (!reason || typeof reason !== "object") {
+    return { type: typeof reason };
+  }
+  const error = reason as {
+    name?: unknown;
+    status?: unknown;
+    code?: unknown;
+    message?: unknown;
+    cause?: { name?: unknown; code?: unknown };
+  };
+  const sanitizedMessage =
+    typeof error.message === "string"
+      ? error.message
+          .replace(/AIza[0-9A-Za-z_-]+/g, "[redacted-api-key]")
+          .replace(/([?&]key=)[^&\s]+/gi, "$1[redacted]")
+          .slice(0, 500)
+      : null;
+  return {
+    name: typeof error.name === "string" ? error.name : null,
+    status: typeof error.status === "number" ? error.status : null,
+    code:
+      typeof error.code === "string" || typeof error.code === "number"
+        ? error.code
+        : null,
+    causeName: typeof error.cause?.name === "string" ? error.cause.name : null,
+    causeCode:
+      typeof error.cause?.code === "string" ||
+      typeof error.cause?.code === "number"
+        ? error.cause.code
+        : null,
+    message: sanitizedMessage,
+  };
+}
+
 function normalizeUrl(value: string): string | null {
   try {
     const url = new URL(value);
@@ -393,11 +430,19 @@ export async function retrieveEvidence(
 
   const limitations: string[] = [];
   if (supportResult.status === "rejected") {
+    console.warn(
+      "[falsify] Gemini support path failed",
+      safeProviderFailureDiagnostics(supportResult.reason),
+    );
     limitations.push(
       `The live support path was unavailable (${safeProviderFailureReason(supportResult.reason)}); no support source was invented.`,
     );
   }
   if (challengeResult.status === "rejected") {
+    console.warn(
+      "[falsify] Gemini challenge path failed",
+      safeProviderFailureDiagnostics(challengeResult.reason),
+    );
     limitations.push(
       `The live challenge path was unavailable (${safeProviderFailureReason(challengeResult.reason)}); no counter-source was invented.`,
     );
