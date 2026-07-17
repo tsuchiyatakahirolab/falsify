@@ -89,7 +89,7 @@ Exit test:
 
 ## Milestone 5 — Evidence Map UI
 
-Status: NOT STARTED
+Status: COMPLETE (2026-07-17)
 
 Build:
 - input screen;
@@ -108,7 +108,7 @@ Exit test:
 
 ## Milestone 6 — Challenge this finding
 
-Status: NOT STARTED
+Status: IN PROGRESS
 
 Add adversarial re-check:
 - user can challenge a finding;

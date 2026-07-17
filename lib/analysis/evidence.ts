@@ -2,11 +2,13 @@ import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 
 import {
+  ClaimSchema,
   EVIDENCE_STANCES,
   EvidenceSchema,
   SOURCE_TYPES,
   type Claim,
   type Evidence,
+  type Finding,
 } from "@/lib/domain/schemas";
 import {
   getOpenAIClient,
@@ -234,5 +236,40 @@ export async function retrieveEvidence(
     challenging: challenge.evidence,
     limitations,
     mode: "live",
+  };
+}
+
+export async function retrieveAdversarialRecheck(
+  claim: Claim,
+  finding: Finding,
+): Promise<{ evidence: Evidence[]; limitations: string[] }> {
+  if (!hasOpenAIKey()) {
+    return {
+      evidence: [],
+      limitations: [
+        "A live adversarial re-check requires a server-side OPENAI_API_KEY.",
+      ],
+    };
+  }
+
+  const focusedClaim = ClaimSchema.parse({
+    ...claim,
+    evidence_requirements: [
+      ...claim.evidence_requirements,
+      "Actively seek evidence that weakens, qualifies, or overturns Falsify's initial finding: " +
+        finding.analysis,
+    ],
+  });
+  const result = await runEvidencePath([focusedClaim], "challenge");
+  return {
+    evidence: result.evidence.map((item, index) =>
+      EvidenceSchema.parse({
+        ...item,
+        id: "recheck-evidence-" + (index + 1),
+      }),
+    ),
+    limitations: result.unresolved.length
+      ? ["The adversarial re-check reported unresolved evidence gaps."]
+      : [],
   };
 }

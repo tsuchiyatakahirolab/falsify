@@ -6,7 +6,7 @@ Keep this file current throughout the build.
 
 - Project: Falsify
 - Phase: Implementation
-- Current milestone: Milestone 5
+- Current milestone: Milestone 6
 - Public demo: Not deployed
 - Repository: Milestone 0 application baseline complete
 - Primary Codex `/feedback` Session ID: Not captured
@@ -62,6 +62,10 @@ Reason: Separate tasks reduce confirmation bias; citation allowlisting prevents 
 ### D-011 — Deterministic checks are binding inputs to synthesis
 Decision: Run date, number, causal, attribution, historical-analogy, selective-context, and source-fit rules before synthesis, then merge their issue labels into any GPT-5.6 finding.
 Reason: Deterministic observations should remain visible even if model wording varies, while GPT-5.6 handles contextual synthesis and qualified explanation.
+
+### D-012 — Stateless typed analysis and challenge APIs
+Decision: Keep analysis state in the browser and send the validated analysis bundle back only when challenging a finding. Process text documents client-side and retain no server-side session or manuscript store.
+Reason: This delivers the complete interaction without a database, preserves inspectability, and honors the MVP's no-default-retention policy.
 
 ## Build log
 
@@ -121,3 +125,15 @@ Add dated entries below.
   - `npm run lint` — PASS.
 - Result: Milestone 4 exit test passed. All eight golden cases match their intended issue/verdict mechanics across seven issue classes, with an explicit negative control against calling a supported association false.
 - Next: Assemble the analysis orchestrator and API, then replace the static shell with the interactive Evidence Map and Claim Card interface.
+
+### 2026-07-17 — Milestone 5
+- Work completed: Added input normalization for pasted text, public text/HTML URLs, and client-read text documents. Added the typed analysis orchestrator and /api/analyze. Rebuilt the landing page as an interactive workbench with progress/error states, claim map, detailed Claim Cards, falsification questions, support/challenge columns, clickable provenance, audit labels, limitations, and unresolved evidence. Added responsive layouts and explicit limited-mode labeling.
+- Decisions: Adopted D-012. No analysis state or uploaded document is persisted by the server.
+- Commands/tests:
+  - npm run typecheck — PASS.
+  - npm test — PASS; 6 files and 15 tests passed after updating the pre-result landing regression.
+  - npm run lint — PASS.
+  - npm run build — PASS after replacing Zod's bundled datetime helper with an equivalent explicit UTC timestamp regex to avoid a Next.js 16 Turbopack initialization defect.
+  - In-app browser E2E — PASS; submitted a two-claim passage, rendered two Claim Cards, displayed both evidence paths, falsification questions, historical-analogy audit, and honest no-key limitations.
+- Result: Milestone 5 exit test passed. The complete local input-to-Evidence-Map path is understandable without developer explanation and contains no global credibility score.
+- Next: Complete and validate the adversarial re-check, including a flagship sample whose finding visibly qualifies or changes.

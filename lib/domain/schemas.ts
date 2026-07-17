@@ -168,32 +168,6 @@ export const InputSchema = z
     }
   });
 
-export const AnalysisResultSchema = z
-  .object({
-    id: z.string().min(1),
-    generated_at: z.iso.datetime(),
-    input: InputSchema,
-    claims: z.array(ClaimSchema).min(1),
-    evidence: z.array(EvidenceSchema),
-    findings: z.array(FindingSchema),
-    limitations: z.array(z.string().min(1)),
-    model: z.string().min(1),
-    mode: z.enum(["live", "sample"]),
-  })
-  .strict();
-
-export const ChallengeResultSchema = z
-  .object({
-    claim_id: z.string().min(1),
-    challenged_at: z.iso.datetime(),
-    outcome: z.enum(["holds", "qualified", "changed", "unresolved"]),
-    original_finding: FindingSchema,
-    revised_finding: FindingSchema,
-    new_evidence: z.array(EvidenceSchema),
-    explanation: z.string().min(1),
-  })
-  .strict();
-
 export const AuditObservationSchema = z
   .object({
     claim_id: z.string().min(1),
@@ -217,6 +191,37 @@ export const AuditObservationSchema = z
         })
         .strict(),
     ),
+  })
+  .strict();
+
+export const AnalysisResultSchema = z
+  .object({
+    id: z.string().min(1),
+    generated_at: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/),
+    input: InputSchema,
+    claims: z.array(ClaimSchema).min(1),
+    evidence: z.array(EvidenceSchema),
+    findings: z.array(FindingSchema),
+    audits: z.array(AuditObservationSchema),
+    limitations: z.array(z.string().min(1)),
+    model: z.string().min(1),
+    mode: z.enum(["live", "sample"]),
+  })
+  .strict();
+
+export const ChallengeResultSchema = z
+  .object({
+    claim_id: z.string().min(1),
+    challenged_at: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/),
+    outcome: z.enum(["holds", "qualified", "changed", "unresolved"]),
+    original_finding: FindingSchema,
+    revised_finding: FindingSchema,
+    new_evidence: z.array(EvidenceSchema),
+    explanation: z.string().min(1),
   })
   .strict();
 

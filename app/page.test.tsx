@@ -9,6 +9,6 @@ describe("landing page", () => {
 
     expect(html).toContain("Inspect its evidence");
     expect(html).toContain("No truth score");
-    expect(html).toContain("Challenge this finding");
+    expect(html).toContain("Turn the same adversarial method back on Falsify");
   });
 });
