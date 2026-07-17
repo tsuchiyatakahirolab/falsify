@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xml:lang="en-US">
+  <voice name="Microsoft Mark">
+    <prosody rate="-5%">
+      Falsify is an open-source adversarial evidence verification tool. It does
+      not ask you to trust an answer. It exposes the evidence chain behind each
+      claim.
+      <break time="1200ms" />
+
+      This demonstration examines a Japanese-language strategic narrative
+      concerning China and Japan. Falsify separates its factual premises,
+      historical analogies, and claims about intent.
+      <break time="1500ms" />
+
+      The narrative becomes four atomic claims. There is no overall truth score
+      and no ranking of a person, institution, or country.
+      <break time="1400ms" />
+
+      For each claim, Falsify states what evidence would make it wrong or
+      require qualification. The original Japanese text remains visible beside
+      an English normalized claim.
+      <break time="1500ms" />
+
+      Supporting evidence and contradictory or qualifying evidence are
+      displayed separately. Every item retains its title, publisher, URL, and
+      evidentiary limits.
+      <break time="1500ms" />
+
+      Here, the increase in Japan's defense budget is supported, while the
+      strongest historical analogy is not established by that fact alone.
+      <break time="1300ms" />
+
+      Falsify's own finding is challengeable. An adversarial re-check introduces
+      parliamentary evidence and qualifies the reasoning while preserving the
+      original result.
+      <break time="1600ms" />
+
+      The new counter-evidence is inspectable and attributed to the National
+      Diet of Japan. If evidence is unavailable, Falsify reports the gap instead
+      of inventing a citation.
+      <break time="1400ms" />
+
+      Falsify was built with Codex and is available as a public MIT-licensed
+      repository and a judge-ready web demo.
+    </prosody>
+  </voice>
+</speak>

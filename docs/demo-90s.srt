@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:10,000
+Falsify is an open-source adversarial evidence verification tool. It exposes the evidence chain behind each claim.
+
+2
+00:00:10,000 --> 00:00:22,000
+This demo examines a Japanese-language strategic narrative concerning China and Japan.
+
+3
+00:00:22,000 --> 00:00:34,000
+The narrative becomes four atomic claims, without an overall truth score or national ranking.
+
+4
+00:00:34,000 --> 00:00:48,000
+Each claim states what evidence would make it wrong or require qualification.
+
+5
+00:00:48,000 --> 00:01:02,000
+Supporting and challenging evidence are separated, with source provenance and limitations preserved.
+
+6
+00:01:02,000 --> 00:01:14,000
+The budget increase is supported, but the strongest historical analogy is not established by that fact alone.
+
+7
+00:01:14,000 --> 00:01:27,000
+Falsify's own finding is challengeable. The adversarial re-check qualifies the reasoning while preserving the original result.
+
+8
+00:01:27,000 --> 00:01:38,000
+New parliamentary counter-evidence is inspectable and attributed to the National Diet of Japan.
+
+9
+00:01:38,000 --> 00:01:45,000
+Built with Codex. Public, MIT licensed, and ready for judges to test.
