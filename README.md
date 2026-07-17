@@ -37,15 +37,19 @@ claim decomposition
 - Missing evidence becomes an evidence gap, not an invented source or confident verdict.
 - Public URLs and uploaded text are processed ephemerally; there is no database in the MVP.
 
-## OpenAI and Codex use
+## Live providers, OpenAI, and Codex use
 
-GPT-5.6 is substantial in the live product path:
+The public zero-cost live demo uses **Gemini 2.5 Flash-Lite** for two separate Google Search-grounded evidence paths. Claim decomposition and final audits remain deterministic in this quota-conserving mode. URLs and titles enter the evidence map only through Gemini grounding metadata; grounded summaries are labeled as summaries, not verified quotations. The UI also renders the Search Suggestions attribution supplied by Google's grounding metadata, as required by the [Google Search grounding documentation](https://ai.google.dev/gemini-api/docs/generate-content/google-search).
+
+The repository also retains the complete GPT-5.6 product path built for Build Week:
 
 - `responses.parse` plus Structured Outputs decomposes the input into typed atomic claims and falsification questions;
 - two separate GPT-5.6 web-search calls investigate supporting and challenging evidence;
 - only URLs present in official `url_citation` annotations are admitted into the evidence set;
 - GPT-5.6 synthesizes findings from the validated evidence bundle and deterministic audit observations;
 - **Challenge this finding** runs a new counter-evidence search and records whether the original finding holds, qualifies, changes, or remains unresolved.
+
+The Build Week promotional OpenAI credits were exhausted before this project could receive them, and the public deployment does not claim that its Gemini runtime is GPT-5.6. The UI always exposes the actual model. Self-hosters with OpenAI API billing or credits can select the GPT-5.6 path server-side.
 
 Codex was the primary implementation environment for the majority of the core product. The main build task owned architecture, TypeScript schemas, Responses API integration, evidence provenance, UI, tests, security hardening, release validation, and documentation. Bounded helper agents were used only for source-set research, an evaluation matrix, and independent security review; their findings were integrated and verified in the primary task. Key decisions and exact test history are in [DOCUMENTATION.md](DOCUMENTATION.md).
 
@@ -61,10 +65,10 @@ Next.js browser UI
           │
 Next.js server routes
   ├─ bounded input and public-URL normalization
-  ├─ GPT-5.6 claim decomposition
-  ├─ independent support and challenge web search
-  ├─ citation allowlisting + deterministic audits
-  ├─ GPT-5.6 finding synthesis
+  ├─ provider selection: Gemini public demo / optional GPT-5.6
+  ├─ independent support and challenge grounded search
+  ├─ grounding/citation allowlisting + deterministic audits
+  ├─ qualified finding synthesis
   └─ adversarial re-check
 ```
 
@@ -82,9 +86,18 @@ npm run dev
 
 On PowerShell, use `Copy-Item .env.example .env.local`. Open [http://localhost:3000](http://localhost:3000).
 
-The one-click flagship sample works without an API key. For fresh GPT-5.6 analysis and public-web evidence search, set the server-only key:
+The one-click flagship sample works without an API key. For the zero-cost Gemini live path, create a Google AI Studio key and set:
 
 ```dotenv
+AI_PROVIDER=gemini
+GEMINI_API_KEY=your_server_side_key
+GEMINI_MODEL=gemini-2.5-flash-lite
+```
+
+For the optional GPT-5.6 path, set:
+
+```dotenv
+AI_PROVIDER=openai
 OPENAI_API_KEY=your_server_side_key
 OPENAI_MODEL=gpt-5.6
 ```
@@ -112,7 +125,7 @@ npm run build
 
 Current release evidence:
 
-- 12 test files and 55 tests pass;
+- Gemini and OpenAI provider routing, grounding provenance, and fallback behavior are regression-tested;
 - 8/8 golden audit cases pass, plus causal and cross-claim-label leakage controls;
 - production build passes;
 - dependency audit reports 0 vulnerabilities;
@@ -131,10 +144,12 @@ Responses are runtime-validated with strict Zod schemas. Public URL retrieval re
 ## Limitations
 
 - Model and web-search results can be incomplete or wrong; inspect linked sources.
+- The public Gemini free tier has [project-level rate limits and pricing limits](https://ai.google.dev/gemini-api/docs/pricing). If a path is rate-limited, Falsify shows a partial result or the curated demo instead of inventing evidence.
+- Gemini free-tier content may be used to improve Google products. [Google documents](https://ai.google.dev/gemini-api/docs/zdr) that Search-grounded prompts, contextual information, and outputs are retained for 30 days; do not submit confidential material.
 - The curated demo is not a fresh search and includes English paraphrases of multilingual official material.
 - Deterministic checks cover useful patterns, not every citation or statistical failure mode.
 - The in-memory rate limiter is per application instance; sustained public traffic needs platform or shared-store enforcement.
-- The current public deployment has no `OPENAI_API_KEY`; the curated demo works, while a deployed live GPT-5.6 smoke test remains required after the key is configured.
+- The public deployment uses Gemini for live grounded search and has no `OPENAI_API_KEY`; the optional GPT-5.6 path therefore remains without a deployed live smoke.
 - Falsify does not establish deceptive intent unless evidence separately supports that attribution.
 
 ## Deploy and submit

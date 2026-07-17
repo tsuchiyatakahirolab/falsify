@@ -59,6 +59,7 @@ export async function challengeFinding(
         ],
       }),
       new_evidence: [],
+      search_suggestions_html: recheck.searchSuggestionsHtml,
       explanation:
         "The initial finding could not be independently stress-tested because no new allowlisted counter-evidence was available. It is not treated as confirmed.",
     });
@@ -86,6 +87,7 @@ export async function challengeFinding(
     original_finding: original,
     revised_finding: revised,
     new_evidence: recheck.evidence,
+    search_suggestions_html: recheck.searchSuggestionsHtml,
     explanation: changed
       ? "New counter-evidence changed the qualified verdict. Inspect the revised finding and sources below."
       : qualified

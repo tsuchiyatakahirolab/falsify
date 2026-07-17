@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { validEvidenceFixture } from "@/lib/domain/fixtures";
 
 import {
+  evidenceFromGeminiGrounding,
   extractCitationAllowlist,
   filterEvidenceByCitations,
 } from "./evidence";
@@ -92,5 +93,49 @@ describe("evidence provenance", () => {
         "support",
       ),
     ).toEqual([]);
+  });
+
+  it("allowlists Gemini evidence by grounding source index", () => {
+    const evidence = evidenceFromGeminiGrounding(
+      {
+        text: "[claim-1] The official table reports the stated figure.",
+        sources: [
+          {
+            title: "Grounded official source",
+            url: "https://example.gov/table",
+          },
+        ],
+        supports: [
+          {
+            text: "[claim-1] The official table reports the stated figure.",
+            sourceIndexes: [0, 99],
+          },
+        ],
+        searchSuggestionHtml: "<div>Google Search</div>",
+      },
+      [
+        {
+          id: "claim-1",
+          original_text: "The table reports the stated figure.",
+          normalized_claim: "The table reports the stated figure",
+          claim_type: "factual",
+          testability: "empirically_testable",
+          evidence_requirements: ["Official table"],
+          falsification_questions: ["Does the table report another figure?"],
+          time_sensitive: false,
+          entities: [],
+          source_span: null,
+        },
+      ],
+      "support",
+    );
+
+    expect(evidence).toHaveLength(1);
+    expect(evidence[0]).toMatchObject({
+      title: "Grounded official source",
+      url: "https://example.gov/table",
+      stance: "supporting",
+    });
+    expect(evidence[0].notes).toContain("grounding metadata");
   });
 });

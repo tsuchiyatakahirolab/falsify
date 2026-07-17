@@ -42,7 +42,7 @@ The flagship demo tests a China-to-Japan defense narrative using symmetric stand
 
 ### How we built it
 
-Falsify is a single Next.js/TypeScript application. GPT-5.6 is used through the OpenAI Responses API and Structured Outputs for typed claim decomposition and finding synthesis. Hosted web search runs on two deliberately separate paths. Evidence URLs are accepted only when the same response includes an official URL citation annotation. Deterministic audit observations remain binding inputs to the synthesis.
+Falsify is a single Next.js/TypeScript application. The repository implements GPT-5.6 through the OpenAI Responses API and Structured Outputs for typed claim decomposition, two hosted-search paths, finding synthesis, and adversarial re-check. Because the Build Week promotional credits were exhausted before allocation, the zero-cost public runtime transparently uses Gemini 2.5 Flash-Lite for the two separate Google Search-grounded evidence paths, with deterministic decomposition and audits to conserve quota. OpenAI URLs are accepted only from official URL citation annotations; Gemini URLs and titles are accepted only from grounding metadata. The interface always exposes the actual runtime model.
 
 The public URL path is hardened against SSRF with DNS validation and socket pinning on every redirect, plus strict time, byte, port, and body limits. The application is stateless and has no database in the MVP.
 

@@ -6,8 +6,10 @@ import { analyzeInput } from "./orchestrate";
 
 describe("challenge this finding", () => {
   it("keeps an untested finding unresolved when no new evidence is available", async () => {
-    const previous = process.env.OPENAI_API_KEY;
+    const previousOpenAI = process.env.OPENAI_API_KEY;
+    const previousGemini = process.env.GEMINI_API_KEY;
     delete process.env.OPENAI_API_KEY;
+    delete process.env.GEMINI_API_KEY;
     try {
       const analysis = await analyzeInput({
         type: "text",
@@ -24,7 +26,8 @@ describe("challenge this finding", () => {
         "No new allowlisted counter-evidence",
       );
     } finally {
-      if (previous) process.env.OPENAI_API_KEY = previous;
+      if (previousOpenAI) process.env.OPENAI_API_KEY = previousOpenAI;
+      if (previousGemini) process.env.GEMINI_API_KEY = previousGemini;
     }
   });
 

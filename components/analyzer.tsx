@@ -55,6 +55,24 @@ function EvidenceItem({ evidence }: { evidence: Evidence }) {
   );
 }
 
+function GoogleSearchSuggestions({ items }: { items: string[] }) {
+  if (!items.length) return null;
+
+  return (
+    <aside className="google-search-suggestions">
+      <strong>Google Search suggestions</strong>
+      <p>Search attribution returned with the grounded evidence paths.</p>
+      {items.map((html, index) => (
+        <div
+          key={`${index}-${html.length}`}
+          className="google-search-suggestion"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      ))}
+    </aside>
+  );
+}
+
 function FindingSnapshot({
   label,
   finding,
@@ -254,6 +272,9 @@ function ClaimCard({
                 ))}
               </div>
             ) : null}
+            <GoogleSearchSuggestions
+              items={challenge.search_suggestions_html}
+            />
           </section>
         ) : null}
       </section>
@@ -497,8 +518,10 @@ export function Analyzer() {
 
         <div className="input-actions">
           <p>
-            External processing: live mode sends submitted content to OpenAI for
-            analysis and public-web evidence search.
+            External processing: the public live demo uses Google Gemini and
+            Google Search. Free-tier data may be used to improve Google
+            products, and grounded requests may be retained for up to 30 days.
+            Do not submit confidential material.
           </p>
           <button
             className="analyze-button"
@@ -548,7 +571,7 @@ export function Analyzer() {
                 {result.id === "demo-japan-defense-narrative-v1"
                   ? "Curated public-source demo"
                   : result.mode === "live"
-                    ? "Live GPT-5.6 analysis"
+                    ? `Live analysis · ${result.model}`
                     : "Limited local analysis"}
               </span>
               <span>{result.evidence.length} allowlisted sources</span>
@@ -565,6 +588,8 @@ export function Analyzer() {
               </ul>
             </aside>
           ) : null}
+
+          <GoogleSearchSuggestions items={result.search_suggestions_html} />
 
           <div className="map-layout">
             <nav className="claim-index" aria-label="Extracted claims">

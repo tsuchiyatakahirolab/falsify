@@ -41,6 +41,7 @@ export async function analyzeInput(
         ...audit.limitations,
       ]),
     ],
+    search_suggestions_html: retrieval.searchSuggestionsHtml,
     model:
       decomposition.mode === "live"
         ? decomposition.model

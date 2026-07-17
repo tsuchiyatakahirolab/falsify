@@ -13,7 +13,7 @@ Next.js / TypeScript web app
   +-- Input normalization
   +-- Server-side analysis orchestration
   |      |
-  |      +-- GPT-5.6 claim decomposition
+  |      +-- provider-specific claim decomposition
   |      +-- Support evidence path
   |      +-- Contradiction evidence path
   |      +-- Audit / synthesis
@@ -30,11 +30,12 @@ Next.js / TypeScript web app
 Evidence Map UI
 ```
 
-## OpenAI integration
+## Model-provider integration
 
 Preferred:
 - Responses API;
-- GPT-5.6;
+- optional GPT-5.6 Responses API path;
+- public Gemini 2.5 Flash-Lite grounded-search path with deterministic decomposition and audits;
 - Structured Outputs for typed claim/evidence/finding objects;
 - web search for current public evidence where appropriate.
 

@@ -206,6 +206,7 @@ export const AnalysisResultSchema = z
     findings: z.array(FindingSchema),
     audits: z.array(AuditObservationSchema),
     limitations: z.array(z.string().min(1)),
+    search_suggestions_html: z.array(z.string().min(1).max(50_000)).max(2),
     model: z.string().min(1),
     mode: z.enum(["live", "sample"]),
   })
@@ -221,6 +222,7 @@ export const ChallengeResultSchema = z
     original_finding: FindingSchema,
     revised_finding: FindingSchema,
     new_evidence: z.array(EvidenceSchema),
+    search_suggestions_html: z.array(z.string().min(1).max(50_000)).max(1),
     explanation: z.string().min(1),
   })
   .strict();

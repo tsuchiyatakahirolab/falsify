@@ -942,6 +942,29 @@ h2 {
   line-height: 1.5;
 }
 
+.google-search-suggestions {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: var(--paper);
+}
+
+.google-search-suggestions > strong,
+.google-search-suggestions > p {
+  display: block;
+  margin: 0 0 0.45rem;
+}
+
+.google-search-suggestions > p {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.google-search-suggestion + .google-search-suggestion {
+  margin-top: 0.55rem;
+}
+
 .map-layout {
   margin-top: 32px;
   display: grid;

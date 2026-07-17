@@ -20,7 +20,7 @@ These inputs may contain prompt injection, malicious links, misleading instructi
 - Avoid automatically executing code from documents or web pages.
 
 ### Secrets
-- OpenAI API keys remain server-side.
+- Gemini and OpenAI API keys remain server-side.
 - Never log secrets.
 - `.env` files are ignored by Git.
 - Public deployment uses environment secrets.
@@ -31,6 +31,8 @@ Default policy:
 - process only what is necessary;
 - make external processing clear to users;
 - do not promise "zero retention" unless the deployed configuration actually guarantees it.
+
+The zero-cost public live mode uses the Gemini Developer API free tier and Google Search grounding. Google states that free-tier content may be used to improve its products, and [documents a 30-day retention rule](https://ai.google.dev/gemini-api/docs/zdr) for grounded prompts, context, and output. The UI therefore warns users not to submit confidential material. Falsify itself still has no database and does not intentionally persist submitted documents. The UI renders the required Google Search Suggestions returned in grounding metadata; the HTML is accepted only from the server-side Gemini response and remains constrained by the application's CSP.
 
 ### Public demo
 - API bodies, source downloads, input text, and GPT output are bounded.

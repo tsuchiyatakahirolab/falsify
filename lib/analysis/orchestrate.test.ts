@@ -6,8 +6,10 @@ import { analyzeInput } from "./orchestrate";
 
 describe("analysis orchestration", () => {
   it("returns a valid, explicit partial result without an API key", async () => {
-    const previous = process.env.OPENAI_API_KEY;
+    const previousOpenAI = process.env.OPENAI_API_KEY;
+    const previousGemini = process.env.GEMINI_API_KEY;
     delete process.env.OPENAI_API_KEY;
+    delete process.env.GEMINI_API_KEY;
     try {
       const result = await analyzeInput({
         type: "text",
@@ -26,7 +28,8 @@ describe("analysis orchestration", () => {
       );
       expect(result.findings[0].verdict).toBe("INSUFFICIENT_EVIDENCE");
     } finally {
-      if (previous) process.env.OPENAI_API_KEY = previous;
+      if (previousOpenAI) process.env.OPENAI_API_KEY = previousOpenAI;
+      if (previousGemini) process.env.GEMINI_API_KEY = previousGemini;
     }
   });
 });

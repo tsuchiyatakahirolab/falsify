@@ -352,6 +352,7 @@ export const flagshipAnalysis: AnalysisResult = AnalysisResultSchema.parse({
     "English paraphrases summarize multilingual official material; inspect the linked originals.",
     "The sample applies the same intent standard to the original claim and the rebuttal.",
   ],
+  search_suggestions_html: [],
   model: "curated-public-source-demo-v1",
   mode: "sample",
 });
@@ -402,6 +403,7 @@ export function challengeFlagshipFinding(
       human_judgment_required: true,
     },
     new_evidence: [dietEvidence],
+    search_suggestions_html: [],
     explanation:
       "The initial rejection of the strongest historical analogy holds, but the finding is qualified: Japanese parliamentary debate supplies evidence that narrower concern about eroding defense restraint is legitimate.",
   });

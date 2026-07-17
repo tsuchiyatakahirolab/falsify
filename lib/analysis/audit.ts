@@ -10,11 +10,8 @@ import {
   type Finding,
   type FalsifyInput,
 } from "@/lib/domain/schemas";
-import {
-  getOpenAIClient,
-  hasOpenAIKey,
-  OPENAI_MODEL,
-} from "@/lib/openai/client";
+import { getLiveProvider } from "@/lib/ai/provider";
+import { getOpenAIClient, OPENAI_MODEL } from "@/lib/openai/client";
 
 import { FINDING_SYNTHESIS_PROMPT, UNTRUSTED_CONTENT_POLICY } from "./prompts";
 
@@ -276,8 +273,19 @@ export async function synthesizeFindings(
     ),
   );
 
-  if (!hasOpenAIKey()) {
+  const provider = getLiveProvider();
+  if (!provider) {
     return { audits, findings: local, limitations: [] };
+  }
+
+  if (provider === "gemini") {
+    return {
+      audits,
+      findings: local,
+      limitations: [
+        "Findings were synthesized by deterministic audit rules over Gemini-grounded sources to conserve the public free-tier quota.",
+      ],
+    };
   }
 
   const response = await getOpenAIClient().responses.parse({

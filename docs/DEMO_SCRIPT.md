@@ -38,11 +38,11 @@ The final video must be public on YouTube, under three minutes, and include audi
 
 **Voiceover:** “Falsify is itself falsifiable. The re-check finds a Japanese parliamentary research record and qualifies the analysis: narrower concern about changing defense restraint is legitimate, while the strongest historical analogy remains unestablished.”
 
-## 2:18–2:35 — GPT-5.6 and Codex
+## 2:18–2:35 — Codex, GPT-5.6, and the public runtime
 
 **Screen:** Show a brief architecture graphic or README section.
 
-**Voiceover:** “In live mode, GPT-5.6 performs typed claim decomposition, two independent web searches, evidence-bound synthesis, and the adversarial re-check through the Responses API and Structured Outputs. Codex was the primary build environment for the TypeScript architecture, UI, tests, security hardening, evals, and release package.”
+**Voiceover:** “Codex was the primary build environment for the TypeScript architecture, UI, tests, security hardening, evals, and release package. The repository includes a GPT-5.6 Responses API path with Structured Outputs, citation allowlisting, synthesis, and re-check. Because Build Week credits ran out, this public zero-cost runtime transparently uses Gemini grounding for its two live searches and never labels that output GPT-5.6.”
 
 ## 2:35–2:40 — Close
 

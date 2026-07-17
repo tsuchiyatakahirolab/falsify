@@ -7,11 +7,11 @@ Keep this file current throughout the build.
 - Project: Falsify
 - Phase: Release candidate
 - Current milestone: Milestone 10
-- Public demo: <https://falsify-mu.vercel.app/> (curated demo ready; live GPT-5.6 key pending)
+- Public demo: <https://falsify-mu.vercel.app/> (curated demo deployed; Gemini Production variables configured; new live build pending push)
 - Repository: <https://github.com/tsuchiyatakahirolab/falsify> (public, MIT)
 - Primary Codex `/feedback` Session ID: Not captured
 - Submission status: Devpost copy prepared; owner publication fields pending
-- Git baseline: `main` at `2ae8b55f9298dddb60941a0d57d7b77cd16779d8`
+- Git baseline: `main` at `754cf53` before the validated Gemini release commit
 
 ## Current product decision
 
@@ -74,6 +74,14 @@ Reason: A stable judge path must remain demonstrable without an API key, but pol
 ### D-014 — Pinned public-network retrieval and best-effort demo quotas
 Decision: Resolve and validate every public URL hop, reject any private/local/reserved address, pin the approved address into the outbound socket lookup, cap redirects/time/bytes, and accept only standard scheme ports. Bound API bodies and GPT output, return sanitized errors, send no-store/security headers, and apply per-instance quotas keyed only by Vercel's trusted client-IP header.
 Reason: Public URL analysis otherwise creates an SSRF and resource-exhaustion surface. The in-memory limiter is intentionally a Build Week best-effort control; a multi-instance production service should add platform-level rate limiting or a shared store.
+
+### D-015 — Transparent zero-cost Gemini public runtime
+Decision: Preserve the complete GPT-5.6 Responses API implementation, but use Gemini 2.5 Flash-Lite for the public deployment's live support and challenge searches after the Build Week promotional OpenAI credits were exhausted. Always display the actual runtime model and never describe Gemini output as GPT-5.6.
+Reason: A judge-testable fresh-search path must remain publicly accessible without creating an unfunded OpenAI API liability. Provider substitution must not obscure provenance or weaken the existing curated fallback.
+
+### D-016 — Two-call grounded-search mode for free-tier reliability
+Decision: In Gemini mode, use deterministic claim decomposition and finding audits, and reserve Gemini for sequential support and challenge Google Search-grounded requests. Build evidence only from grounding support-to-source metadata, cap four sources per claim per path, render the Search Suggestions attribution returned by Google, and return explicit partial states on quota failure.
+Reason: The free tier has project/model request limits. Two sequential calls preserve the separate adversarial paths while remaining materially more reliable than a six-call pipeline. Grounding metadata keeps URLs allowlisted without a second model-formatting request.
 
 ## Build log
 
@@ -224,3 +232,18 @@ Add dated entries below.
 - Live-path boundary: Vercel currently has no environment variables for this project. A normal text submission returned `mode: sample`, `model: deterministic-fallback`, two claims, zero evidence items, and explicit limitations. This is the intended no-key behavior and is not counted as a live GPT-5.6/web-search pass.
 - Result: Public repository and judge-testable curated deployment are complete. Milestone 10 remains `IN PROGRESS` until the production OpenAI key, live GPT-5.6 smoke, platform-level limits, public YouTube demo, `/feedback` Session ID, and Devpost submission are complete.
 - Next: Add `OPENAI_API_KEY` to Vercel Production, redeploy, and run the live input from `docs/JUDGE_GUIDE.md`.
+
+### 2026-07-17 — Milestone 10 Gemini release candidate
+- Work completed: Added a server-only provider selector and the official `@google/genai` SDK; retained the optional GPT-5.6 Responses API path; implemented two sequential Gemini 2.5 Flash-Lite Google Search-grounded support/challenge calls; mapped evidence only from grounding support-to-source metadata; capped each claim/path at four sources; added deterministic Gemini-mode decomposition and synthesis; added graceful partial results; exposed the actual runtime model; and added visible free-tier privacy disclosure.
+- Grounding compliance: Added the Search Suggestions HTML returned by Gemini grounding metadata to typed analysis/challenge results and the Evidence Map UI. Grounded evidence is withheld when the required attribution is missing. Verified the current model ID, free-tier grounding support, pricing boundary, 30-day grounding retention, and attribution requirement against official Google AI documentation on 2026-07-17.
+- Owner configuration: Confirmed by variable name only that Vercel Production contains encrypted `AI_PROVIDER`, `GEMINI_API_KEY`, and `GEMINI_MODEL`. Secret values were neither displayed nor added to the repository. The owner identified the dedicated Google project as `gen-lang-client-0175510817`.
+- Commands/tests:
+  - `npm run format` and `git diff --check` — PASS.
+  - `npm run lint` — PASS.
+  - `npm run typecheck` — PASS.
+  - `npm test` — PASS; 15 files and 60 tests passed.
+  - `npm run eval:golden` — PASS; all eight golden cases plus causal and cross-claim-label leakage controls passed.
+  - `npm run build` — PASS; `/`, `/api/analyze`, `/api/challenge`, and `/api/demo` built successfully.
+  - `npm audit` and `npm audit --omit=dev` — PASS; 0 vulnerabilities.
+- Result: Local release gates pass. Milestone 10 remains `IN PROGRESS` pending the GitHub push, production deployment, signed-out live smoke, public video, `/feedback` Session ID, and Devpost submission.
+- Next: Commit and push the Gemini release, wait for Vercel Production, then run the live judge input, Search Suggestions, challenge, curated demo, SSRF, and security-header smoke tests.

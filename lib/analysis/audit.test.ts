@@ -1,12 +1,33 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { ISSUE_LABELS } from "@/lib/domain/schemas";
 
 import { decomposeClaimsLocally } from "./decompose";
 import { auditClaimsDeterministically, synthesizeFindings } from "./audit";
+
+const previousKeys = {
+  provider: process.env.AI_PROVIDER,
+  openai: process.env.OPENAI_API_KEY,
+  gemini: process.env.GEMINI_API_KEY,
+};
+
+beforeAll(() => {
+  process.env.AI_PROVIDER = "openai";
+  delete process.env.OPENAI_API_KEY;
+  delete process.env.GEMINI_API_KEY;
+});
+
+afterAll(() => {
+  if (previousKeys.provider === undefined) delete process.env.AI_PROVIDER;
+  else process.env.AI_PROVIDER = previousKeys.provider;
+  if (previousKeys.openai === undefined) delete process.env.OPENAI_API_KEY;
+  else process.env.OPENAI_API_KEY = previousKeys.openai;
+  if (previousKeys.gemini === undefined) delete process.env.GEMINI_API_KEY;
+  else process.env.GEMINI_API_KEY = previousKeys.gemini;
+});
 
 interface GoldenCase {
   id: string;

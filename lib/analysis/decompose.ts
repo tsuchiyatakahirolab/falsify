@@ -7,11 +7,9 @@ import {
   TESTABILITY_VALUES,
   type Claim,
 } from "@/lib/domain/schemas";
-import {
-  getOpenAIClient,
-  hasOpenAIKey,
-  OPENAI_MODEL,
-} from "@/lib/openai/client";
+import { getLiveProvider } from "@/lib/ai/provider";
+import { GEMINI_MODEL } from "@/lib/gemini/client";
+import { getOpenAIClient, OPENAI_MODEL } from "@/lib/openai/client";
 
 import { DECOMPOSITION_PROMPT, UNTRUSTED_CONTENT_POLICY } from "./prompts";
 
@@ -174,7 +172,7 @@ export function decomposeClaimsLocally(text: string): DecompositionResult {
     model: "deterministic-fallback",
     mode: "sample",
     limitations: [
-      "OPENAI_API_KEY is not configured, so claim decomposition used a deterministic fallback and no live evidence search was performed.",
+      "No supported server-side model key is configured, so claim decomposition used a deterministic fallback and no live evidence search was performed.",
     ],
   };
 }
@@ -212,7 +210,20 @@ function normalizeModelClaims(
 export async function decomposeClaims(
   text: string,
 ): Promise<DecompositionResult> {
-  if (!hasOpenAIKey()) return decomposeClaimsLocally(text);
+  const provider = getLiveProvider();
+  if (!provider) return decomposeClaimsLocally(text);
+
+  if (provider === "gemini") {
+    const decomposition = decomposeClaimsLocally(text);
+    return {
+      ...decomposition,
+      model: GEMINI_MODEL,
+      mode: "live",
+      limitations: [
+        "To conserve the public Gemini free-tier quota, claim decomposition and final auditing are deterministic; Gemini is reserved for two independent grounded evidence searches.",
+      ],
+    };
+  }
 
   const client = getOpenAIClient();
   const response = await client.responses.parse({
