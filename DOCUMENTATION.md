@@ -361,3 +361,9 @@ Add dated entries below.
 - Validation boundary: No application code changed during submission. The final verification therefore used the previously passing release suite plus public-link and metadata checks; the Gemini Search-grounding zero-quota limitation remains explicitly disclosed and the curated judge path remains fully testable.
 - Result: `PASS`. Milestone 10 and the Build Week submission package are complete.
 - Next: Preserve the public deployment and repository through judging; make only necessary factual or availability corrections before the submission deadline.
+
+## 2026-10-22 security maintenance
+- Next.js / eslint-config-next 16.4.2; React / React DOM 19.2.9; sharp 0.35.5.
+- Compatible transitive fixes and PostCSS 8.5.31 remove production audit findings.
+- Local lint, typecheck, build and all 61 tests passed. Public deployment verification is recorded separately in the audit handover.
+- Five High dev dependency entries remain on the unpatched braces glob chain; no forced downgrade is applied.
