@@ -367,3 +367,41 @@ Add dated entries below.
 - Compatible transitive fixes and PostCSS 8.5.31 remove production audit findings.
 - Local lint, typecheck, build and all 61 tests passed. Public deployment verification is recorded separately in the audit handover.
 - Five High dev dependency entries remain on the unpatched braces glob chain; no forced downgrade is applied.
+
+
+## 2026-11-01 — TSUCHIYA LAB product preview
+
+Status: LOCAL_VERIFICATION_PASS; PUBLIC_RELEASE_PENDING.
+
+### Product work
+
+The owner requested continued development under TSUCHIYA LAB, with the explanation and examples reused on the corporate website and GitHub. The application now uses the shared identity **Falsify by TSUCHIYA LAB** and title **Inspect the evidence behind each claim / 主張と根拠の対応を確認する**. The bilingual overview and distribution copy are in `docs/PRODUCT_OVERVIEW.md` and `docs/DISTRIBUTION.md`.
+
+The interface defaults to Japanese and can switch to English. An explicitly invented electricity-consumption passage illustrates comparisons, causal explanations, and generalization; it is not presented as a measured result or a completed verification. The saved public-source fixture remains dated 17 July 2026.
+
+Japanese local decomposition supports sentence punctuation, short sentences, conservative wording cues, and exact source spans while protecting common English abbreviations, decimals and URLs. Model spans are checked against the original wording. Local questions/findings and rule-based warning explanations support Japanese. These changes do not establish broad Japanese-language accuracy.
+
+Coverage distinguishes the bounded extracted candidates (up to eight) from the analyzed subset (five by default, configurable from one to eight). The result explicitly states that extraction may omit claims. Source-context disclosures show the selected wording within the input. Overlong fetched text and uploaded files are rejected without silent truncation; the analysis API accepts up to 128 KiB so ordinary Japanese text within the 30,000-character limit fits the request boundary.
+
+Markdown and versioned JSON downloads retain the input, source provenance, limitations, initial findings, and latest re-check separately. The Markdown export escapes untrusted formatting and labels evidence summaries as summaries. Provider presentation HTML is omitted. A false additional-review flag is not described as permission to skip source review. Downloads do not create a permanent manuscript store.
+
+The corporate repository adds a bilingual `/products/falsify` page, a secondary listing after CapacityLine, route metadata and a sitemap entry. Its example and limits match this repository. The application update should be published before the corporate page's new-feature description is promoted.
+
+### Verification
+
+- `npm run lint`: PASS.
+- `npm run typecheck`: PASS.
+- `npm test`: PASS, 18 files / 99 tests, including Japanese segmentation/source spans, oversized inputs, the Japanese request-body boundary, selected-claim counts, export provenance/escaping, original-versus-revised findings, and existing golden audit cases.
+- `npm run format` and `git diff --check`: PASS.
+- `npm run build -- --webpack`: PASS, including TypeScript and static/server route generation. The restricted environment interfered with a TypeScript subprocess during the first attempt; the normal-permission build passed without changing framework configuration.
+- Playwright against the final local production build: PASS. Verified Japanese input, two selected example claims, original context, zero-source local mode, local unresolved re-check, Markdown and JSON downloads, the saved four-claim demo, Claim 2's qualified re-check and separate finding versions, language switching, oversized-file rejection, valid-file reading, pending-file-read cancellation, short Japanese input, intact but non-submittable oversized pasted text, and 390/320 px layouts. No browser exceptions were observed.
+- The current Japanese screenshot in `docs/assets/falsify-product-preview-ja.png` comes from that production build. The older evidence-map screenshot and video remain labelled as July 2026 records.
+- Corporate companion: lint passed with one pre-existing unused-disable warning; webpack production build/TypeScript passed; Japanese/dark and English/light desktop plus both languages at 390/320 px passed with no overflow or browser errors. Final copy reconciliation passed focused lint and diff checks.
+
+### Release and evaluation boundaries
+
+No live provider call was made in these checks. Provider credentials, model/search quota, billing, and current production configuration have not been reverified. The connected Vercel integration returned a team-scope authorization error for TSUCHIYA LAB; public rollout requires that access to be granted and the deployed version checked.
+
+The 99 tests are implementation checks, not a measured factual-accuracy benchmark. Local segmentation does not fully separate compound propositions or resolve contextual meaning. The pre-existing deterministic audit policy still has a `LEGITIMATE_CRITICISM` shortcut for selected English phrases, covered by golden case G007; it can produce that label without supporting source records. Treat rule-derived labels as review cues and inspect the actual evidence. Revising that policy and evaluating live Japanese outputs remain separate quality work before a broader commercial release.
+
+Accounts, paid plans, PDF/Word parsing, complete-manuscript coverage, and an installable marketplace skill are outside this update. External marketplace copy is prepared but has not been submitted.

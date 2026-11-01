@@ -32,7 +32,11 @@ Default policy:
 - make external processing clear to users;
 - do not promise "zero retention" unless the deployed configuration actually guarantees it.
 
-The configured fresh-search mode uses the Gemini Developer API and Google Search grounding when project quota is available. Google states that free-tier content may be used to improve its products, and [documents a 30-day retention rule](https://ai.google.dev/gemini-api/docs/zdr) for grounded prompts, context, and output. The UI therefore warns users not to submit confidential material. Falsify itself still has no database and does not intentionally persist submitted documents. The UI renders the required Google Search Suggestions returned in grounding metadata; the HTML is accepted only from the server-side Gemini response and remains constrained by the application's CSP. The current public project's free Search-grounding quota is zero, and billing has not been enabled.
+Live analysis sends submitted content to the configured model/search provider (Gemini or OpenAI). Provider data-use and retention policies apply in addition to this application's behavior; check the terms for the account and service actually deployed. Falsify has no permanent manuscript database and does not intentionally persist submitted documents. Use public or non-confidential material in a shared deployment.
+
+The July 2026 deployment used Gemini Developer API and Google Search grounding; the dated checks in [DOCUMENTATION.md](../DOCUMENTATION.md) recorded unavailable free Search-grounding quota. Those observations do not establish the current deployment's provider, quota, billing, or retention configuration. No live provider or billing configuration was changed or verified during the November 2026 local product update.
+
+The UI renders Google Search Suggestions returned in server-side Gemini grounding metadata, subject to the application's CSP. Markdown and JSON downloads exclude this presentation HTML and preserve the source records, limitations, original findings, and latest re-check separately. Exported files include the submitted text and are saved only when the user chooses to download them; users control their subsequent storage and sharing.
 
 ### Public demo
 - API bodies, source downloads, input text, and GPT output are bounded.

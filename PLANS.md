@@ -1,4 +1,4 @@
-# PLANS.md — Falsify Build Week ExecPlan
+# PLANS.md — Falsify execution plan
 
 This file is the execution source of truth. Update status in place. Do not expand scope without recording the tradeoff.
 
@@ -181,3 +181,25 @@ Status: COMPLETE (2026-07-18)
 
 Exit test:
 - independent judge can test immediately.
+
+
+## Milestone 11 — TSUCHIYA LAB product preview
+
+Status: IMPLEMENTED; PUBLICATION PENDING (2026-11-01)
+
+Owner-directed scope after Build Week: develop Falsify as a TSUCHIYA LAB product and reuse its explanation and examples on the corporate website and GitHub. This extends the original submission scope with Japanese input support and portable results. Accounts, paid billing, complete-manuscript review, and an installable marketplace skill remain separate work.
+
+Implemented:
+- Japanese/English interface and shared product identity, title, and invented teaching passage.
+- Japanese sentence boundaries, exact source spans, short sentences, conservative classification cues, and Japanese local questions/findings.
+- Visible selected-claim coverage: extraction up to eight candidates, analysis up to five by default, configurable from one to eight.
+- Explicit rejection of oversized URL/file content; a 128 KiB request-body limit accommodates Japanese text within the 30,000-character input limit.
+- Markdown/JSON downloads with source records, unresolved points, limitations, original findings, and latest re-checks separated.
+- Shared bilingual product explanation and distribution copy; Build Week material preserved as dated history.
+- Companion corporate page at `/products/falsify` with a secondary homepage listing, metadata, and sitemap entry.
+
+Release gate:
+- Local lint, typecheck, 99 tests, formatting and webpack production build: PASS.
+- Browser checks and deployment access are recorded in DOCUMENTATION.md.
+- Publish reviewable branches/PRs in both repositories, then verify the deployment before describing the new public routes/features as live.
+- Current connected Vercel scope requires authorization for the TSUCHIYA LAB team. Live provider quota and funded operation have not been reverified.

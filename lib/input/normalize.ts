@@ -51,10 +51,16 @@ async function normalizeUrlInput(input: FalsifyInput): Promise<FalsifyInput> {
       "No readable text was found at this URL.",
     );
   }
+  if (content.length > MAX_INPUT_CHARS) {
+    throw new PublicUrlError(
+      "INPUT_TOO_LONG",
+      "The source contains more than 30,000 characters of readable text. Paste a shorter excerpt to choose which claims to analyze.",
+    );
+  }
 
   return InputSchema.parse({
     ...input,
-    content: content.slice(0, MAX_INPUT_CHARS),
+    content,
     title: input.title ?? new URL(url).hostname,
   });
 }
@@ -62,5 +68,5 @@ async function normalizeUrlInput(input: FalsifyInput): Promise<FalsifyInput> {
 export async function normalizeInput(input: unknown): Promise<FalsifyInput> {
   const parsed = InputSchema.parse(input);
   if (parsed.type === "url") return normalizeUrlInput(parsed);
-  return { ...parsed, content: parsed.content.slice(0, MAX_INPUT_CHARS) };
+  return parsed;
 }
