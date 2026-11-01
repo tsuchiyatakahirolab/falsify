@@ -10,13 +10,13 @@ Falsifyは、研究者、調査担当者、編集者が文章中の主張と根�
 
 [Open the preview / プレビューを開く](https://falsify-mu.vercel.app/) · [TSUCHIYA LAB](https://tsuchiyalab.com/) · [Product overview / 製品の説明](docs/PRODUCT_OVERVIEW.md) · [Source / ソースコード](https://github.com/tsuchiyatakahirolab/falsify)
 
-The changes described below are implemented in this checkout. Publication of this update and the company product page is pending; the existing public preview may still show the earlier interface. See [DOCUMENTATION.md](DOCUMENTATION.md) for verification and deployment status.
+The updated research preview and [company product page](https://tsuchiyalab.com/products/falsify) are public. The prepared public-source example, its demonstration re-check, and Markdown/JSON exports were verified on **1 November 2026**. Fresh evidence retrieval remains limited by provider quota: a Japanese-input check returned two claims and no web evidence, with the limitation shown in the result.
 
-以下の更新内容は、このコードに実装しています。更新版と会社の商品説明ページの公開は準備中であり、既存の公開プレビューには以前の画面が表示される場合があります。確認結果と公開状況は[開発記録](DOCUMENTATION.md)に記載します。
+更新版の研究用プレビューと[会社の商品説明ページ](https://tsuchiyalab.com/products/falsify)を公開しました。**2026年11月1日**に、作成済みの公開資料例、判定の再検討、Markdown・JSON出力の動作を確認しています。新たな資料検索にはプロバイダーの利用枠による制約があり、日本語入力の確認では主張2件を抽出したものの資料は取得できず、その制約を結果に表示しました。
 
 ![Japanese Falsify interface with its explicitly illustrative teaching passage](docs/assets/falsify-product-preview-ja.png)
 
-The current interface above was captured from the verified local production build on 1 November 2026. Public deployment of this update is pending.
+The screenshot shows the November 2026 interface, captured from the verified local production build. The update is now deployed; public checks and remaining provider limitations are recorded in [DOCUMENTATION.md](DOCUMENTATION.md).
 
 ## Try the prepared example
 
@@ -63,7 +63,7 @@ PDF and Word document parsing, full-manuscript coverage, accounts, billing, and 
 
 ### Features in this update
 
-This checkout adds sentence splitting for English, Japanese, and Chinese punctuation, English/Japanese interface controls, a visible coverage summary, and Markdown/JSON report downloads. It also provides a Japanese illustrative input about electricity consumption, explicitly labelled as an invented example whose evidence still needs to be examined. The prepared July 2026 public-source case remains a separate demonstration.
+The November 2026 update adds sentence splitting for English, Japanese, and Chinese punctuation, English/Japanese interface controls, a visible coverage summary, and Markdown/JSON report downloads. It also provides a Japanese illustrative input about electricity consumption, explicitly labelled as an invented example whose evidence still needs to be examined. The prepared July 2026 public-source case remains a separate demonstration.
 
 Reports retain the input excerpts, sources, limitations, and original findings alongside the latest available re-check for each claim. Markdown labels source summaries as summaries; JSON preserves the structured analysis in a versioned report envelope. These exports do not create a permanent manuscript store, and they do not contain a complete history of earlier re-checks.
 

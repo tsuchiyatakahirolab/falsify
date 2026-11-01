@@ -371,7 +371,7 @@ Add dated entries below.
 
 ## 2026-11-01 — TSUCHIYA LAB product preview
 
-Status: LOCAL_VERIFICATION_PASS; PUBLIC_RELEASE_PENDING.
+Status: LOCAL_VERIFICATION_PASS; subsequently published and verified as recorded below.
 
 ### Product work
 
@@ -385,7 +385,7 @@ Coverage distinguishes the bounded extracted candidates (up to eight) from the a
 
 Markdown and versioned JSON downloads retain the input, source provenance, limitations, initial findings, and latest re-check separately. The Markdown export escapes untrusted formatting and labels evidence summaries as summaries. Provider presentation HTML is omitted. A false additional-review flag is not described as permission to skip source review. Downloads do not create a permanent manuscript store.
 
-The corporate repository adds a bilingual `/products/falsify` page, a secondary listing after CapacityLine, route metadata and a sitemap entry. Its example and limits match this repository. The application update should be published before the corporate page's new-feature description is promoted.
+The corporate repository adds a bilingual `/products/falsify` page, a secondary listing after CapacityLine, route metadata and a sitemap entry. Its example and limits match this repository. The application update was published before the corporate page; the production verification is recorded below.
 
 ### Verification
 
@@ -400,8 +400,31 @@ The corporate repository adds a bilingual `/products/falsify` page, a secondary 
 
 ### Release and evaluation boundaries
 
-No live provider call was made in these checks. Provider credentials, model/search quota, billing, and current production configuration have not been reverified. The connected Vercel integration returned a team-scope authorization error for TSUCHIYA LAB; public rollout requires that access to be granted and the deployed version checked.
+No live provider call was made during the local checks above. Initial production inspection was blocked by the connected Vercel team scope. The owner subsequently approved team access, and the public release checks below include one actual Japanese-input analysis. Provider credentials and billing configuration were not changed.
 
 The 99 tests are implementation checks, not a measured factual-accuracy benchmark. Local segmentation does not fully separate compound propositions or resolve contextual meaning. The pre-existing deterministic audit policy still has a `LEGITIMATE_CRITICISM` shortcut for selected English phrases, covered by golden case G007; it can produce that label without supporting source records. Treat rule-derived labels as review cues and inspect the actual evidence. Revising that policy and evaluating live Japanese outputs remain separate quality work before a broader commercial release.
 
 Accounts, paid plans, PDF/Word parsing, complete-manuscript coverage, and an installable marketplace skill are outside this update. External marketplace copy is prepared but has not been submitted.
+
+
+### 2026-11-01 — Production publication and verification
+
+Status: PUBLISHED_RESEARCH_PREVIEW; FRESH_SEARCH_QUOTA_LIMITED.
+
+The owner approved the required Vercel team access. Existing Git integrations published the reviewed code in this order:
+
+1. Falsify [PR #5](https://github.com/tsuchiyatakahirolab/falsify/pull/5) merged to `main` at `6cefc19d3a61333a7160cd348c9d7d85fe26ee2a`. Vercel production deployment `dpl_8HeUV3uEBSZuQ8G1N4phDyShvv7H` reached READY and assigned <https://falsify-mu.vercel.app/>. The public URL returned HTTP 200 without a login and displayed the new Japanese title and TSUCHIYA LAB identity.
+2. The corporate product-page update merged at `6981ab7f76793771cdacd7c875a421a4678cdd98`. Cloudflare Workers Builds succeeded for build `49d3d334-34c6-4b6b-a471-b8170fd7049d`, Worker version `ebbcb8a1-45ef-47b4-8456-99f9b65c18be`. The actual company domain, served by Cloudflare/OpenNext, returned HTTP 200 at <https://tsuchiyalab.com/products/falsify>. Its canonical URL, sitemap entry, and homepage link after CapacityLine were verified. A Vercel mirror build alone was not used as evidence of publication on the custom domain.
+
+Public Falsify checks passed:
+- Japanese interface without authentication, language switching, and mobile layout.
+- One submitted Japanese teaching passage returned HTTP 200, two selected claims, matching source spans, and coverage metadata.
+- The saved four-claim public-source demo loaded; the Claim 2 re-check returned `qualified` with the original and revised findings available separately.
+- Browser downloads of Markdown and JSON retained sources and the latest re-check. No JavaScript exceptions were observed in the checked app flow.
+- A targeted Vercel runtime-log count query for error/warning/fatal entries on this deployment over the preceding 15 minutes returned no entries. This is a bounded observation, not a general reliability guarantee.
+
+The production Japanese-input request selected `gemini-3.1-flash-lite`, returned `mode: sample`, and contained zero web-evidence records. Both support and challenge searches reported a quota/rate limit; their absence and the deterministic-processing limitations were shown to the user. The successful interface and saved-example checks therefore do not establish that fresh grounded search is currently available. No sources were substituted to hide the unavailable paths. No new provider funding, credentials, or billing settings were introduced.
+
+Corporate public checks confirmed Japanese/English content, theme controls, 390/320 px layouts, the product's public destination links, and no JavaScript exceptions. Normal HTTPS validation succeeded for both public domains. The temporary headless browser required a local proxy-certificate workaround; company service-worker requests also produced certificate diagnostics in that QA environment. A normal TLS-validating request fetched `/sw.js` successfully (HTTP 200), and a targeted temporary browser context with service workers blocked removed those console diagnostics. These checks did not change either site's TLS or deployment-protection configuration.
+
+The README, bilingual overview, distribution copy, and plan were updated to the observed public state. Marketplace submission and an installable agent skill remain separate work.

@@ -185,7 +185,7 @@ Exit test:
 
 ## Milestone 11 — TSUCHIYA LAB product preview
 
-Status: IMPLEMENTED; PUBLICATION PENDING (2026-11-01)
+Status: PUBLISHED AS RESEARCH PREVIEW (2026-11-01)
 
 Owner-directed scope after Build Week: develop Falsify as a TSUCHIYA LAB product and reuse its explanation and examples on the corporate website and GitHub. This extends the original submission scope with Japanese input support and portable results. Accounts, paid billing, complete-manuscript review, and an installable marketplace skill remain separate work.
 
@@ -201,5 +201,5 @@ Implemented:
 Release gate:
 - Local lint, typecheck, 99 tests, formatting and webpack production build: PASS.
 - Browser checks and deployment access are recorded in DOCUMENTATION.md.
-- Publish reviewable branches/PRs in both repositories, then verify the deployment before describing the new public routes/features as live.
-- Current connected Vercel scope requires authorization for the TSUCHIYA LAB team. Live provider quota and funded operation have not been reverified.
+- Falsify PR #5 and corporate PR #10 were merged after approval; both public routes are verified live.
+- Team access was approved. Falsify production is on Vercel; the company domain is served by Cloudflare/OpenNext. One public Japanese analysis returned an explicitly limited result because both Gemini search paths reached quota/rate limits. Provider credentials and billing were not changed.

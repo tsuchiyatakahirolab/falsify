@@ -2,7 +2,7 @@
 
 This page provides the shared product explanation for the repository and company website. It describes the research preview, separates prepared examples from live analysis, and keeps planned work distinct from available functions. See [README.md](../README.md) for setup and [DOCUMENTATION.md](../DOCUMENTATION.md) for dated verification records.
 
-The update described here is implemented in this checkout. Publication of the updated web application and the company product page is pending; the existing public preview may show the earlier version. Feature availability should be read together with that deployment status.
+The updated [web preview](https://falsify-mu.vercel.app/) and [company product page](https://tsuchiyalab.com/products/falsify) are public. Checks on 1 November 2026 confirmed the prepared public-source example, its demonstration re-check, and Markdown/JSON exports. Fresh evidence retrieval remains quota-limited; a Japanese-input check returned two claims and no web evidence, and the result disclosed the unavailable evidence paths.
 
 ## English
 
@@ -50,7 +50,7 @@ The application has no permanent manuscript database. Live analysis may send inp
 
 ## 日本語
 
-このページで説明する更新は、現在のコードに実装しています。更新版と会社の商品説明ページの公開は準備中であり、既存の公開プレビューには以前の画面が表示される場合があります。利用できる機能は、[開発記録](../DOCUMENTATION.md)に記載する公開状況とあわせて確認してください。
+更新版の[研究用プレビュー](https://falsify-mu.vercel.app/)と[会社の商品説明ページ](https://tsuchiyalab.com/products/falsify)を公開しました。2026年11月1日に、作成済みの公開資料例、判定の再検討、Markdown・JSON出力を確認しています。新たな資料検索には利用枠の制約があり、日本語入力の確認では主張2件に対して資料を取得できず、検索できなかった経路と制約を結果に表示しました。
 
 ### 主張と根拠の対応を確認する
 

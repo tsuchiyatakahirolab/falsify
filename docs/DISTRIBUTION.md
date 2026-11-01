@@ -12,13 +12,13 @@ This file keeps the company website, GitHub explanation, and future directory de
 | Japanese summary | 主張と根拠の対応を確認する。 |
 | Availability | Open-source research preview. |
 | Company | <https://tsuchiyalab.com/> |
-| Proposed product-page route | `https://tsuchiyalab.com/products/falsify`; publication is pending. |
+| Company product page | <https://tsuchiyalab.com/products/falsify> |
 | Web preview | <https://falsify-mu.vercel.app/> |
 | Repository | <https://github.com/tsuchiyatakahirolab/falsify> |
 | License | MIT. |
 | Canonical explanation | [PRODUCT_OVERVIEW.md](PRODUCT_OVERVIEW.md). |
 
-Use the product name in the listing title and the developer name in the publisher field or opening sentence. Keep the link to the source repository available so that readers can examine the implementation and its limits. The company product page can replace the homepage link once that page has been published and checked.
+Use the product name in the listing title and the developer name in the publisher field or opening sentence. Use the company product page as the shared explanation of the workflow, examples, and current limits. Keep the source repository and web preview linked so that readers can inspect the implementation and try the prepared example.
 
 ## Concise English description
 
@@ -41,7 +41,7 @@ Use the illustrative electricity example from [PRODUCT_OVERVIEW.md](PRODUCT_OVER
 | Evidence questions | Check the baseline and measurement conditions, alternative explanations, and the evidence required to generalize to other facilities. |
 | Expected boundary | These are review questions, not completed findings. Questions without evidence remain unresolved; the 20% figure must not appear as verified performance. |
 | Re-check | Explain that Falsify's own finding can be challenged; show this only through an implemented, verified path. |
-| Export | The updated code exports Markdown and JSON, retaining source details and distinguishing original findings from the latest re-check. Record a public demonstration only after this version has been deployed. |
+| Export | The public preview exports Markdown and JSON, retaining source details and distinguishing original findings from the latest re-check. Both formats were verified on 1 November 2026. |
 
 ### Short demonstration script in English
 
@@ -74,4 +74,4 @@ Do not state a measured accuracy rate, a measured time saving, or comprehensive 
 
 For each publication, record the destination, date, linked version, and the description used. Evaluate visits to the explanation or preview, completed example use where measured, substantive feedback, and relevant enquiries. Keep visits or installs distinct from active use and enquiries; these measures describe different outcomes.
 
-The updated code implements multilingual sentence boundaries, visible coverage, Markdown/JSON export, Japanese interface copy, and an in-app Japanese illustrative input. Publication of the application update and the company product page is pending; use the release log to distinguish implementation checks from a successful public deployment. Preparing this copy does not itself submit a marketplace listing, publish a social post, or send an outreach message.
+The November 2026 update and company product page are public. Production checks on 1 November confirmed the prepared example, re-check, exports, language switching, and mobile layout; fresh evidence retrieval remains limited by provider quota. The repository still does not include an installable agent skill, and these materials have not been submitted to Agensi or another directory.
