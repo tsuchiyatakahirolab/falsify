@@ -29,7 +29,7 @@ describe("public API safety boundaries", () => {
     const oversized = await analyze(
       post(
         "https://example.test/api/analyze",
-        JSON.stringify({ value: "x".repeat(70_000) }),
+        JSON.stringify({ value: "x".repeat(140_000) }),
       ),
     );
     expect(oversized.status).toBe(413);

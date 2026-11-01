@@ -13,7 +13,8 @@ import {
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const ANALYSIS_BODY_LIMIT = 64 * 1_024;
+// A 30,000-character Japanese passage can exceed 64 KiB in UTF-8.
+const ANALYSIS_BODY_LIMIT = 128 * 1_024;
 const ANALYSIS_RATE_LIMIT = 8;
 const RATE_WINDOW_MS = 60 * 60 * 1_000;
 

@@ -70,6 +70,24 @@ a {
   letter-spacing: -0.03em;
 }
 
+.wordmark small {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.language-toggle {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--forest);
+  cursor: pointer;
+}
+
 .wordmark-mark {
   width: 34px;
   height: 34px;
@@ -1533,5 +1551,178 @@ h2 {
   .verdict {
     max-width: none;
     text-align: left;
+  }
+}
+
+/* TSUCHIYA LAB product preview */
+.product-preview h1 {
+  max-width: 1080px;
+  font-size: clamp(2.1rem, 4.1vw, 3.8rem);
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.product-preview h1 > span {
+  display: block;
+  margin-top: 15px;
+  color: var(--forest);
+  font-size: 0.55em;
+  font-style: normal;
+  letter-spacing: 0;
+}
+
+.product-preview .hero-actions {
+  margin-top: 24px;
+}
+
+:lang(ja) .teaching-example h2,
+:lang(ja) .analyzer-heading h2,
+:lang(ja) .method h2,
+:lang(ja) .principles h2 {
+  max-width: 900px;
+  font-size: clamp(1.6rem, 3.1vw, 2.6rem);
+  line-height: 1.5;
+}
+
+.teaching-example {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 58px 0 72px;
+  border-top: 1px solid var(--line);
+}
+
+.teaching-example .section-heading > p:last-child {
+  max-width: 780px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+}
+
+.teaching-example > blockquote {
+  margin: 32px 0;
+  padding: 24px 28px;
+  border-left: 3px solid var(--forest);
+  background: #e7e2d7;
+  font-size: 1.12rem;
+  line-height: 1.85;
+}
+
+.example-checks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.example-checks article > span {
+  color: var(--forest);
+  font-size: 0.82rem;
+}
+
+.example-checks h3 {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+.example-checks p {
+  color: var(--ink-soft);
+  line-height: 1.75;
+  font-size: 0.93rem;
+}
+
+.source-position {
+  margin: 12px 0 20px;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.source-position summary {
+  cursor: pointer;
+  color: var(--forest);
+}
+
+.source-position mark {
+  background: #e5ebbd;
+  color: var(--ink);
+}
+
+.coverage-panel {
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.88rem;
+  line-height: 1.75;
+}
+
+.coverage-panel p {
+  margin: 8px 0 0;
+}
+
+.report-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 24px;
+}
+
+.report-actions p {
+  flex: 1;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.report-actions button {
+  padding: 10px 14px;
+  border: 1px solid var(--forest);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--forest);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 680px) {
+  .site-header {
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 0;
+  }
+  .site-header nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+    font-size: 0.78rem;
+  }
+  .wordmark {
+    flex-shrink: 0;
+  }
+  .teaching-example {
+    width: calc(100% - 32px);
+    padding: 42px 0;
+  }
+  .teaching-example > blockquote {
+    margin: 24px 0;
+    padding: 18px;
+    font-size: 1rem;
+  }
+  .example-checks {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .report-actions {
+    flex-wrap: wrap;
+  }
+  .report-actions p {
+    flex-basis: 100%;
+  }
+  .report-actions button {
+    flex: 1;
   }
 }

@@ -25,6 +25,16 @@ export interface AuditResult {
   limitations: string[];
 }
 
+function hasJapaneseText(text: string): boolean {
+  return /[\p{Script=Hiragana}\p{Script=Katakana}]/u.test(text);
+}
+
+function localAuditLimitation(text: string): string {
+  return hasJapaneseText(text)
+    ? "ローカルの判定は、利用できる証拠と規則に基づく確認結果です。警告が示すのは追加で確認すべき箇所であり、主張の誤りや因果推論の不成立を確定するものではありません。"
+    : "Local findings use rule-based checks over the available evidence. Flags identify points to review; they do not establish that a claim is false or a causal inference is invalid.";
+}
+
 function issueLabelsFor(text: string, claim: Claim): Finding["issue_labels"] {
   const value = text.toLowerCase();
   const labels = new Set<Finding["issue_labels"][number]>();
@@ -101,6 +111,7 @@ function issueLabelsFor(text: string, claim: Claim): Finding["issue_labels"] {
 function checkForLabel(
   label: Finding["issue_labels"][number],
   text: string,
+  japanese: boolean,
 ): AuditObservation["checks"][number] {
   const types: Record<
     Finding["issue_labels"][number],
@@ -137,10 +148,33 @@ function checkForLabel(
       INFERENCE_EXCEEDS_EVIDENCE:
         "The conclusion is stronger than the stated evidentiary premise independently establishes.",
     };
+  const japaneseExplanations: Partial<
+    Record<Finding["issue_labels"][number], string>
+  > = {
+    OUTDATED:
+      "現在の状況を述べる主張に、入力中の別の時点より古い資料が使われている可能性があります。対象の時点を確認してください。",
+    NUMERICAL_MISMATCH:
+      "示された開始値と終了値を使うと、記述された10倍という変化と一致しません。",
+    CAUSAL_OVERREACH:
+      "表現上の手掛かりから、関連性や単一の前提を根拠とする因果説明の可能性が検出されました。因果関係を識別する方法と証拠を確認してください。",
+    ATTRIBUTION_NOT_ESTABLISHED:
+      "意図を説明する表現が含まれています。直接証拠または信頼できる状況証拠による裏付けを確認してください。",
+    HISTORICAL_ANALOGY_NOT_ESTABLISHED:
+      "歴史的な類推が含まれています。類推の根拠となる特徴と、比較対象との相違点を確認してください。",
+    SELECTIVE_CONTEXT:
+      "同じ条件の比較対象が省かれていないか、比較基準が一貫しているかを確認してください。",
+    UNSUPPORTED:
+      "記述された資料が、その話題との関連性に加えて、個別の主張を直接裏付けるか確認してください。",
+    INFERENCE_EXCEEDS_EVIDENCE:
+      "結論が、示された証拠だけから導ける範囲を超えていないか確認してください。",
+  };
   return {
     type: types[label],
     status: "flag",
-    explanation: explanations[label] ?? `Deterministic audit flagged ${label}.`,
+    explanation: japanese
+      ? (japaneseExplanations[label] ??
+        `規則に基づく確認で${label}に該当する表現が検出されました。`)
+      : (explanations[label] ?? `Deterministic audit flagged ${label}.`),
     observed: text.length > 180 ? `${text.slice(0, 177)}…` : text,
     expected: null,
   };
@@ -150,19 +184,21 @@ export function auditClaimsDeterministically(
   claims: Claim[],
 ): AuditObservation[] {
   return claims.map((claim) => {
+    const japanese = hasJapaneseText(claim.original_text);
     const text = `${claim.original_text} ${claim.normalized_claim}`;
     const issue_labels = issueLabelsFor(text, claim);
     return AuditObservationSchema.parse({
       claim_id: claim.id,
       issue_labels,
       checks: issue_labels.length
-        ? issue_labels.map((label) => checkForLabel(label, text))
+        ? issue_labels.map((label) => checkForLabel(label, text, japanese))
         : [
             {
               type: "inference",
               status: "not_applicable",
-              explanation:
-                "No deterministic date, number, attribution, analogy, context, or inference rule fired.",
+              explanation: japanese
+                ? "日付、数値、意図の説明、類推、文脈、推論に関する規則では、確認対象の表現は検出されませんでした。"
+                : "No deterministic date, number, attribution, analogy, context, or inference rule fired.",
               observed: null,
               expected: null,
             },
@@ -176,6 +212,7 @@ function localFinding(
   evidence: Evidence[],
   audit: AuditObservation,
 ): Finding {
+  const japanese = hasJapaneseText(claim.original_text);
   const support = evidence.filter(
     (item) => item.claim_id === claim.id && item.stance === "supporting",
   );
@@ -205,17 +242,27 @@ function localFinding(
     verdict,
     issue_labels: audit.issue_labels,
     factual_core: support.length
-      ? "The supporting sources establish at least part of the proposition."
-      : "No factual core has been independently established in the available evidence set.",
+      ? japanese
+        ? "主張の一部を支持する資料が得られています。"
+        : "The supporting sources establish at least part of the proposition."
+      : japanese
+        ? "取得できた証拠からは、主張の事実上の根拠を独立して確認できていません。"
+        : "No factual core has been independently established in the available evidence set.",
     analysis: audit.issue_labels.length
       ? audit.checks
           .filter((check) => check.status === "flag")
           .map((check) => check.explanation)
           .join(" ")
-      : "The available evidence does not support a stronger conclusion than the qualified verdict shown.",
+      : japanese
+        ? "取得できた証拠から判断できる範囲を示しています。より強い結論には、追加の資料や確認が必要です。"
+        : "The available evidence does not support a stronger conclusion than the qualified verdict shown.",
     unresolved: evidence.some((item) => item.claim_id === claim.id)
       ? []
-      : ["No allowlisted public source was available for this claim."],
+      : [
+          japanese
+            ? "この主張について、出典URLを確認できる公開資料を取得できませんでした。"
+            : "No allowlisted public source was available for this claim.",
+        ],
     supporting_evidence_ids: support.map((item) => item.id),
     challenging_evidence_ids: challenge.map((item) => item.id),
     human_judgment_required:
@@ -275,7 +322,11 @@ export async function synthesizeFindings(
 
   const provider = getLiveProvider();
   if (!provider) {
-    return { audits, findings: local, limitations: [] };
+    return {
+      audits,
+      findings: local,
+      limitations: [localAuditLimitation(input.content)],
+    };
   }
 
   if (provider === "gemini") {
@@ -283,7 +334,10 @@ export async function synthesizeFindings(
       audits,
       findings: local,
       limitations: [
-        "Findings were synthesized by deterministic audit rules over Gemini-grounded sources to conserve the public free-tier quota.",
+        hasJapaneseText(input.content)
+          ? "公開環境の利用枠を抑えるため、Geminiが出典情報を付けて返した資料に規則を適用して、判定を組み立てています。"
+          : "Findings were synthesized by deterministic audit rules over Gemini-grounded sources to conserve the public free-tier quota.",
+        localAuditLimitation(input.content),
       ],
     };
   }
@@ -317,7 +371,10 @@ export async function synthesizeFindings(
       audits,
       findings: local,
       limitations: [
-        "GPT-5.6 synthesis returned no structured output; deterministic findings are shown.",
+        hasJapaneseText(input.content)
+          ? "GPT-5.6から所定の形式の結果を取得できなかったため、規則に基づくローカルの判定を表示しています。"
+          : "GPT-5.6 synthesis returned no structured output; deterministic findings are shown.",
+        localAuditLimitation(input.content),
       ],
     };
   }

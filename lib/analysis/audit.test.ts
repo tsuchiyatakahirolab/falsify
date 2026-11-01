@@ -105,4 +105,34 @@ describe("deterministic audit engine", () => {
       "HISTORICAL_ANALOGY_NOT_ESTABLISHED",
     );
   });
+
+  it("explains Japanese local findings and rule-based warnings without inventing sources", async () => {
+    const input = {
+      type: "text" as const,
+      content: "担当者は資料を公表した。政府は意図的に説明を省いた。",
+      title: null,
+      source_url: null,
+      file_name: null,
+      mime_type: null,
+    };
+    const claims = decomposeClaimsLocally(input.content).claims;
+    const result = await synthesizeFindings(input, claims, []);
+
+    for (const finding of result.findings) {
+      expect(finding.verdict).toBe("INSUFFICIENT_EVIDENCE");
+      expect(finding.factual_core).toContain("確認できていません");
+      expect(finding.unresolved[0]).toContain("公開資料を取得できませんでした");
+      expect(finding.supporting_evidence_ids).toEqual([]);
+      expect(finding.challenging_evidence_ids).toEqual([]);
+    }
+    expect(result.findings[0].analysis).toContain("追加の資料");
+    expect(result.audits[0].checks[0].explanation).toContain("規則");
+    expect(result.findings[1].issue_labels).toContain(
+      "ATTRIBUTION_NOT_ESTABLISHED",
+    );
+    expect(result.audits[1].checks[0].explanation).toContain(
+      "裏付けを確認してください",
+    );
+    expect(result.limitations.join(" ")).toContain("追加で確認すべき箇所");
+  });
 });

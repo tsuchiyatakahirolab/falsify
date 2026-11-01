@@ -209,6 +209,16 @@ export const AnalysisResultSchema = z
     search_suggestions_html: z.array(z.string().min(1).max(50_000)).max(2),
     model: z.string().min(1),
     mode: z.enum(["live", "sample"]),
+    coverage: z
+      .object({
+        scope: z.literal("selected_claims"),
+        analyzed_claims: z.number().int().min(1).max(8),
+        extracted_claims: z.number().int().min(1).max(8),
+        analysis_limit: z.number().int().min(1).max(8),
+        extraction_limit: z.literal(8),
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 

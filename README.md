@@ -1,80 +1,73 @@
-# Falsify
+# Falsify by TSUCHIYA LAB
 
-**Adversarial evidence verification for claims that should survive scrutiny.**
+Inspect the evidence behind each claim.
 
-Falsify decomposes an argument into atomic claims, asks what would make each claim fail, searches separately for support and contradiction, audits the evidence-to-inference chain, and lets the user challenge Falsify's own finding.
+主張と根拠の対応を確認する。
 
-It is not a chatbot, a paper-level credibility score, or a political truth oracle. Findings stay claim-level, source-linked, qualified, and inspectable.
+Falsify helps researchers, analysts, and editors examine the claims in a passage. It separates supporting evidence from evidence that contradicts or qualifies a claim, shows the sources and remaining gaps, and lets the user challenge the resulting finding. TSUCHIYA LAB develops this open-source research preview so that a reader can inspect the relationship between a claim, its evidence, and the inference drawn from it.
 
-**Public demo:** [falsify-mu.vercel.app](https://falsify-mu.vercel.app/) · **Demo video:** [YouTube](https://youtu.be/hht1DsS66n0) · **Source:** [github.com/tsuchiyatakahirolab/falsify](https://github.com/tsuchiyatakahirolab/falsify)
+Falsifyは、研究者、調査担当者、編集者が文章中の主張と根拠の対応を確認するためのツールです。主張を支持する資料と、反証や留保となる資料を分けて示し、資料から確認できることと未確認のことを整理します。TSUCHIYA LABが開発するオープンソースの研究用プレビューとして、利用者が判定の根拠を読み直し、その判定自体を再検討できるようにしています。
 
-![Falsify Evidence Map](docs/assets/falsify-evidence-map-desktop.png)
+[Open the preview / プレビューを開く](https://falsify-mu.vercel.app/) · [TSUCHIYA LAB](https://tsuchiyalab.com/) · [Product overview / 製品の説明](docs/PRODUCT_OVERVIEW.md) · [Source / ソースコード](https://github.com/tsuchiyatakahirolab/falsify)
 
-## Judge path — 60 seconds, no API key required
+The changes described below are implemented in this checkout. Publication of this update and the company product page is pending; the existing public preview may still show the earlier interface. See [DOCUMENTATION.md](DOCUMENTATION.md) for verification and deployment status.
 
-1. Open the app and select **Load flagship public-source demo**.
-2. See one narrative decomposed into four claims: a draft-budget proposal fact, a historical analogy, and two reciprocal intent attributions.
-3. Inspect the separate supporting and contradictory/qualifying source paths.
-4. Notice that the same `ATTRIBUTION_NOT_ESTABLISHED` standard is applied to both Chinese and Japanese intent claims.
-5. On Claim 2, select **Challenge this finding**. The new National Diet evidence qualifies the analysis while preserving the unresolved historical threshold.
+以下の更新内容は、このコードに実装しています。更新版と会社の商品説明ページの公開は準備中であり、既存の公開プレビューには以前の画面が表示される場合があります。確認結果と公開状況は[開発記録](DOCUMENTATION.md)に記載します。
 
-The curated sample is public-source, dated, and visibly labeled. It does not pretend to be a fresh live search. See [JUDGE_GUIDE.md](docs/JUDGE_GUIDE.md).
+![Japanese Falsify interface with its explicitly illustrative teaching passage](docs/assets/falsify-product-preview-ja.png)
 
-## What makes Falsify different
+The current interface above was captured from the verified local production build on 1 November 2026. Public deployment of this update is pending.
 
-```text
-claim decomposition
-  → falsification questions
-  → independent support search + challenge search
-  → citation, date, number, source-fit, and inference audits
-  → inspectable claim-level finding
-  → adversarial re-check of Falsify itself
-```
+## Try the prepared example
 
-- No overall credibility score for a person, paper, institution, or country.
-- No deceptive-intent label without separate evidence of intent.
-- A real citation is not assumed to support the sentence that cites it.
-- Missing evidence becomes an evidence gap, not an invented source or confident verdict.
-- Public URLs and uploaded text are processed ephemerally; there is no database in the MVP.
+Open the preview and load the prepared public-source example. Select a claim, compare its supporting and qualifying sources, and inspect the explanation of what remains unresolved. Select **Challenge this finding** to see how additional evidence can qualify Falsify's own conclusion.
 
-## Live providers, OpenAI, and Codex use
+The public-source example is a dated, curated demonstration prepared on **17 July 2026**. It illustrates how a documented budget proposal, a historical analogy, and an attribution of intent require different evidence. Its sources and findings are prepared in advance; loading the example does not run a fresh web search.
 
-The deployed fresh-search integration uses **Gemini 3.1 Flash-Lite** for two separate Google Search-grounded evidence paths when project quota is available. Claim decomposition and final audits remain deterministic in this quota-conserving mode. URLs and titles enter the evidence map only through Gemini grounding metadata; grounded summaries are labeled as summaries, not verified quotations. The UI also renders the Search Suggestions attribution supplied by Google's grounding metadata, as required by the [Google Search grounding documentation](https://ai.google.dev/gemini-api/docs/generate-content/google-search).
+公開資料に基づく作成済みの例では、主張ごとに支持資料と反証・留保となる資料を比較できます。再検討の操作では、追加資料によってFalsify自身の判定がどう変わるかを確認できます。この例は**2026年7月17日**に準備した資料と判定を表示するもので、新たな検索結果ではありません。
 
-The current new Google project has a zero free-tier quota for Search grounding: Gemini 2.5 Flash-Lite returns `404` for new users, while Gemini 3.1 Flash-Lite returns `429 RESOURCE_EXHAUSTED` for grounded requests without billing. Falsify therefore keeps the curated public-source demo as the reliable zero-cost judge path and falls back without inventing evidence. Billing was not enabled.
+![Falsify's prepared public-source example, showing claims and their evidence](docs/assets/falsify-evidence-map-desktop.png)
 
-The repository also retains the complete GPT-5.6 product path built for Build Week:
+The screenshot above records the original July 2026 interface. See the [product overview](docs/PRODUCT_OVERVIEW.md) for an additional illustrative example and the distinction between a demonstration and a live analysis.
 
-- `responses.parse` plus Structured Outputs decomposes the input into typed atomic claims and falsification questions;
-- two separate GPT-5.6 web-search calls investigate supporting and challenging evidence;
-- only URLs present in official `url_citation` annotations are admitted into the evidence set;
-- GPT-5.6 synthesizes findings from the validated evidence bundle and deterministic audit observations;
-- **Challenge this finding** runs a new counter-evidence search and records whether the original finding holds, qualifies, changes, or remains unresolved.
+## What a finding shows
 
-The Build Week promotional OpenAI credits were exhausted before this project could receive them, and the public deployment does not claim that its Gemini runtime is GPT-5.6. The UI always exposes the actual model. Self-hosters with OpenAI API billing or credits can select the GPT-5.6 path server-side.
+| Step | What the reader can inspect |
+| --- | --- |
+| Identify the claim. | The submitted passage, the extracted proposition, its type, and the evidence it would require. |
+| Ask how it could fail. | Questions that could disprove, narrow, or qualify the proposition. |
+| Examine both evidence paths. | Separate searches for support and for contradiction or qualification, when a live provider is available. |
+| Check the inference. | Source relevance, dates, numbers, and whether the conclusion extends beyond the evidence. |
+| Review the finding. | A claim-level assessment, source links, limitations, and unresolved evidence. |
+| Challenge the finding. | A further check of Falsify's own conclusion, with the original and revised findings available for comparison. |
 
-Codex was the primary implementation environment for the majority of the core product. The main build task owned architecture, TypeScript schemas, Responses API integration, evidence provenance, UI, tests, security hardening, release validation, and documentation. Bounded helper agents were used only for source-set research, an evaluation matrix, and independent security review; their findings were integrated and verified in the primary task. Key decisions and exact test history are in [DOCUMENTATION.md](DOCUMENTATION.md).
+A source can support one part of a sentence while leaving its causal explanation or general conclusion unresolved. Falsify keeps these distinctions at the claim level. Evidence gaps remain visible, and evidence of a false statement is distinguished from evidence of deceptive intent.
 
-## Architecture
+資料が文の一部を裏づけていても、因果関係や一般化した結論まで裏づけるとは限りません。Falsifyは、この違いを主張ごとに示します。根拠不足や未確認の点を残し、記述の誤りと、意図的に欺いたことの証拠も区別します。
 
-Falsify is one TypeScript application:
+## Preview scope
 
-```text
-Next.js browser UI
-  ├─ pasted text / public URL / client-read text document
-  ├─ Evidence Map + Claim Cards
-  └─ stateless challenge bundle
-          │
-Next.js server routes
-  ├─ bounded input and public-URL normalization
-  ├─ provider selection: Gemini public demo / optional GPT-5.6
-  ├─ independent support and challenge grounded search
-  ├─ grounding/citation allowlisting + deterministic audits
-  ├─ qualified finding synthesis
-  └─ adversarial re-check
-```
+The application accepts pasted text, a public text-based URL, or a text file, and extracts **up to eight candidate claims**. By default, it analyzes **up to five claims**; self-hosters can configure the analysis limit from one to eight. The coverage display reports these counts and limits, but it does not establish that every claim in the input was extracted or reviewed.
 
-There is no authentication, database, background queue, or proprietary evidence service in the MVP. The public engine uses only public or user-provided material.
+| Input | Current limit |
+| --- | --- |
+| Pasted text | Up to 30,000 characters. |
+| Public URL | A publicly reachable HTTP(S) text, HTML, or JSON resource. |
+| Text file | TXT, Markdown, JSON, or CSV; up to 200,000 bytes and 30,000 characters. |
+
+Files and fetched URL content that exceed 30,000 characters are rejected rather than silently truncated. Select a shorter passage to decide which material to review. Pasted text is subject to the same character limit.
+
+PDF and Word document parsing, full-manuscript coverage, accounts, billing, and team workspaces are outside this preview. The repository provides a web application; this release does not include an installable agent skill. Paid plans and independently established accuracy figures are not announced.
+
+現在は、文章の貼り付け、公開URL、テキストファイルを入力できます。主張の抽出は最大8件、分析は既定で最大5件とし、自分で運用する場合は分析上限を1〜8件に設定できます。表示される件数は入力した文章全体の確認を保証するものではないため、確認したい短い箇所を入力してください。
+
+### Features in this update
+
+This checkout adds sentence splitting for English, Japanese, and Chinese punctuation, English/Japanese interface controls, a visible coverage summary, and Markdown/JSON report downloads. It also provides a Japanese illustrative input about electricity consumption, explicitly labelled as an invented example whose evidence still needs to be examined. The prepared July 2026 public-source case remains a separate demonstration.
+
+Reports retain the input excerpts, sources, limitations, and original findings alongside the latest available re-check for each claim. Markdown labels source summaries as summaries; JSON preserves the structured analysis in a versioned report envelope. These exports do not create a permanent manuscript store, and they do not contain a complete history of earlier re-checks.
+
+この更新では、英語・日本語・中国語の句読点による文区切り、日英の画面表示、分析範囲の表示、Markdown・JSONでのレポート出力を追加しました。日本語の入力例は消費電力に関する架空の文章であり、確認済みの測定結果ではありません。出力には出典、未確認の点、元の判定、主張ごとの最新の再検討結果を残し、原資料との照合に使えるようにしています。
 
 ## Run locally
 
@@ -88,7 +81,7 @@ npm run dev
 
 On PowerShell, use `Copy-Item .env.example .env.local`. Open [http://localhost:3000](http://localhost:3000).
 
-The one-click flagship sample works without an API key. For the Gemini fresh-search path when project Search-grounding quota is available, create a Google AI Studio key and set:
+The prepared public-source example works without an API key. Fresh evidence retrieval requires a configured server-side provider and available model/search quota. Configure the Gemini path with:
 
 ```dotenv
 AI_PROVIDER=gemini
@@ -96,7 +89,7 @@ GEMINI_API_KEY=your_server_side_key
 GEMINI_MODEL=gemini-3.1-flash-lite
 ```
 
-For the optional GPT-5.6 path, set:
+Or configure the optional OpenAI path with:
 
 ```dotenv
 AI_PROVIDER=openai
@@ -104,17 +97,30 @@ OPENAI_API_KEY=your_server_side_key
 OPENAI_MODEL=gpt-5.6
 ```
 
-Never expose the key with a `NEXT_PUBLIC_` prefix.
+Keep keys server-side; never use a `NEXT_PUBLIC_` prefix for a secret. The model identifiers above are the repository defaults, and access depends on the provider account. See the [deployment guide](docs/DEPLOYMENT.md) for configuration details.
 
-Supported MVP input:
+To change the number of extracted claims sent for analysis, set `ANALYSIS_MAX_CLAIMS` to an integer from `1` to `8`; the default is `5`. Claim extraction itself remains capped at eight. A higher limit increases the work performed per request and does not imply complete document coverage.
 
-- pasted text up to 30,000 characters;
-- a public HTTP(S) text/HTML/JSON URL;
-- a client-read text document up to 200 KiB.
+## Understand the runtime
 
-Documents are not uploaded to a permanent store. PDF/DOCX parsing is intentionally deferred.
+| Mode | How the result is produced |
+| --- | --- |
+| Prepared example | A versioned fixture provides the claims, sources, findings, and demonstration re-check without calling a model. |
+| Gemini | Deterministic claim decomposition and audit logic are combined with separate Google Search-grounded support and challenge searches. |
+| OpenAI | Structured model output provides claim decomposition and synthesis, with separate web searches for support and challenge. |
+| No usable live evidence | The result exposes the limitation and evidence gaps. A partial result is not a completed verification. |
 
-## Validate
+Provider-returned source metadata constrains which URLs enter the evidence set. Gemini uses grounding metadata and the supplied Search Suggestions attribution; the OpenAI path admits URLs found in citation annotations. These controls check provenance within a provider response, but they do not establish that a source is correct or that every sentence in a generated summary matches the source.
+
+Read the source itself when a finding matters. Extracted evidence summaries are not verified verbatim quotations, and model or search results can be incomplete or wrong. The preview does not report a single credibility score for a document, person, institution, or country.
+
+## Data handling
+
+The application has no permanent manuscript database and does not intentionally retain submitted documents. Live analysis can send submitted text to the configured model and search providers, whose processing and retention rules also apply. Use public or non-confidential material in the shared preview; see [Security and privacy](docs/SECURITY_PRIVACY.md) for the implemented controls and their limits.
+
+このアプリには原稿を恒久保存するデータベースを設けていません。ただし、検索を伴う分析では、設定したモデルや検索サービスに入力内容が送られる場合があります。共有プレビューには公開資料や機密性のない文章を使用し、詳細は[データの取扱い](docs/SECURITY_PRIVACY.md)を確認してください。
+
+## Validate the application
 
 ```bash
 npm run format
@@ -125,49 +131,31 @@ npm run eval:golden
 npm run build
 ```
 
-Current release evidence:
+The golden cases test selected audit rules and expected behavior. They are not an independent benchmark of factual accuracy, recall, or performance across research fields. Dated commands, results, and live-provider limitations are recorded in [DOCUMENTATION.md](DOCUMENTATION.md); the original evaluation boundary is in [evals/RESULTS.md](evals/RESULTS.md).
 
-- Gemini and OpenAI provider routing, grounding provenance, and fallback behavior are regression-tested;
-- 8/8 golden audit cases pass, plus causal and cross-claim-label leakage controls;
-- production build passes;
-- dependency audit reports 0 vulnerabilities;
-- browser smoke passes at 1280 px and 390 px with no console errors or horizontal overflow.
+## Architecture and API
 
-See [evals/RESULTS.md](evals/RESULTS.md) for the golden-case boundary and [DOCUMENTATION.md](DOCUMENTATION.md) for all milestone commands.
+Falsify is a TypeScript application with a Next.js interface and server routes. Input normalization, provider selection, evidence retrieval, provenance validation, and audit logic run in the server pipeline. The browser presents the findings and submits a validated analysis bundle for a subsequent challenge.
 
-## API surface
+| Route | Purpose |
+| --- | --- |
+| `POST /api/analyze` | Normalize input and run the analysis pipeline. |
+| `POST /api/challenge` | Re-check one finding against the supplied prior analysis. |
+| `GET /api/demo` | Return the versioned curated public-source example. |
 
-- `POST /api/analyze` — normalize input and run the analysis pipeline.
-- `POST /api/challenge` — re-check one finding using the validated prior analysis.
-- `GET /api/demo` — return the versioned curated flagship fixture.
+Results are validated with Zod schemas. Public URL retrieval checks network destinations and redirects, while request bodies, downloads, execution time, and provider output are bounded. The in-memory rate limiter operates per application instance; deployment capacity and shared limits require separate consideration.
 
-Responses are runtime-validated with strict Zod schemas. Public URL retrieval rejects private/local/reserved networks, validates and pins DNS for every redirect, and caps ports, redirects, time, and bytes. API bodies, model output, and best-effort per-instance quotas are bounded. See [SECURITY_PRIVACY.md](docs/SECURITY_PRIVACY.md).
+## Project history and further documentation
 
-## Limitations
+Falsify originated as an OpenAI Build Week project, submitted in **Work & Productivity on 18 July 2026**. Codex was the primary development environment, and the repository implemented a GPT-5.6 Responses API path for claim decomposition, evidence retrieval, and finding synthesis. TSUCHIYA LAB continues development as an open-source research preview.
 
-- Model and web-search results can be incomplete or wrong; inspect linked sources.
-- The public Gemini free tier has [project-level rate limits and pricing limits](https://ai.google.dev/gemini-api/docs/pricing). If a path is rate-limited, Falsify shows a partial result or the curated demo instead of inventing evidence.
-- Gemini free-tier content may be used to improve Google products. [Google documents](https://ai.google.dev/gemini-api/docs/zdr) that Search-grounded prompts, contextual information, and outputs are retained for 30 days; do not submit confidential material.
-- The curated demo is not a fresh search and includes English paraphrases of multilingual official material.
-- Deterministic checks cover useful patterns, not every citation or statistical failure mode.
-- The in-memory rate limiter is per application instance; sustained public traffic needs platform or shared-store enforcement.
-- The public deployment is configured for Gemini 3.1 Flash-Lite and has no `OPENAI_API_KEY`; the new Google project's free Search-grounding quota is currently zero, so fresh text submissions fall back transparently while the curated evidence demo remains fully testable.
-- Falsify does not establish deceptive intent unless evidence separately supports that attribution.
+The original deployment used Gemini 3.1 Flash-Lite, and the July 2026 checks recorded unavailable Search-grounding quota. The curated demonstration therefore supplied the reproducible public walkthrough. Those historical checks describe that deployment at that time; they are not a promise of current model access or live-search availability.
 
-## Deploy and submit
+- The [original demonstration video](https://youtu.be/hht1DsS66n0) records the July 2026 workflow.
+- The [judge guide](docs/JUDGE_GUIDE.md), [demo script](docs/DEMO_SCRIPT.md), and [submission draft](docs/DEVPOST_SUBMISSION.md) preserve the Build Week materials.
+- The [release checklist](docs/RELEASE_CHECKLIST.md), [architecture](docs/ARCHITECTURE.md), and [evaluation plan](docs/EVALUATION_PLAN.md) describe the original implementation and verification approach.
+- The [product overview](docs/PRODUCT_OVERVIEW.md) and [distribution copy](docs/DISTRIBUTION.md) provide the shared current explanation and example specifications.
 
-- [Deployment guide](docs/DEPLOYMENT.md)
-- [Independent judge guide](docs/JUDGE_GUIDE.md)
-- [Sub-three-minute demo script](docs/DEMO_SCRIPT.md)
-- [Devpost submission draft](docs/DEVPOST_SUBMISSION.md)
-- [Release checklist](docs/RELEASE_CHECKLIST.md)
+## Open source and research boundaries
 
-The intended Build Week track is **Work & Productivity**. Official requirements were rechecked on 2026-07-17; submission closes July 21, 2026 at 5:00 PM PDT (July 22 at 9:00 AM JST).
-
-## Open-source and data boundaries
-
-Falsify is MIT licensed. No proprietary Tsuchiya Lab database, private research asset, grant-funded code, confidential data, or closed API is required or included. See [RELATIONSHIPS.md](docs/RELATIONSHIPS.md) and [OPEN_SOURCE_GOVERNANCE.md](docs/OPEN_SOURCE_GOVERNANCE.md).
-
-## License
-
-[MIT](LICENSE)
+Falsify is available under the [MIT license](LICENSE). Its public engine works with public or user-provided material and does not require proprietary TSUCHIYA LAB databases, confidential research assets, grant-funded code, or closed evidence services. See [Relationships](docs/RELATIONSHIPS.md) and [Open-source governance](docs/OPEN_SOURCE_GOVERNANCE.md) for the separation between this repository and other research projects.

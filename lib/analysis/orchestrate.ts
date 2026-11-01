@@ -21,7 +21,8 @@ export async function analyzeInput(
   input: FalsifyInput,
 ): Promise<AnalysisResult> {
   const decomposition = await decomposeClaims(input.content);
-  const claims = decomposition.claims.slice(0, maxClaims());
+  const analysisLimit = maxClaims();
+  const claims = decomposition.claims.slice(0, analysisLimit);
   const retrieval = await retrieveEvidence(claims);
   const evidence = [...retrieval.supporting, ...retrieval.challenging];
   const audit = await synthesizeFindings(input, claims, evidence);
@@ -34,6 +35,13 @@ export async function analyzeInput(
     evidence,
     findings: audit.findings,
     audits: audit.audits,
+    coverage: {
+      scope: "selected_claims",
+      analyzed_claims: claims.length,
+      extracted_claims: decomposition.claims.length,
+      analysis_limit: analysisLimit,
+      extraction_limit: 8,
+    },
     limitations: [
       ...new Set([
         ...decomposition.limitations,
