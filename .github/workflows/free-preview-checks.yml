@@ -1,0 +1,26 @@
+name: Free preview checks
+on:
+  push:
+    branches: [work/free-demo-quota-20261102]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify runtime
+        run: node --version && npm --version
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build -- --webpack
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
